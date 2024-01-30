@@ -1,14 +1,15 @@
 field,display_name,browse_link,external_link,dc_map,schema_map
-title,Title,,,DCTERMS.title,headline
-creator,Creator,,,DCTERMS.creator,creator
-date,Date Created,,,DCTERMS.date,dateCreated
-description,Description,,,DCTERMS.description,description
-subject,Subjects,true,,DCTERMS.subject,keywords
-location,Location,,,,contentLocation
-latitude,Latitude,,,,
-longitude,Longitude,,,,
-source,Source,,,,
-identifier,Source Identifier,,,,
-type,Type,,,DCTERMS.type,
-format,Format,,,,encodingFormat
+title,Titel,,,DCTERMS.title,headline
+creator,Ersteller:in,,,DCTERMS.creator,creator
+date,Erstellungsdatum,,,DCTERMS.date,dateCreated
+description,Beschreibung,,,DCTERMS.description,description
+subject,Themen,true,,DCTERMS.subject,keywords
+location,Standort,,,,contentLocation
+latitude,Breitengrad,,,,
+longitude,Längengrad,,,,
+source,Quelle,,,,
+identifier,Quellennachweis Identifier,,,,
+type,Typ,,,DCTERMS.type,
+format,Format,,,,encodingFormat,
+rights, Rechte,,,,
 rightsstatement,,,,DCTERMS.rights,license
