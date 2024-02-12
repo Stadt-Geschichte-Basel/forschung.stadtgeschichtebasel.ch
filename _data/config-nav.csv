@@ -2,8 +2,6 @@ display_name,stub,dropdown_parent
 Home,/,
 Sammlung,/browse.html,
 Themen,/subjects.html,
-Orte,/locations.html,
-Karte,/map.html
 Zeitachse,/timeline.html
 Daten,
 Sammlung,/data.html,Daten
