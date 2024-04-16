@@ -14,8 +14,8 @@
     - "basemap" = set basemap option, Esri_WorldStreetMap, Esri_NatGeoWorldMap, Esri_WorldImagery. default Esri_WorldImagery.
 
 {% endcomment %}
-{% capture map_id %}mini-map_{{ include.latitude | slugify }}{% endcapture %}
-{% assign map-item = child.data[child.metadata] | where: "objectid", include.objectid | first %}
+{% capture map_id %}mini-map_{{ child.objectid }}{% endcapture %}
+{% assign map-item = child.objectid %}
 {% assign geojson = child.object_location %}
 <style>
 #{{ map_id }} { height: {{ include.height | default: '500px' }}; z-index: 98; }
@@ -36,18 +36,18 @@
   </script>
 
 <script>
-    let url = '{{ geojson | default: 'null' }}';
-let geoJsonData;
+    var url = '{{ geojson | default: 'null' }}';
+    var geoJsonData;
 
 fetch(url)
     .then(response => response.json())
     .then(data => {
         geoJsonData = data;
-        const crsValue = geoJsonData.crs.properties.name;       
+        var crsValue = geoJsonData.crs.properties.name;       
 
         /*  initial start point */
-        var mapCenter = [{{ map-item.latitude | default: 0 }}, {{ map-item.longitude | default: 0 }}];
-        var mapZoom = {{ include.map-zoom | default: 10 }};
+        var mapCenter = [0,0];
+        var mapZoom = 10;
 
         if (crsValue === 'urn:ogc:def:crs:EPSG::2056') {
             proj4.defs(crsValue, "+proj=somerc +lat_0=46.9524055555556 +lon_0=7.43958333333333 +k_0=1 +x_0=2600000 +y_0=1200000 +ellps=bessel +towgs84=674.374,15.056,405.346,0,0,0,0 +units=m +no_defs");
@@ -109,7 +109,7 @@ fetch(url)
 
 
             /* add geojson layer */
-            const layer = L.Proj.geoJson(geoJsonData, {
+            var layer = L.Proj.geoJson(geoJsonData, {
                 onEachFeature: function (f, l) {
                     l.bindPopup('<pre>'+JSON.stringify(f.properties,null,' ').replace(/[\{\}"]/g,'')+'</pre>');
                 }
@@ -144,11 +144,11 @@ fetch(url)
             /* load base map */
             {{ include.basemap | default: 'Esri_WorldImagery' }}.addTo(map);
         
-            /* add fullscreen control */ 
-            map.addControl(new L.Control.Fullscreen());
+            /* add fullscreen control 
+            map.addControl(new L.Control.Fullscreen());*/ 
         
             /* add geojson layer */
-            const layer = L.geoJSON(geoJsonData, {
+            var layer = L.geoJSON(geoJsonData, {
                 onEachFeature: function (f, l) {
                     l.bindPopup('<pre>'+JSON.stringify(f.properties,null,' ').replace(/[\{\}"]/g,'')+'</pre>');
                 }
