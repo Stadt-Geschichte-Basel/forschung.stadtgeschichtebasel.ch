@@ -14,12 +14,13 @@
     - "basemap" = set basemap option, Esri_WorldStreetMap, Esri_NatGeoWorldMap, Esri_WorldImagery. default Esri_WorldImagery.
 
 {% endcomment %}
-{% capture map_id %}mini-map_{{ child.objectid }}{% endcapture %}
+{% capture map_id %}map_{{ child.objectid }}{% endcapture %}
+{% capture obj_url %}url_{{ child.objectid }}{% endcapture %}
 {% assign map-item = child.objectid %}
 {% assign geojson = child.object_location %}
 <style>
-#{{ map_id }} { height: {{ include.height | default: '500px' }}; z-index: 98; }
-</style>
+    #{{ map_id }} { height: {{ include.height | default: '500px' }}; z-index: 98; }
+    </style>
 <div id="{{ map_id }}" class="text-start"></div>
 {% if include.map-link == true %}
 <a href="{{ '/map.html' | relative_url }}?location={{ map-item.latitude | default: include.latitude }},{{ map-item.longitude | default: include.longitude }}{%if include.objectid %}&marker={{ include.objectid }}{% endif %}" class="btn btn-outline-primary my-3">View on Full Map</a>{% endif %}
@@ -36,22 +37,22 @@
   </script>
 
 <script>
-    var url = '{{ geojson | default: 'null' }}';
-    var geoJsonData;
-
-fetch(url)
+    let {{ obj_url }} = '{{ geojson | default: 'null' }}';
+   
+fetch({{ obj_url }})
     .then(response => response.json())
     .then(data => {
-        geoJsonData = data;
+        var geoJsonData = data;
         var crsValue = geoJsonData.crs.properties.name;       
 
         /*  initial start point */
         var mapCenter = [0,0];
-        var mapZoom = 10;
+        var mapZoom = 15;
 
         if (crsValue === 'urn:ogc:def:crs:EPSG::2056') {
+            console.log('Swiss projection detected');
             proj4.defs(crsValue, "+proj=somerc +lat_0=46.9524055555556 +lon_0=7.43958333333333 +k_0=1 +x_0=2600000 +y_0=1200000 +ellps=bessel +towgs84=674.374,15.056,405.346,0,0,0,0 +units=m +no_defs");
-            var map = L.map('{{ map_id }}', {
+            var {{ map_id }} = L.map('{{ map_id }}', {
                 // Use LV95 (EPSG:2056) projection
                 crs: L.CRS.EPSG2056,
             }).setView(mapCenter, mapZoom);
@@ -98,14 +99,14 @@ fetch(url)
                     timestamp: 'current'
                 })
             };
-            map.fitSwitzerland();
+            {{ map_id }}.fitSwitzerland();
 
-            L.control.layers(baseMaps, overlayMaps, { collapsed: true }).addTo(map);
+            L.control.layers(baseMaps, overlayMaps, { collapsed: true }).addTo({{ map_id }});
             /* load base map */
-            {{ include.basemap | default: 'mapLayer' }}.addTo(map);
+            {{ include.basemap | default: 'mapLayer' }}.addTo({{ map_id }});
         
             /* add fullscreen control */ 
-            map.addControl(new L.Control.Fullscreen());
+            {{ map_id }}.addControl(new L.Control.Fullscreen());
 
 
             /* add geojson layer */
@@ -113,10 +114,10 @@ fetch(url)
                 onEachFeature: function (f, l) {
                     l.bindPopup('<pre>'+JSON.stringify(f.properties,null,' ').replace(/[\{\}"]/g,'')+'</pre>');
                 }
-            }).addTo(map);
+            }).addTo({{ map_id }});
         }
         else {
-            var map = L.map('{{ map_id }}').setView(mapCenter, mapZoom);
+            var {{ map_id }} = L.map('{{ map_id }}').setView(mapCenter, mapZoom);
 
             /* add map layer options */
             var Esri_WorldTopoMap = L.tileLayer('https://server.arcgisonline.com/ArcGIS/rest/services/World_Topo_Map/MapServer/tile/{z}/{y}/{x}', {
@@ -140,27 +141,36 @@ fetch(url)
                 "Esri World Shaded Relief": Esri_WorldShadedRelief,
                 "Esri Imagery": Esri_WorldImagery
             };
-            L.control.layers(baseMaps).addTo(map);
+            L.control.layers(baseMaps).addTo({{ map_id }});
             /* load base map */
-            {{ include.basemap | default: 'Esri_WorldImagery' }}.addTo(map);
-        
-            /* add fullscreen control 
-            map.addControl(new L.Control.Fullscreen());*/ 
+            {{ include.basemap | default: 'Esri_WorldImagery' }}.addTo({{ map_id }});
         
             /* add geojson layer */
             var layer = L.geoJSON(geoJsonData, {
                 onEachFeature: function (f, l) {
                     l.bindPopup('<pre>'+JSON.stringify(f.properties,null,' ').replace(/[\{\}"]/g,'')+'</pre>');
                 }
-            }).addTo(map);
+            }).addTo({{ map_id }});
+
+        /*  Adjust map size when modal is shown */
+        var modal = document.getElementById('{{ child.objectid }}');
+        modal.addEventListener('shown.bs.modal', function() {
+            {{ map_id }}.invalidateSize();
+
             /* Fit map to GeoJSON layer bounds */
-            map.fitBounds(layer.getBounds());
+            {{ map_id }}.fitBounds(layer.getBounds());
+        });
+
+
         }
+
 
     })
     .catch(error => {
         console.error('Error fetching GeoJSON data:', error);
     });
+
+
 
 
 
