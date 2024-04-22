@@ -28,5 +28,7 @@
             {% endunless %}
             {% endfor %}
         </ul>
+        <a class="btn btn-outline-primary text-danger d-flex align-items-center" href="mailto:{{ site.report-email }}?subject={{ site.data.translations['_includes']['item']['download-buttons.html']['subject'][site.lang] | default: 'Report faulty metadata for'}} {{ page.title | escape }}&body={{ site.data.translations['_includes']['item']['download-buttons.html']['body'][site.lang] | default: 'Please describe the issue with the metadata for'}} {{ page.title | escape }}.%0D%0A%0D%0A- URL: {{ site.url | append: page.url | url_encode }}%0D%0A- ID: {{ page.objectid | escape }}">{{ site.data.translations['_includes']['item']['download-buttons.html']['report'][site.lang] | default: "Report faulty metadata" }}</a>
+
     </div>
 </div>
