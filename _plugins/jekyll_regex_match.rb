@@ -6,7 +6,7 @@ module Jekyll
             input_str.scan(regex).flatten
           rescue RegexpError => e
             # Handle invalid regex pattern
-            return nil
+            return []
           end
         end
   
