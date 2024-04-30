@@ -122,14 +122,15 @@ font-cdn: "<link rel='preload' href='/assets/fonts/EuclidCircularB-Regular-WebS.
 # the template uses Bootstrap Icons, https://icons.getbootstrap.com/
 # find the names on the BI icons page, e.g. file-image
 #
-# icons: 
-#   icon-image: image
-#   icon-audio: soundwave
-#   icon-video: film
-#   icon-pdf: file-pdf
-#   icon-record: file-text
-#   icon-panorama: image-alt
-#   icon-compound-object: collection 
-#   icon-multiple: postcard
-#   icon-default: file-earmark # fall back icon
-#   icon-back-to-top: arrow-up-square
+icons: 
+   icon-image: image
+   icon-audio: soundwave
+   icon-video: film
+   icon-pdf: file-pdf
+   icon-record: file-text
+   icon-panorama: image-alt
+   icon-compound-object: collection 
+   icon-multiple: postcard
+   icon-default: file-earmark # fall back icon
+   icon-back-to-top: arrow-up-square
+   icon-external-link: box-arrow-up-right

@@ -16,10 +16,23 @@
             <a class="me-3" href="{{ t | strip | url_param_escape | prepend: '/browse.html#' | relative_url }}">{{ t | strip }}</a>
             {% endfor %}
             {% elsif f.external_link == "true" %}
-            <a href="{{ child[f.field] }}" target="_blank" rel="noopener">{{ child[f.field] }}</a>
-            {% elsif f.labeled_ext_link == "true" %}
-            {% assign link = child[f.field] | split: ";" %}
-            {{ link[0] }}{% if link[1] %}: <a href="{{ link[1] }}" target="_blank" rel="noopener">link</a>{% endif %}
+            {% assign links = child[f.field] | split: ";" %}
+            {% for l in links %}
+              {% assign url_match = l | regex_match: '(https?:\/\/[^\s,]+)' %}
+              {% if url_match.size > 0 %}
+                {% assign url = url_match[0] %}
+                {% if url == l %}
+                  <a class="me-3" href="{{ url }}" target="_blank" rel="noopener">{{ url }}</a>
+                {% else %}
+                  <a class="me-3" href="{{ url }}" target="_blank" rel="noopener">{{ l | remove: url }} <svg class="bi icon-sprite" role="img" aria-label="external link">
+                    <use xlink:href="/assets/lib/cb-icons.svg#icon-external-link"/>
+                </svg>
+                </a>
+                {% endif %}
+              {% else %}
+                {{ l }}
+              {% endif %}
+            {% endfor %}
             {% else %}
             {% assign text = child[f.field] %}
             {% assign urls = text | regex_match: '(https?:\/\/[^\s,]+)' %}
