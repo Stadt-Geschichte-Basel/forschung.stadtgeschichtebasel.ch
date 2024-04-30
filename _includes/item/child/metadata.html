@@ -17,8 +17,21 @@
             {% endfor %}
             {% elsif f.external_link == "true" %}
             <a href="{{ child[f.field] }}" target="_blank" rel="noopener">{{ child[f.field] }}</a>
+            {% elsif f.labeled_ext_link == "true" %}
+            {% assign link = child[f.field] | split: ";" %}
+            {{ link[0] }}{% if link[1] %}: <a href="{{ link[1] }}" target="_blank" rel="noopener">link</a>{% endif %}
             {% else %}
-            {{ child[f.field] | replace: '""','"' }}{% endif %}
+            {% assign text = child[f.field] %}
+            {% assign urls = text | regex_match: '(https?:\/\/[^\s,]+)' %}
+            
+            {% for url in urls %}
+              {% assign link = "<a href='" | append: url | append: "' target='_blank' rel='noopener'>" | append: url | append: "</a>" %}
+              {% assign text = text | replace: url, link %}
+            {% endfor %}
+            
+            {{ text }}
+
+            {% endif %}
         </dd>
         {% endif %}{% endfor %}
     </dl>
