@@ -36,6 +36,8 @@ For more information on CollectionBuilder, visit the [Docs](https://collectionbu
 
 Metadata for items featured on the research data platform is provided according to a data model developed by the Stadt.Geschichte.Basel Research Data Management Team to meet the requirements of the wide range of sources used in the project. The data model (and the subsequent annotation process) follow the [Manual for Creating Non-Discriminatory Metadata for Historical Sources and Research Data](https://maehr.github.io/diskriminierungsfreie-metadaten/) developed by Stadt.Geschichte.Basel.
 
+The following chart illustrates the data model with metadata fields for a sample metadata object `sgb01313` that has one child media object `m2341`.
+
 ```mermaid
 classDiagram
     class metadata {
