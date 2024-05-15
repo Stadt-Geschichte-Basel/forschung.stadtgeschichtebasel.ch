@@ -24,7 +24,7 @@ This project is the open-source code of the digital platform for research data o
 
 ### CollectionBuilder 
 
-CollectionBuilder, an open source framework for creating metadata-driven digital collections, is the foundation of Stadt.Geschichte.Basel's research data platform. CollectionBuilder is a project maintained by the University of Idaho Library's [Digital Initiatives](https://www.lib.uidaho.edu/digital/) and the [Center for Digital Inquiry and Learning](https://cdil.lib.uidaho.edu) (CDIL) following the [Lib-Static](https://lib-static.github.io/) methodology. 
+The technical basis for Stadt.Geschichte.Basel's research data platform is provided by [CollectionBuilder](https://collectionbuilder.github.io/), an open source framework for creating metadata-driven digital collections. CollectionBuilder is a project maintained by the University of Idaho Library's [Digital Initiatives](https://www.lib.uidaho.edu/digital/) and the [Center for Digital Inquiry and Learning](https://cdil.lib.uidaho.edu) (CDIL) following the [Lib-Static](https://lib-static.github.io/) methodology. 
 
 The basic theme is created using [Bootstrap](https://getbootstrap.com/).
 Metadata visualizations are built using open source libraries such as [DataTables](https://datatables.net/), [Spotlight gallery](https://github.com/nextapps-de/spotlight), [lazysizes](https://github.com/aFarkas/lazysizes), and [Lunr.js](https://lunrjs.com/).
@@ -34,7 +34,38 @@ For more information on CollectionBuilder, visit the [Docs](https://collectionbu
 
 ## Data Model
 
-**todo** mermaid
+Metadata for items featured on the research data platform is provided according to a data model developed by the Stadt.Geschichte.Basel Research Data Management Team to meet the requirements of the wide range of sources used in the project. The data model (and the subsequent annotation process) follow the [Manual for Creating Non-Discriminatory Metadata for Historical Sources and Research Data](https://maehr.github.io/diskriminierungsfreie-metadaten/) developed by Stadt.Geschichte.Basel.
+
+```mermaid
+classDiagram
+    class metadata {
+        id (sgb01313)
+        title
+        [subject;subject]
+        description (incl. links to HLS, Wikipedia etc.)
+        temporal
+        [isPartOf;isPartOf] (Data DOIs)
+    }
+    class media {
+        id (m2341)
+        title
+        [subject;subject]
+        description
+        [creator] (incl. link to Wikidata)
+        [publisher] (incl. link to Wikidata)
+        date
+        temporal
+        type
+        format
+        extent
+        [source] (Source and catalogue link)
+        language
+        [relation] (internal links to other items, further information, link to GitHub)
+        rights
+        license
+    }
+    metadata "n" --> "m" media
+```
 
 ## Installation
 
