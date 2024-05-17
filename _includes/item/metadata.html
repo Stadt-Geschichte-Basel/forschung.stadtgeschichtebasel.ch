@@ -16,7 +16,25 @@
             <a class="me-3" href="{{ t | strip | url_param_escape | prepend: '/browse.html#' | relative_url }}">{{ t | strip }}</a>
             {% endfor %}
             {% elsif f.external_link == "true" %}
-            <a href="{{ page[f.field] }}" target="_blank" rel="noopener">{{ page[f.field] }}</a>
+                {% assign links = page[f.field] | split: ";" %}
+                {% for markdown_link in links %}
+                {% if markdown_link contains "[" and markdown_link contains "]" and markdown_link contains "(" and markdown_link contains ")" %}
+                    {% assign link_text = markdown_link | split: '[' | last | split: ']' | first %}
+                    {% assign link_url = markdown_link | split: '(' | last | split: ')' | first %}
+                    {% if link_text == "" %}
+                    {% assign link_text = link_url %}
+                    <a class="me-3" href="{{ link_url }}" target="_blank" rel="noopener">{{ link_text }}</a>
+                    {% else %} 
+                    <a class="me-3" href="{{ link_url }}" target="_blank" rel="noopener">{{ link_text }} <svg class="bi icon-sprite" role="img" aria-label="external link">
+                        <use xlink:href="/assets/lib/cb-icons.svg#icon-external-link"/>
+                    </svg>
+                    </a>
+                    {% endif %}
+                {% else %}
+                    {{ markdown_link }}
+                {% endif %}
+                <br>
+                {% endfor %}
             {% else %}
             {% assign text = page[f.field] %}
             {% assign urls = text | regex_match: '(https?:\/\/[^\s,]+)' %}

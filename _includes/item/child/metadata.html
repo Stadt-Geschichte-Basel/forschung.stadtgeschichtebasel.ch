@@ -17,21 +17,23 @@
             {% endfor %}
             {% elsif f.external_link == "true" %}
             {% assign links = child[f.field] | split: ";" %}
-            {% for l in links %}
-              {% assign url_match = l | regex_match: '(https?:\/\/[^\s,]+)' %}
-              {% if url_match.size > 0 %}
-                {% assign url = url_match[0] %}
-                {% if url == l %}
-                  <a class="me-3" href="{{ url }}" target="_blank" rel="noopener">{{ url }}</a>
-                {% else %}
-                  <a class="me-3" href="{{ url }}" target="_blank" rel="noopener">{{ l | remove: url }} <svg class="bi icon-sprite" role="img" aria-label="external link">
+            {% for markdown_link in links %}
+              {% if markdown_link contains "[" and markdown_link contains "]" and markdown_link contains "(" and markdown_link contains ")" %}
+                {% assign link_text = markdown_link | split: '[' | last | split: ']' | first %}
+                {% assign link_url = markdown_link | split: '(' | last | split: ')' | first %}
+                {% if link_text == "" %}
+                  {% assign link_text = link_url %}
+                  <a class="me-3" href="{{ link_url }}" target="_blank" rel="noopener">{{ link_text }}</a>
+                {% else %} 
+                  <a class="me-3" href="{{ link_url }}" target="_blank" rel="noopener">{{ link_text }} <svg class="bi icon-sprite" role="img" aria-label="external link">
                     <use xlink:href="/assets/lib/cb-icons.svg#icon-external-link"/>
                 </svg>
                 </a>
                 {% endif %}
               {% else %}
-                {{ l }}
+                {{ markdown_link }}
               {% endif %}
+              <br>
             {% endfor %}
             {% else %}
             {% assign text = child[f.field] %}
