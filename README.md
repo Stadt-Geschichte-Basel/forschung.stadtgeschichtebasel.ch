@@ -51,7 +51,7 @@ classDiagram
     class media {
         id (m01313)
         title
-        [subject;subject] (comma-separated keywords from GenderOpen Index)
+        [subject;subject] (keywords from GenderOpen Index)
         description
         [creator] (incl. link to Wikidata)
         [publisher] (incl. link to Wikidata)
@@ -61,8 +61,8 @@ classDiagram
         format
         extent
         [source] (Source and catalogue link)
-        language (ISO 639-2)
-        [relation] (internal links to other items, further information, link to GitHub)
+        language (ISO 639-2 code)
+        [relation] (internal links to other items, link to GitHub, further information)
         rights
         license
     }
