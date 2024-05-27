@@ -124,4 +124,4 @@ See also the list of [contributors](https://github.com/Stadt-Geschichte-Basel/fo
 
 The code in this repository is licensed under the [MIT](https://github.com/Stadt-Geschichte-Basel/forschung.stadtgeschichtebasel.ch/blob/main/LICENSE) license. This license does not include external dependencies included in the `assets/lib` directory, which are covered by their individual licenses.
 
-Any content relating to the items that form the research data collection (e.g. media files, metadata objects) at [forschung.stadtgeschichtebasel.ch](https://forschung.stadtgeschichtebasel.ch) are *NOT* covered by this license. Please see the individual right and license information in the corresponding metadata statement for each collection item.
+Any content relating to the items that form the research data collection (e.g. media files, metadata objects) at [forschung.stadtgeschichtebasel.ch](https://forschung.stadtgeschichtebasel.ch) are *NOT* covered by this license. Please see the individual rights and license statement in the corresponding metadata for each collection item.
