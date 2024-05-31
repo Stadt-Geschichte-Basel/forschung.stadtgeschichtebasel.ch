@@ -37,7 +37,7 @@
   </script>
 
 <script>
-    let {{ obj_url }} = '{{ geojson | default: 'null' }}';
+    var {{ obj_url }} = '{{ geojson | default: 'null' }}';
    
     fetch({{ obj_url }})
         .then(response => response.json())
