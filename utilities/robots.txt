@@ -9,7 +9,7 @@ permalink: /robots.txt
 User-agent: *
 Allow: /
 
-Sitemap: {{ site.url }}/robots.txt
+Sitemap: {{ site.url }}/sitemap.xml
 {%- else -%}
 User-agent: *
 Disallow: 
