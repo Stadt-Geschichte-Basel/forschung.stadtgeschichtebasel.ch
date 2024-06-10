@@ -36,7 +36,7 @@ Als Teil der Reihe [Praxislabor 2024](https://doi.org/10.58079/w9uv) veranstalte
 
 Das Ziel des Online-Workshops ist es, CollectionBuilder einrichten und seine Funktionen nutzen sowie digitale Exponate mit ihren eigenen Forschungsdaten erstellen und verwalten zu können. Eine ausführliche Beschreibung des Workshops bietet [das Programm des Praxislabors 2024](https://doi.org/10.58079/11sc7).
 
-Für die Teilnahme sind erste Erfahrungen mit GitHub bzw. GitHub Pages, ggfs. auch Jekyll, hilfreich. Die Teilnehmer:innen brauchen einen Laptop und eine stabile Internetverbindung. Alle anderen Materialien, einschliesslich umfassender Dokumentation und Zugang zu einer CollectionBuilder-Instanz, werden zur Verfügung gestellt.
+Für die Teilnahme sind erste Erfahrungen mit GitHub bzw. GitHub Pages, ggf. auch Jekyll, hilfreich. Die Teilnehmer:innen brauchen einen Laptop und eine stabile Internetverbindung. Alle anderen Materialien, einschliesslich umfassender Dokumentation und Zugang zu einer CollectionBuilder-Instanz, werden zur Verfügung gestellt.
 
 Bei Fragen zum Workshop wenden Sie sich bitte an [info@stadtgeschichtebasel.ch](mailto:info@stadtgeschichtebasel.ch).
 
