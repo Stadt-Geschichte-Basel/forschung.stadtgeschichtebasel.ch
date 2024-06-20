@@ -77,3 +77,21 @@ a {
         }
     }    
 }
+
+a {
+    .alert-warning & {
+        color: #375667;
+        &:hover {
+            color: #375667;
+            text-decoration: underline;
+        }
+    }    
+
+    .alert-danger & {
+        color: #2f4a59;
+        &:hover {
+            color: #2f4a59;
+            text-decoration: underline;
+        }
+    }
+}
