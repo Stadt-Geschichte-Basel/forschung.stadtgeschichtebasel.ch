@@ -73,9 +73,7 @@ a {
             color: #ffe880;
         }
     }    
-}
 
-a {
     .alert-warning & {
         color: #375667;
         &:hover {
@@ -111,4 +109,35 @@ a {
         border-color: #ffe880;
         box-shadow:0 0 0 0rem #ffe880;
     }
+}
+
+.page-link {
+    color: #3a1e3e !important;
+    &:hover {
+        border-color: #3a1e3e;
+        background-color: #fff;
+    }
+    &:focus {
+        background-color: #fff;
+        border-color: #3a1e3e;
+        box-shadow: 0 0 0 .25rem #3a1e3e;
+    }
+}
+
+.page-item.active .page-link {
+    color: #ffe880 !important;
+    background-color: #3a1e3e;
+    border-color: #3a1e3e;
+}
+
+.dropdown-item {
+    &:focus {
+        background-color: #3a1e3e;
+        color: #ffe880;
+    }
+}
+
+.dropdown-item.active {
+    background-color: #3a1e3e;
+    color: #fff;
 }
