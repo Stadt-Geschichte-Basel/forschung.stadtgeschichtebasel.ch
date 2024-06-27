@@ -152,3 +152,8 @@ a {
 .nav-link.active {
     color: #ffe880 !important;
 }
+
+.btn-group .dropdown-toggle:not(:last-child) {
+    border-top-right-radius: 0;
+    border-bottom-right-radius: 0;
+}
