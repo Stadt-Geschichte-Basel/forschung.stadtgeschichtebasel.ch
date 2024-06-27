@@ -102,12 +102,11 @@ a {
     }
 }
 
-.form-control {
-    border-width: 3px;
+.form-control {    
     &:focus {
-        border-width: 3px;
+        border-width: 1px;
         border-color: #ffe880;
-        box-shadow:0 0 0 0rem #ffe880;
+        box-shadow:0 0 0 .25rem #ffe880;
     }
 }
 
