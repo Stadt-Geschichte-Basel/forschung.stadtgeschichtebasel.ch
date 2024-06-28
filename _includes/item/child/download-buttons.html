@@ -8,7 +8,7 @@
     - Download -- if the item has "object_location" value, adds a download button along with the item format, or if the value is a YouTube or Vimeo link adds a "View on" link.  
 
 {%- endcomment -%}
-<div class="btn-group my-2" role="group" aria-label="Item options">
+<div class="btn-group my-2" role="group" aria-label="Objektoptionen">
     {% if child.object_transcript %}<button class="btn btn-outline-primary" type="button" data-bs-toggle="collapse" data-bs-target="#collapseTranscript{{ child.objectid }}" aria-expanded="false" aria-controls="collapseExample">View Transcript</button>{% endif %}
     {% if child.date %}{%- capture year -%}{% if child.date contains "-" %}{{ child.date | split: "-" | first }}{% elsif child.date contains "/" %}{{ child.date | split: "/" | last }}{% else %}{{ child.date }}{% endif %}{%- endcapture -%}
     <a href="{{ year | strip | prepend: '/timeline.html#y' | relative_url }}" class="btn btn-outline-primary">{{ site.data.translations['_includes']['item']['child']['download-buttons.html']['timeline'][site.lang] | default: "View on Timeline"}}</a>{% endif %}

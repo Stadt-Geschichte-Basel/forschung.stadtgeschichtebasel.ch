@@ -8,7 +8,7 @@
     - Download -- if the item has "object_location" value, adds a download button along with the item format, or if the value is a YouTube or Vimeo link adds a "View on" link.  
 
 {%- endcomment -%}
-<div class="btn-group" role="group" aria-label="Item options">
+<div class="btn-group" role="group" aria-label="Objektoptionen">
     {% if page.object_transcript %}<button class="btn btn-outline-primary" type="button" data-bs-toggle="collapse" data-bs-target="#collapseTranscript" aria-expanded="false" aria-controls="collapseExample">{{ site.data.translations['_includes']['item']['download-buttons.html']['transcript'][site.lang] | default: "View Transcript" }}</button>{% endif %}
     {% if page.date %}{% assign regex = '[\dX]{4}' %}{%- assign matches = page.date | regex_match: regex -%}
     {%- capture url -%}{%- for match in matches -%}{% capture queryParam %}y{{ match }}{% endcapture %}{% assign years = years | append: queryParam %}{% assign url = url | append: queryParam %}{%- endfor %}{%- endcapture %}{% assign url = url | append: '#y' | append: matches[0] %}{% assign url = '?' | append: years | append: '#y' | append: matches[0] %}   
