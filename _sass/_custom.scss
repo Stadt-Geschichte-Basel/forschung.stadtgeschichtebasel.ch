@@ -67,28 +67,16 @@
 }
 
 a {
+    &:hover {
+        color: #191919;
+    }
+    
     .link-on-dark & {
         color: #ffffff;
         &:hover {
             color: #ffe880;
         }
     }    
-
-    .alert-warning & {
-        color: #375667;
-        &:hover {
-            color: #375667;
-            text-decoration: underline;
-        }
-    }    
-
-    .alert-danger & {
-        color: #2f4a59;
-        &:hover {
-            color: #2f4a59;
-            text-decoration: underline;
-        }
-    }
 }
 
 .btn-report {
