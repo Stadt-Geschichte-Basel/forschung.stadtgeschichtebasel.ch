@@ -1,6 +1,6 @@
 {% assign fcount = site.data.config-table | size %}
 {% assign lang = site.lang %}
-{% include data-download-modal.html %}
+{% include data-download-modal.html show_button=false %}
 <!-- load DataTables with jquery bundled -->
 <script type="text/javascript" language="javascript" src="{{ '/assets/lib/datatables/datatables.min.js' | relative_url }}"></script>
 <script>
