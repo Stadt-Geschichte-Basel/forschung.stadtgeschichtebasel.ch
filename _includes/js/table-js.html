@@ -22,23 +22,31 @@ $(document).ready( function () {
         // add download features
         dom: 'B<"row mt-2"<"col-md-6"l><"col-md-6"f>>t<"row"<"col-md-6"i><"col-md-6"p>>', 
         buttons: [
-            { 
-                text: 'Gefilterte Tabelle (Excel)',
-                extend: 'excelHtml5', 
-                className: 'btn btn-outline-primary'
-            },
-            { 
-                text: 'Gefilterte Tabelle (CSV)',
-                extend: 'csvHtml5', 
-                className: 'btn btn-outline-primary' 
+            {
+                extend: 'collection',
+                text: 'Tabelle exportieren',
+                className: 'btn btn-outline-primary',
+                buttons: [
+
+                    { 
+                        text: 'Gefilterte Metadaten (Excel)',
+                        extend: 'excelHtml5', 
+                        className: 'btn btn-outline-primary'
+                    },
+                    { 
+                        text: 'Gefilterte Metadaten (CSV)',
+                        extend: 'csvHtml5', 
+                        className: 'btn btn-outline-primary' 
+                    }
+                ]
             },
             {
-                text: 'Weitere Formate (ungefiltert)',
+                text: 'Sammlungsmetadaten',
                 action: function ( e, dt, node, config ) {
-                    $('#dataModal').modal('show');
-                },
+                        $('#dataModal').modal('show');
+                    },
                 className: 'btn btn-outline-primary'
-            }
+             }
         ],
         // get the data from json
         columns: [ {% for i in (0..fcount) %}{ data: '{{ i }}' }{% unless forloop.last %},{% endunless %}{% endfor %} ],
