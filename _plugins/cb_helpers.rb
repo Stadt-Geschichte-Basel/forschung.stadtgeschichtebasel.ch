@@ -114,6 +114,7 @@ module CollectionBuilderHelperGenerator
       builtin_icons['arrow-left'] = '<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-arrow-left" viewBox="0 0 16 16"> <path fill-rule="evenodd" d="M15 8a.5.5 0 0 0-.5-.5H2.707l3.147-3.146a.5.5 0 1 0-.708-.708l-4 4a.5.5 0 0 0 0 .708l4 4a.5.5 0 0 0 .708-.708L2.707 8.5H14.5A.5.5 0 0 0 15 8z"/> </svg>'
       builtin_icons['arrow-right'] = '<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-arrow-right" viewBox="0 0 16 16"> <path fill-rule="evenodd" d="M1 8a.5.5 0 0 1 .5-.5h11.793l-3.147-3.146a.5.5 0 0 1 .708-.708l4 4a.5.5 0 0 1 0 .708l-4 4a.5.5 0 0 1-.708-.708L13.293 8.5H1.5A.5.5 0 0 1 1 8z"/> </svg>'
       builtin_icons['arrow-down'] = '<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-arrow-down" viewBox="0 0 16 16"> <path fill-rule="evenodd" d="M8 1a.5.5 0 0 1 .5.5v11.793l3.146-3.147a.5.5 0 0 1 .708.708l-4 4a.5.5 0 0 1-.708 0l-4-4a.5.5 0 0 1 .708-.708L7.5 13.293V1.5A.5.5 0 0 1 8 1z"/> </svg>'
+      builtin_icons['geodata'] = '<svg xmlns="http://www.w3.org/2000/svg" fill="none" stroke="currentColor" viewBox="0.2 0.2 124 124.5"> <path d="M 61.4 2.8 c -1.1 2 -2.1 4 -3.5 8.4 c -1.5 4.8 -1.8 8.6 -2.2 12.3 c -0.4 5 -0.3 8.6 0 14.1 c 0.4 7.8 1.1 11.1 1.6 12.9 c 0.9 3.5 1.9 5.7 2.9 7.4 c 1.2 2.1 2.5 3.6 3.3 4.5 c 1.4 1.6 2.6 3 4.5 4.3 c 0.7 0.5 3.5 2.4 7.8 3.1 c 3.1 0.5 5.5 0.2 7 0 c 2.5 -0.4 4.3 -1 7.4 -2.2 c 5.1 -1.9 10.1 -3.9 14.3 -5.5 c 4.3 -1.6 5.8 -2.2 8 -2.5 c 1.4 -0.2 4.1 -0.6 9.3 -0.4 M 62.2 2.8 a 59.7 59.7 0 1 0 0 119.4 a 59.7 59.7 0 1 0 0 -119.4 M 30.4 62.5 a 31.8 59.7 0 1 0 63.6 0 a 31.8 59.7 0 1 0 -63.6 0 M 11.6 30.8 L 112.7 30.8 M 2.5 62.5 h 55 c 2.4 0 4.4 2 4.4 4.4 v 55.3 M 12 94.7 L 112.4 94.7"/> </svg>'
       # set default values for icons used in template in case nothing is configured
       if !theme_icons['icon-image']
         theme_icons['icon-image'] = "image"
@@ -154,6 +155,10 @@ module CollectionBuilderHelperGenerator
       if !theme_icons['arrow-down']
         theme_icons['arrow-down'] = "arrow-down"
       end
+      if !theme_icons['icon-geodata']
+        theme_icons['icon-geodata'] = "sgb-globe"
+      end
+
       # process icons
       icon_set = { }
       theme_icons.each do |i|
