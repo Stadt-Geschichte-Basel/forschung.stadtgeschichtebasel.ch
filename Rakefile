@@ -59,7 +59,6 @@ def process_and_optimize_image(filename, file_type, output_filename, size, densi
         magick.resize(size)
         magick.flatten
         magick << output_filename
-        magick.call
       else
         image = MiniMagick::Image.open(filename)
         image.format('jpg')
@@ -160,4 +159,31 @@ task :generate_derivatives, [:thumbs_size, :small_size, :density, :missing, :com
     end
   end
   puts "\e[32mSee '#{list_name}' for list of objects and derivatives created.\e[0m"
+end
+
+###############################################################################
+# TASK: clean_derivatives
+###############################################################################
+
+desc 'Clean derivative image files from collection objects'
+task :clean_derivatives do
+  # set the folder locations
+  thumb_image_dir = 'objects/thumbs'
+  small_image_dir = 'objects/small'
+
+  # Confirm with the user before proceeding.
+  unless prompt_user_for_confirmation('Are you sure you want to delete all derivative images?')
+    puts 'Aborted.'
+    next
+  end
+
+  # Delete the derivative images.
+  [thumb_image_dir, small_image_dir].each do |dir|
+    if Dir.exist?(dir)
+      FileUtils.rm_rf(Dir.glob(File.join(dir, '*')))
+      puts "Deleted all files in #{dir}"
+    else
+      puts "Directory #{dir} does not exist"
+    end
+  end
 end
