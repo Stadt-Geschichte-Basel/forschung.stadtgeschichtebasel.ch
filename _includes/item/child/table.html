@@ -1,0 +1,52 @@
+{% comment %}
+
+{% endcomment %}
+
+{% assign objectid = child.objectid %}
+{% assign data = child.object_location %}
+
+<script src="{{ '/assets/lib/datatables/datatables.min.css' | relative_url }}"></script>
+
+<style>
+    #wrap {
+        max-height: 600px; 
+        overflow-y: auto;  
+    }
+</style>
+
+<script type="text/javascript">
+    document.addEventListener('DOMContentLoaded', function () {
+        var obj_url = '{{ data | default: 'null' }}';
+        
+        if (obj_url !== 'null') {
+            fetch(obj_url)
+                .then(response => response.text())
+                .then(data => {
+                    var build = '<table id="dataTable" class="display" style="width:100%">\n';
+                    var rows = data.split("\n");
+                    build += "<thead><tr>";
+                    var headers = rows[0].split(",");
+                    for (var i = 0; i < headers.length; i++) {
+                        build += "<th>" + headers[i] + "</th>";
+                    }
+                    build += "</tr></thead><tbody>";
+                    for (var i = 1; i < rows.length; i++) {
+                        build += "<tr>";
+                        var cells = rows[i].split(",");
+                        for (var j = 0; j < cells.length; j++) {
+                            build += "<td>" + cells[j] + "</td>";
+                        }
+                        build += "</tr>";
+                    }
+                    build += "</tbody></table>";
+                    document.getElementById('wrap').innerHTML = build;
+                    
+                    // Initialize DataTables
+                    $('#dataTable').DataTable();
+                })
+                .catch(error => console.error('Error fetching data:', error));
+        }
+    });
+</script>
+
+<div id="wrap"></div>
