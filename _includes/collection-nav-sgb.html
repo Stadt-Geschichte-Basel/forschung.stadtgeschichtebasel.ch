@@ -1,7 +1,7 @@
 <nav
     class="navbar sticky-top navbar-expand-lg {{ site.data.theme.navbar-color | default: 'navbar-dark' }} {{ site.data.theme.navbar-background | default: 'bg-dark' }}">
     <div class="container">
-        <button class="navbar-toggler border-0" type="button" data-bs-toggle="collapse" data-bs-target="#page-nav"
+        <button class="navbar-toggler border-0 order-1" type="button" data-bs-toggle="collapse" data-bs-target="#page-nav"
             aria-controls="page-nav" aria-expanded="false" aria-label="Navigation anzeigen">
             <!-- <span class="navbar-toggler-icon"></span> -->
             <span>
@@ -19,7 +19,7 @@
         {% endif %}
 
 
-        <div class="collapse navbar-collapse" id="page-nav">
+        <div class="collapse navbar-collapse order-2" id="page-nav">
             <ul class="navbar-nav me-auto">
                 {%- assign navItems = site.data.config-nav | where_exp: 'item', 'item.dropdown_parent == nil' -%}
                 {% for nav in navItems %}
