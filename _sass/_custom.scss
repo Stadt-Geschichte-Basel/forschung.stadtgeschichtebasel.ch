@@ -153,3 +153,10 @@ a {
     background-color: #3a1e3e;
     border-color: #3a1e3e;
 }
+
+.toggle-icon {
+    fill: #ffffff;
+    &:hover {
+        fill: #ffe880;
+    }
+}
