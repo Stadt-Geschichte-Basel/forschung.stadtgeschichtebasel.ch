@@ -8,17 +8,6 @@
 <link rel="stylesheet" type="text/css" href="/assets/lib/datatables/datatables.min.css">
 <script type="text/javascript" language="javascript" src="{{ '/assets/lib/datatables/datatables.min.js' | relative_url }}"></script>
 
-<style>
-    #wrap {
-        max-height: 600px; 
-        overflow-y: auto;
-        text-align: left;
-    }
-    .dataTables_filter {
-        float: left !important;
-}
-</style>
-
 <script type="text/javascript">
     document.addEventListener('DOMContentLoaded', function () {
         var obj_url = '{{ data | default: 'null' }}';
@@ -27,7 +16,7 @@
             fetch(obj_url)
                 .then(response => response.text())
                 .then(data => {
-                    var build = '<table id="csvTable" class="table table-striped" style="width:100%">\n';
+                    var build = '<table id="csvTable" class="table table-striped datatable-border" style="width:100%">\n';
                     var rows = data.split("\n");
                     if (rows.length > 0) {
                         build += "<thead><tr>";
@@ -53,9 +42,12 @@
                         $('#csvTable').DataTable({
                             {% if lang != "en" %}language: { url: '{{ "/assets/lib/datatables/" | append: lang | append: ".json" | relative_url }}' },{% endif %}
                             "deferRender": true,
-                            dom: 'f<"row mt-2"<"col-md-6"l><"col-md-6">>t<"row"<"col-md-6"i><"col-md-6"p>>',
+                            dom: '<<"col-12"l>>t<"row"<"col-md-6"><"col-md-6"p><"col-12">><"footer-container"if>',
                             paging: false,
-                            ordering: true
+                            ordering: true,
+                            scrollX: true,
+                            scrollCollapse: true,
+                            scrollY: '400px'
                         });
                     } else {
                         console.error('No data found or data format is incorrect.');
@@ -66,4 +58,4 @@
     });
 </script>
 
-<div id="wrap" class="bg-{{ include.background | default: 'light' }} border p-2"></div>
+<div id="wrap" class="bg-{{ include.background | default: '#ffe880' }} border datatable-border rounded"></div>
