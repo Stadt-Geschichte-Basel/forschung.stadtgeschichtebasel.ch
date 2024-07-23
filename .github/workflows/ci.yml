@@ -1,0 +1,29 @@
+name: Continuous Integration
+
+on:
+  pull_request:
+    branches: [main]
+
+jobs:
+  prettier:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+          ref: ${{ github.head_ref }}
+          persist-credentials: false
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '21' # Specify the Node.js version you want
+
+      - name: Install Prettier
+        run: npm install --global prettier @shopify/prettier-plugin-liquid
+
+      - name: Check formatting
+        run: prettier --check "**/*.{js,css,md,liquid,html}" # Specify the file extensions you want to check
+        # If prettier finds incorrectly formatted code, it exits with 1 and fails the job
