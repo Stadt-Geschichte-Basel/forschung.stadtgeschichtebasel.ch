@@ -13,7 +13,8 @@ jobs:
         uses: actions/checkout@v4
         with:
           fetch-depth: 0
-          ref: ${{ github.head_ref }}
+          ref: ${{ github.event.pull_request.head.ref }}
+          repository: ${{ github.event.pull_request.head.repo.full_name }}
           persist-credentials: false
 
       - name: Setup Node.js
@@ -26,4 +27,4 @@ jobs:
 
       - name: Check formatting
         run: prettier --check "**/*.{js,css,md,liquid,html}" # Specify the file extensions you want to check
-        # If prettier finds incorrectly formatted code, it exits with 1 and fails the job
+        # If prettier finds incorrectly formatted code, it exits with 1 and fails the job 
