@@ -20,7 +20,7 @@ jobs:
       - name: Setup Node.js
         uses: actions/setup-node@v4
         with:
-          node-version: '21' # Specify the Node.js version you want
+          node-version: '22' # Specify the Node.js version you want
 
       - name: Install Prettier
         run: npm install --global prettier @shopify/prettier-plugin-liquid
