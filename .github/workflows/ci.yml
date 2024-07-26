@@ -22,9 +22,8 @@ jobs:
         with:
           node-version: '22' # Specify the Node.js version you want
 
-      - name: Install Prettier
-        run: npm install --global prettier @shopify/prettier-plugin-liquid
+      - name: Install Dependencies
+        run: npm ci # Using npm ci for a clean install based on package-lock.json
 
-      - name: Check formatting
-        run: prettier --check "**/*.{js,css,md,liquid,html}" # Specify the file extensions you want to check
-        # If prettier finds incorrectly formatted code, it exits with 1 and fails the job 
+      - name: Check Formatting
+        run: npx prettier --check "**/*.{js,css,md,html}"
