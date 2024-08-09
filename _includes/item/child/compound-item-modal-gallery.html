@@ -46,49 +46,89 @@
               </svg>
             </a>
 
-                    <!-- child object modal -->
-                    <div class="modal fade" id="{{ child.objectid }}" tabindex="-1" role="dialog" aria-labelledby="{{ child.objectid }}ModalLabel" aria-hidden="true">
-                        <div class="modal-dialog modal-xxl">
-                            <div class="modal-content text-start">
-
-                                <div class="modal-header ">
-                                    <div class="modal-title w-100" id="{{ child.objectid }}ModalLabel">
-                                        <div class="row">
-                                            <div class="col-12 text-end">
-                                                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"
-                                                onclick="stopMedia();history.pushState('', '', window.location.pathname)"></button>
-                                            </div>
-                                            {% capture next_index %}{% if forloop.index == forloop.length %}0{% else %}{{ forloop.index0 | plus: 1 }}{% endif %}{% endcapture %}
-                                            {% assign next_index = next_index | times: 1 %}
-                                            {% capture prev_index %}{% if forloop.index0 == 0 %}{{ forloop.length | minus: 1 }}{% else %}{{ forloop.index0 | minus: 1 }}{% endif %}{% endcapture %}
-                                            {% assign prev_index = prev_index | times: 1 %}
-                                            {% capture next_item_id %}{{ children[next_index].objectid }}{% endcapture %}
-                                            {% capture prev_item_id %}{{ children[prev_index].objectid }}{% endcapture %}
-                                            <div class="col-1 col-md-2">
-                                                <button data-bs-target="#{{ prev_item_id }}" data-bs-toggle="modal" onclick="stopMedia();window.location.hash='{{ prev_item_id }}'" class="btn btn-outline-dark btn-sm prev-child-button" >
-                                                    <svg class="bi icon-sprite" role="img" aria-label="{{ site.data.translations['_includes']['item']['child']['compound-item-modal-gallery.html']['previous'][site.lang] | default: "Previous Item" }}">
-                                                        <use xlink:href="{{ '/assets/lib/cb-icons.svg' | relative_url }}#arrow-left"/>
-                                                    </svg>
-                                                    <span class="d-none d-md-inline">{{ site.data.translations['_includes']['item']['child']['compound-item-modal-gallery.html']['previous'][site.lang] | default: "Previous Item" }}</span>
-                                                </button>
-                                            </div>
-                                            <div class="col-9 col-md-8 text-center">
-                                                <h3 class="h5">{{ page.title }} 
-                                                    <span class="d-none d-md-inline">-</span><span class="d-md-none"><br></span>
-                                                    {{ forloop.index }} / {{ children | size }}
-                                                </h3>
-                                            </div>
-                                            <div class="col-1 col-md-2 text-end">
-                                                <button  data-bs-target="#{{ next_item_id }}" data-bs-toggle="modal" onclick="stopMedia();window.location.hash='{{ next_item_id }}'" class="ms-md-5 btn btn-outline-dark btn-sm next-child-button">
-                                                    <span class="d-none d-md-inline">{{ site.data.translations['_includes']['item']['child']['compound-item-modal-gallery.html']['next'][site.lang] | default: "Next Item" }}</span>
-                                                    <svg class="bi icon-sprite" role="img" aria-label="{{ site.data.translations['_includes']['item']['child']['compound-item-modal-gallery.html']['next'][site.lang] | default: "Next Item" }}">
-                                                        <use xlink:href="{{ '/assets/lib/cb-icons.svg' | relative_url }}#arrow-right"/>
-                                                    </svg>
-                                                </button>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
+            <!-- child object modal -->
+            <div
+              class="modal fade"
+              id="{{ child.objectid }}"
+              tabindex="-1"
+              role="dialog"
+              aria-labelledby="{{ child.objectid }}ModalLabel"
+              aria-hidden="true"
+            >
+              <div class="modal-dialog modal-xxl">
+                <div class="modal-content text-start">
+                  <div class="modal-header ">
+                    <div class="modal-title w-100" id="{{ child.objectid }}ModalLabel">
+                      <div class="row">
+                        <div class="col-12 text-end">
+                          <button
+                            type="button"
+                            class="btn-close"
+                            data-bs-dismiss="modal"
+                            aria-label="Close"
+                            onclick="stopMedia();history.pushState('', '', window.location.pathname)"
+                          ></button>
+                        </div>
+                        {% capture next_index %}{% if forloop.index == forloop.length %}0{% else %}{{ forloop.index0 | plus: 1 }}{% endif %}{% endcapture %}
+                        {% assign next_index = next_index | times: 1 %}
+                        {% capture prev_index %}{% if forloop.index0 == 0 %}{{ forloop.length | minus: 1 }}{% else %}{{ forloop.index0 | minus: 1 }}{% endif %}{% endcapture %}
+                        {% assign prev_index = prev_index | times: 1 %}
+                        {% capture next_item_id %}{{ children[next_index].objectid }}{% endcapture %}
+                        {% capture prev_item_id %}{{ children[prev_index].objectid }}{% endcapture %}
+                        <div class="col-1 col-md-2">
+                          <button
+                            data-bs-target="#{{ prev_item_id }}"
+                            data-bs-toggle="modal"
+                            onclick="stopMedia();window.location.hash='{{ prev_item_id }}'"
+                            class="btn btn-outline-dark btn-sm prev-child-button"
+                          >
+                            <svg
+                              class="bi icon-sprite"
+                              role="img"
+                              aria-label="{{ site.data.translations['_includes']['item']['child']['compound-item-modal-gallery.html']['previous'][site.lang] | default: "Previous Item" }}"
+                            >
+                              <use xlink:href="{{ '/assets/lib/cb-icons.svg' | relative_url }}#arrow-left"/>
+                            </svg>
+                            <span class="d-none d-md-inline">
+                              {{-
+                                site.data.translations._includes.item.child['compound-item-modal-gallery.html'].previous[site.lang]
+                                | default: 'Previous Item'
+                              -}}
+                            </span>
+                          </button>
+                        </div>
+                        <div class="col-9 col-md-8 text-center">
+                          <h3 class="h5">
+                            {{ page.title }}
+                            <span class="d-none d-md-inline">-</span><span class="d-md-none"><br></span>
+                            {{ forloop.index }} / {{ children | size }}
+                          </h3>
+                        </div>
+                        <div class="col-1 col-md-2 text-end">
+                          <button
+                            data-bs-target="#{{ next_item_id }}"
+                            data-bs-toggle="modal"
+                            onclick="stopMedia();window.location.hash='{{ next_item_id }}'"
+                            class="ms-md-5 btn btn-outline-dark btn-sm next-child-button"
+                          >
+                            <span class="d-none d-md-inline">
+                              {{-
+                                site.data.translations._includes.item.child['compound-item-modal-gallery.html'].next[site.lang]
+                                | default: 'Next Item'
+                              -}}
+                            </span>
+                            <svg
+                              class="bi icon-sprite"
+                              role="img"
+                              aria-label="{{ site.data.translations['_includes']['item']['child']['compound-item-modal-gallery.html']['next'][site.lang] | default: "Next Item" }}"
+                            >
+                              <use xlink:href="{{ '/assets/lib/cb-icons.svg' | relative_url }}#arrow-right"/>
+                            </svg>
+                          </button>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
 
                   <div class="modal-body">
                     <div class="row">
@@ -149,29 +189,28 @@
 </div>
 
 <script>
-function stopMedia() {
+  function stopMedia() {
     // Stop any playing <video> or <audio> elements
     const mediaElements = document.querySelectorAll('video, audio');
-    mediaElements.forEach(media => {
-        if (!media.paused) {
-            media.pause();
-            media.currentTime = 0; // Optional: Reset video/audio to start
-        }
+    mediaElements.forEach((media) => {
+      if (!media.paused) {
+        media.pause();
+        media.currentTime = 0; // Optional: Reset video/audio to start
+      }
     });
 
     // Stop any playing YouTube videos
     const iframes = document.querySelectorAll('iframe');
-    iframes.forEach(iframe => {
-        const src = iframe.src;
-        if (src.includes('youtube')) {
-            // Assuming the iframe is a YouTube video
-            const message = JSON.stringify({ event: 'command', func: 'pauseVideo', args: '' });
-            iframe.contentWindow.postMessage(message, '*');
-        } else if (src.includes('vimeo')) {
-            // Assuming the iframe is a Vimeo video
-            iframe.src = iframe.src;
-        }
+    iframes.forEach((iframe) => {
+      const src = iframe.src;
+      if (src.includes('youtube')) {
+        // Assuming the iframe is a YouTube video
+        const message = JSON.stringify({ event: 'command', func: 'pauseVideo', args: '' });
+        iframe.contentWindow.postMessage(message, '*');
+      } else if (src.includes('vimeo')) {
+        // Assuming the iframe is a Vimeo video
+        iframe.src = iframe.src;
+      }
     });
- }
- 
- </script>
+  }
+</script>

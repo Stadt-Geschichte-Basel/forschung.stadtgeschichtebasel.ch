@@ -102,9 +102,9 @@ If customizing new Item types, it maybe helpful to tweak the "Default Settings" 
 **Note:** CollectionBuilder originally used a modified version of [Adolfo Villafiorita jekyll-datapage_gen](https://github.com/avillafiorita/jekyll-datapage_gen), however, the plugin has been completely rewritten following the basic [Jekyll Generator Plugins](https://jekyllrb.com/docs/plugins/generators/).
 This allows CB Page Gen to more closely follow CB conventions, configuration options, and needs.
 Much of this is CB specific, such as providing metadata-centric defaults and fairly detailed error messages.
-However, the plugin configuration is still fully backwards compatible with older jekyll-datapage_gen configuration options (as used in CB projects).
+However, the plugin configuration is still fully backwards compatible with older jekyll-datapage*gen configuration options (as used in CB projects).
 If you used the old page gen plugin, your existing configuration should work with the new one.
-As of 2020, jekyll-datapage_gen added additional options that are _not_ supported in CB Page Gen (index_files, name_expr, title, title_expr)--if you would like to use those options, you should still be able to swap in the newest version of jekyll-datapage_gen and delete cb_page_gen in your \_plugins directory.
+As of 2020, jekyll-datapage_gen added additional options that are \_not* supported in CB Page Gen (index_files, name_expr, title, title_expr)--if you would like to use those options, you should still be able to swap in the newest version of jekyll-datapage_gen and delete cb_page_gen in your \_plugins directory.
 
 ---
 

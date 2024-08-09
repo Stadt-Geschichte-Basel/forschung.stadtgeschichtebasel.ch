@@ -26,7 +26,7 @@ There are two main approaches to representing these types of objects in a Collec
 A `compound_object` can include any type of media that CollectionBuilder handles, i.e. image, pdf, video, audio, panorama, or record. A `multiple` should be image based, and is best used for items such as postcards or multi-view records of a 3-dimensional object. These items will display as such:
 
 - Those items with the display_template of `compound_object` will display as a grid of cards featuring item thumbnails that, upon being clicked, will open a child object page as a modal.
-- Those items with the display_template of `multiple` will display as larger small images that _do not_ have child object pages. If one clicks on one of these larger images, they will open up in a zoomable spotlight gallery.
+- Those items with the display*template of `multiple` will display as larger small images that \_do not* have child object pages. If one clicks on one of these larger images, they will open up in a zoomable spotlight gallery.
 
 **Note:** The "multiple" display template works well if the additional files do _not_ require their own extensive metadata. Our build will only represent the "title" of the child elements on the item page -- all other metadata for child objects with the display_template postcard will be ignored.
 
