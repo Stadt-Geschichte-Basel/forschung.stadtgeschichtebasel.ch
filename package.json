@@ -1,7 +1,7 @@
 {
   "scripts": {
     "check": "prettier --check '**/*.{js,css,md,html}'",
-    "format": "prettier --write ."
+    "format": "prettier --write '**/*.{js,css,md,html}'"
   },
   "dependencies": {
     "prettier": "^3.3.3",
