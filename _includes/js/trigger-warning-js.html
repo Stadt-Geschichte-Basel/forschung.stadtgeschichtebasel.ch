@@ -5,13 +5,13 @@
     const bootstrapModal = bootstrap.Modal.getInstance(modal) || new bootstrap.Modal(modal);
     bootstrapModal.hide();
 
-    // Set in sessionStorage to not show the warning again for this session
-    sessionStorage.setItem('triggerWarningDismissed', 'true');
+    // Set in localStorage to not show the warning again
+    localStorage.setItem('triggerWarningDismissed', 'true');
   }
 
   // Show the modal if the user has not seen it yet
   window.onload = function () {
-    if (!sessionStorage.getItem('triggerWarningDismissed')) {
+    if (!localStorage.getItem('triggerWarningDismissed')) {
       const modal = new bootstrap.Modal(document.getElementById('triggerWarning'));
       modal.show();
     }
