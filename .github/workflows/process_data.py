@@ -1,3 +1,10 @@
+# /// script
+# dependencies = [
+#   "pandas",
+#   "requests",
+# ]
+# ///
+
 import logging
 import os
 from urllib.parse import urljoin, urlparse
