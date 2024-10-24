@@ -14,15 +14,22 @@
     this.field({{ f.field | jsonify }})
     {% endfor %}
 
-    //this.pipeline.remove(lunr.trimmer)
+    this.pipeline.remove(lunr.trimmer)
+    this.pipeline.remove(lunr.stemmer);
 
+    // Add each item to the index, processing fields with semicolons
     for (var item in store) {
-      this.add({
-        {% for f in index_fields %}
-        {{ f.field | jsonify }}: store[item][{{ f.field | jsonify }}],
-        {% endfor %}
-        id: item
-      })
+      var indexedData = {};
+      {% for f in index_fields %}
+      var fieldValue = store[item][{{ f.field | jsonify }}];
+      if (fieldValue) {
+        // Split semicolon-separated values and join them with spaces
+        indexedData[{{ f.field | jsonify }}] = fieldValue.split(";").join(" ");
+      }
+      {% endfor %}
+
+      // Add the indexed data to the Lunr index
+      this.add(Object.assign(indexedData, { id: item }));
     }
 
   });
@@ -30,9 +37,16 @@
   /* search function */
   function lunr_search () {
     var resultdiv = document.querySelector('#lunrResults');
-    var query = document.querySelector('#lunrSearchBox').value;//.toLowerCase();
+    var query = document.querySelector('#lunrSearchBox').value.toLowerCase();
     /* basic search that supports operators */
-    var result = idx.search(query);
+    // var result = idx.search(query);
+
+    /* Enable trailing wildcard for partial matches */
+    var result = idx.query(function (q) {
+      query.split(lunr.tokenizer.separator).forEach(function (term) {
+        q.term(term, { wildcard: lunr.Query.wildcard.TRAILING });
+      });
+    });
     /* more fuzzy search, but doesn't support operators:
     var result =
       idx.query(function (q) {
