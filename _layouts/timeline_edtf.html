@@ -23,33 +23,9 @@ custom-foot: js/timeline-js.html
 {%- if t == 0 -%}{{ i }}{% unless forloop.last %};{% endunless %}{% endif %}{% endfor %}{%- endcapture -%}
   {%- assign navYears = navYears | split: ';' -%}
 {%- endif -%}
-{%- if navYears -%}
-  <div class="dropdown float-end" id="year-nav">
-    <button
-      class="btn btn-outline-primary dropdown-toggle"
-      type="button"
-      id="yearButton"
-      data-bs-toggle="dropdown"
-      aria-haspopup="true"
-      aria-expanded="false"
-    >
-      {{ years }}
-    </button>
-    <div class="dropdown-menu" aria-labelledby="yearButton">
-      {% for y in navYears %}
-        <a class="dropdown-item" href="#y{{ y }}">{{ y }}</a>
-      {%- endfor %}
-    </div>
-  </div>
-{%- endif -%}
 
 {{ content }}
 
-<h2>
-  <a href="#y{{ uniqueYears | first }}">{{ uniqueYears | first }}</a>&#8211;<a href="#y{{ uniqueYears | last }}">
-    {{- uniqueYears | last -}}
-  </a>
-</h2>
 
 <table id="timeline" class="table table-striped">
   <tbody>
