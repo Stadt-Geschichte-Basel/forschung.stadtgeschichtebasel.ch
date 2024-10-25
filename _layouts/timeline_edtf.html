@@ -26,6 +26,38 @@ custom-foot: js/timeline-js.html
 
 {{ content }}
 
+<div class="d-flex justify-content-between align-items-center mb-3">
+  <h2>
+    <a href="#y{{ uniqueYears | first }}">{{ uniqueYears | first }}</a>&#8211;<a href="#y{{ uniqueYears | last }}">
+      {{- uniqueYears | last -}}
+    </a>
+  </h2>  
+  <div class="float-end ms-auto">
+    <div class="dropdown">
+      <button
+        class="btn btn-outline-primary dropdown-toggle"
+        type="button"
+        id="switchViewButton"
+        data-bs-toggle="dropdown"
+        aria-haspopup="true"
+        aria-expanded="false"
+      >
+        {{ site.data.translations._layouts['browse.html']['switch-view'][site.lang] | default: 'Switch View' }}
+      </button>
+      <div class="dropdown-menu switch-view-menu" aria-labelledby="switchViewButton">
+        <a href="browse.html" class="dropdown-item switch-view-item">
+          {{ site.data.translations._layouts['browse.html'].browse[site.lang] | default: 'Browse' }}
+        </a>
+        <a href="subjects.html" class="dropdown-item switch-view-item">
+          {{ site.data.translations._layouts['browse.html'].subjects[site.lang] | default: 'Subjects' }}
+        </a>
+        <a href="eras.html" class="dropdown-item switch-view-item">
+          {{ site.data.translations._layouts['browse.html'].eras[site.lang] | default: 'Word Cloud' }}
+        </a>
+      </div>
+    </div>
+  </div>
+</div>
 
 <table id="timeline" class="table table-striped">
   <tbody>
