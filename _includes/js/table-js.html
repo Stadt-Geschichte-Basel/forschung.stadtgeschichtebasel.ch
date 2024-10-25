@@ -27,7 +27,7 @@
           buttons: [
               {
                   extend: 'collection',
-                  text: 'Tabelle exportieren',
+                  text: 'Tabelle herunterladen',
                   className: 'btn btn-outline-primary',
                   buttons: [
 
@@ -44,10 +44,17 @@
                   ]
               },
               {
-                  text: 'Sammlungsmetadaten',
+                  text: 'Sammlungsdaten exportieren',
                   action: function ( e, dt, node, config ) {
                           $('#dataModal').modal('show');
                       },
+                  className: 'btn btn-outline-primary'
+               },
+               {
+                  text: 'Datenarchiv',
+                  action: function () {
+                      window.open('https://zenodo.org/communities/stadt-geschichte-basel', '_blank');
+                  },
                   className: 'btn btn-outline-primary'
                }
           ],
