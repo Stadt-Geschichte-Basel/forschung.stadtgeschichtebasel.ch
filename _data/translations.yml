@@ -602,6 +602,10 @@ _layouts:
       en: "Switch View"
       #es: "..."
       de: "Ansicht umschalten"
+    browse:
+      en: "Browse"
+      es: "Navegar"
+      de: "Durchsuchen"
     timeline:
       en: "Timeline"
       es: "Línea de tiempo"
