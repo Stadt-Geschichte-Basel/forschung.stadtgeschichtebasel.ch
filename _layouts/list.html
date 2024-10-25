@@ -25,7 +25,6 @@ layout: page
 {%- endif -%}
 
 <div class="d-flex justify-content-between align-items-center mb-3">
-
   {% assign list_id = 'list-div-' | append: fields | slugify %}
   <div class="dropdown">
     <button
@@ -37,7 +36,9 @@ layout: page
       aria-expanded="false"
     >
       {{ site.data.translations._layouts['list.html']['sort-by'][site.lang] | default: 'Sort by' }}
-      <span id="sortFilter">{{ site.data.translations._layouts['list.html'].count[site.lang] | default: 'Count' }}</span>
+      <span id="sortFilter">
+        {{- site.data.translations._layouts['list.html'].count[site.lang] | default: 'Count' -}}
+      </span>
     </button>
     <div class="dropdown-menu browse-sort-menu" aria-labelledby="browseSortButton">
       <button class="dropdown-item list-sort-item active" data-filter="count">
