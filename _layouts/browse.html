@@ -5,62 +5,71 @@ custom-foot: js/browse-js.html
 ---
 {{ content }}
 
-<div class="row mb-3 justify-content-center">
-  <div class="col-md-8 text-center">
-    <form role="search" id="lunrSearch" onsubmit="submitFilter(); return false;">
-      <div class="input-group input-group-lg">
-        <input
-          type="text"
-          class="form-control"
-          id="filterTextBox"
-          placeholder="{{ site.data.translations['_layouts']['browse.html']['filter'][site.lang] | default: 'Filter' }} ..."
-          aria-label="{{ site.data.translations['_layouts']['browse.html']['search'][site.lang] | default: 'Search' }}"
-        >
-        <button
-          class="btn btn-secondary"
-          type="submit"
-          title="{{ site.data.translations['_layouts']['browse.html']['filter-items'][site.lang] | default: 'Filter items' }}"
-          id="filterButton"
-        >
-          {{ site.data.translations._layouts['browse.html'].search[site.lang] | default: 'Search' }}
-        </button>
-        <button
-          class="btn btn-outline-secondary text-dark filter"
-          onclick="resetFilter(); return false;"
-          data-filter=""
-        >
-          {{ site.data.translations._layouts['browse.html'].reset[site.lang] | default: 'Reset' }}
-        </button>
-      </div>
-    </form>
-    <div class="h2 mt-2" id="numberOf"></div>
-  </div>
-  <div class="col-md-2 text-center">
-    <div class="dropdown">
-      <button
-        class="btn btn-lg btn-outline-primary dropdown-toggle"
-        type="button"
-        id="switchViewButton"
-        data-bs-toggle="dropdown"
-        aria-haspopup="true"
-        aria-expanded="false"
+<div class="container-fluid">
+  <div class="row mb-2 align-items-center">
+    <div class="col-auto">
+      <div
+        class="btn-group btn-group-lg btn-group-toggle d-flex align-items-center"
+        data-toggle="buttons"
+        role="group"
+        aria-label="Anzeigeoptionen"
       >
-        {{ site.data.translations._layouts['browse.html']['switch-view'][site.lang] | default: 'Switch View' }}
-      </button>
-      <div class="dropdown-menu switch-view-menu" aria-labelledby="switchViewButton">
-        <a href="timeline.html" class="dropdown-item switch-view-item">
+        <a
+          href="{{ '/timeline.html' | relative_url }}"
+          class="btn btn-outline-primary"
+          aria-label="Zeige die Sammlung auf einer Zeitachse"
+        >
           {{ site.data.translations._layouts['browse.html'].timeline[site.lang] | default: 'Timeline' }}
         </a>
-        <a href="subjects.html" class="dropdown-item switch-view-item">
+        <a
+          href="{{ '/subjects.html' | relative_url }}"
+          class="btn btn-outline-primary"
+          aria-label="Zeige eine Liste von Schlagwörtern"
+        >
           {{ site.data.translations._layouts['browse.html'].subjects[site.lang] | default: 'Subjects' }}
         </a>
-        <a href="eras.html" class="dropdown-item switch-view-item">
-          {{ site.data.translations._layouts['browse.html'].eras[site.lang] | default: 'Word Cloud' }}
+        <a
+          href="{{ '/eras.html' | relative_url }}"
+          class="btn btn-outline-primary"
+          aria-label="Zeige eine Liste von Epochen"
+        >
+          {{ site.data.translations._layouts['browse.html'].eras[site.lang] | default: 'Eras' }}
         </a>
       </div>
     </div>
+
+    <div class="col align-self-end">
+      <form class="d-flex" role="search" id="lunrSearch" onsubmit="submitFilter(); return false;">
+        <div class="input-group input-group-lg">
+          <input
+            type="text"
+            class="form-control"
+            id="filterTextBox"
+            placeholder="{{ site.data.translations['_layouts']['browse.html']['filter'][site.lang] | default: 'Filter' }} ..."
+            aria-label="{{ site.data.translations['_layouts']['browse.html']['search'][site.lang] | default: 'Search' }}"
+          >
+          <button
+            class="btn btn-secondary"
+            type="submit"
+            title="{{ site.data.translations['_layouts']['browse.html']['filter-items'][site.lang] | default: 'Filter items' }}"
+            id="filterButton"
+          >
+            {{ site.data.translations._layouts['browse.html'].search[site.lang] | default: 'Search' }}
+          </button>
+          <button
+            class="btn btn-outline-secondary text-dark filter"
+            onclick="resetFilter(); return false;"
+            data-filter=""
+          >
+            {{ site.data.translations._layouts['browse.html'].reset[site.lang] | default: 'Reset' }}
+          </button>
+        </div>
+      </form>
+    </div>
   </div>
 </div>
+
+<div class="h2 mt-2 text-center" id="numberOf"></div>
 
 <div id="loadingIcon" class="text-center">
   <div class="spinner-border text-dark" role="status">

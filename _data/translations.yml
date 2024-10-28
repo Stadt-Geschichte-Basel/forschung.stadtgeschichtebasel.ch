@@ -598,14 +598,9 @@ _layouts:
       en: "Loading"
       es: "Cargando"
       de: "Laden"
-    switch-view:
-      en: "Switch View"
-      #es: "..."
-      de: "Ansicht umschalten"
     browse:
-      en: "Browse"
-      es: "Navegar"
-      de: "Durchsuchen"
+      en: "Overview"
+      de: "Übersicht"
     timeline:
       en: "Timeline"
       es: "Línea de tiempo"
@@ -616,7 +611,7 @@ _layouts:
       de: "Themen"
     eras:
       en: "Eras"
-      #es: "..."
+      es: "Épocas"
       de: "Epochen"
   cloud.html:
   data.html:
