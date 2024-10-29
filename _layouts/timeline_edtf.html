@@ -39,7 +39,11 @@ custom-foot: js/timeline-js.html
     <div class="dropdown-menu" aria-labelledby="yearButton">
       {% for y in navYears %}
         {% assign year_parts = y | split: ':' %}
-        <a class="dropdown-item" href="#y{{ year_parts[1] }}">{{ year_parts[0] }}</a>
+        {% if year_parts.size == 2 %}
+          <a class="dropdown-item" href="#y{{ year_parts[1] }}">{{ year_parts[0] }}</a>
+        {% else %}
+          <a class="dropdown-item" href="#y{{ y }}">{{ y }}</a>
+        {% endif %}
       {% endfor %}
     </div>
   </div>
@@ -50,8 +54,10 @@ custom-foot: js/timeline-js.html
 <h2>
   {% assign first_year = sorted_years | first | split: ':' %}
   {% assign last_year = sorted_years | last | split: ':' %}
-  <a href="#y{{ first_year[1] }}">{{ first_year[0] }}</a> &#8211;
-  <a href="#y{{ last_year[1]}}">{{ last_year[0] }}</a>
+  {% if first_year.size == 2 and last_year.size == 2 %}
+    <a href="#y{{ first_year[1] }}">{{ first_year[0] }}</a> &#8211;
+    <a href="#y{{ last_year[1]}}">{{ last_year[0] }}</a>
+  {% endif %}
 </h2>
 
 <table id="timeline" class="table table-striped">
