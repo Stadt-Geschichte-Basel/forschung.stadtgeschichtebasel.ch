@@ -3,14 +3,21 @@ module Jekyll
     def sort_edtf(array_of_strings)
       # Parse each string into a hash with numeric, original, and display representations
       parsed_dates = array_of_strings.map do |str|
-        cleaned_str = str.gsub(/[Xx]/, '0') # Replace X/x with 0 for numeric comparison
+        cleaned_str = str.gsub(/[Xu]/, '0') # Replace X/x with 0 for numeric comparison
         
         # Remove leading zeros for numeric value calculation
         numeric_value = if cleaned_str.start_with?('-')
-                          cleaned_str.sub(/^-0+/, '-').to_i
+                          numeric_str = cleaned_str.sub(/^-0+/, '-')
                         else
-                          cleaned_str.sub(/^0+/, '').to_i
+                          numeric_str = cleaned_str.sub(/^0+/, '')
                         end
+
+        # Validate that numeric_str is a valid integer
+        if numeric_str.match?(/^-?\d+$/)
+          numeric_value = numeric_str.to_i
+        else
+          raise ArgumentError, "Invalid date format: #{str}"
+        end
 
         # Create a human-readable display format
         # For display format, we use the original string, just without leading zeros

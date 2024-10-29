@@ -10,7 +10,7 @@ custom-foot: js/timeline-js.html
 {% else %}
   {%- assign items = site.data[site.metadata] | where_exp: 'item', 'item.objectid and item.parentid == nil' -%}
 {% endif %}
-{% assign regex = '[-]?[\dXx]{4,}' %}
+{% assign regex = '[-]?[\dXu]{4,}' %}
 {%- assign items = items | where_exp: 'item', 'item[field]' -%}
 {%- assign raw-dates = items | map: field | compact | uniq -%}
 {%- capture clean-years -%}{% for date in raw-dates %}{{date | regex_match: regex | join: ';' }}{% unless forloop.last %};{% endunless %}{%- endfor -%}{%- endcapture -%}
