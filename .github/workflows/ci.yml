@@ -27,7 +27,7 @@ jobs:
 
       - name: Check Formatting
         run: npx prettier --check "**/*.{js,css,md,html}"
-        
+
   jekyll:
     needs: prettier
     runs-on: ubuntu-22.04
