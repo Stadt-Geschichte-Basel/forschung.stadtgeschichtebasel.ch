@@ -59,7 +59,7 @@ custom-foot: js/browse-js.html
           <button
             class="btn btn-outline-secondary text-dark filter"
             type="reset"
-            onclick="resetFilter(); return false;"
+            onclick="event.preventDefault(); resetFilter();"
             data-filter=""
           >
             {{ site.data.translations._layouts['browse.html'].reset[site.lang] | default: 'Reset' }}
