@@ -9,12 +9,12 @@ module Jekyll
       parsed_dates = valid_dates.map do |str|
         cleaned_str = str.gsub(/[Xu]/, '0') # Replace X/x with 0 for numeric comparison
         
-        # Remove leading zeros for numeric value calculation
+        # Remove leading zeros for numeric value calculation, but keep the last zero if it's the only digit
         numeric_value = if cleaned_str.start_with?('-')
-                          numeric_str = cleaned_str.sub(/^-0+/, '-')
-                        else
-                          numeric_str = cleaned_str.sub(/^0+/, '')
-                        end
+              numeric_str = cleaned_str.sub(/^-0+/, '-')
+            else
+              numeric_str = cleaned_str.sub(/^0+(?=\d)/, '')
+            end
 
         # Validate that numeric_str is a valid integer
         if numeric_str.match?(/^-?\d+$/)
@@ -28,7 +28,7 @@ module Jekyll
         display_format = if str.start_with?('-')
                            "#{str[1..-1].sub(/^0+/, '')} v. Chr."  # For negative, remove minus and leading zeros for display
                          else
-                           str.sub(/^0+/, '')  # Remove leading zeros for positive values
+                             str.sub(/^0+(?=\d)/, '')  # Remove leading zeros for positive values, but keep the last zero if it's the only digit
                          end
 
         # Return a hash with numeric, original, and display_format
