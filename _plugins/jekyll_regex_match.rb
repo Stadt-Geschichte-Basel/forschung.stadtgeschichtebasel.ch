@@ -22,10 +22,18 @@ module Jekyll
         end
 
         def filter_items_by_year(items, year, regex_pattern = '[-]?[\dXu]{4,}')
+          raise ArgumentError, 'Regex pattern too complex' if regex_pattern.length > 50
+          return [] unless items.is_a?(Array) && !year.nil?
+          begin
           regex = Regexp.new(regex_pattern)  
           items.select do |item|
-            dates = item['date'].scan(regex).map(&:to_s)  
+            next false unless item.is_a?(Hash) && item['date'].is_a?(String)
+            dates = item['cached_dates'] ||= item['date'].scan(regex).map(&:to_s) 
             dates.include?(year)  
+          end
+          rescue RegexpError => e
+            # Handle invalid regex pattern
+            []
           end
         end
 
