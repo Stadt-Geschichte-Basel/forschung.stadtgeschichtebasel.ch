@@ -20,6 +20,15 @@ module Jekyll
             return nil
           end
         end
+
+        def filter_items_by_year(items, year, regex_pattern = '[-]?[\dXu]{4,}')
+          regex = Regexp.new(regex_pattern)  
+          items.select do |item|
+            dates = item['date'].scan(regex).map(&:to_s)  
+            dates.include?(year)  
+          end
+        end
+
     end
   end
   

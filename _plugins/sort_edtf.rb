@@ -1,8 +1,12 @@
 module Jekyll
   module SortEDTF
     def sort_edtf(array_of_strings)
+
+      # Remove any empty strings after stripping whitespace
+      valid_dates = array_of_strings.reject { |str| str.strip.empty? }
+
       # Parse each string into a hash with numeric, original, and display representations
-      parsed_dates = array_of_strings.map do |str|
+      parsed_dates = valid_dates.map do |str|
         cleaned_str = str.gsub(/[Xu]/, '0') # Replace X/x with 0 for numeric comparison
         
         # Remove leading zeros for numeric value calculation
