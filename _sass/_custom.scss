@@ -90,7 +90,8 @@ a {
     }
 }
 
-.form-control {    
+.form-control {   
+    border-color: #ffe880; 
     &:focus {
         border-width: 1px;
         border-color: #ffe880;
@@ -98,8 +99,10 @@ a {
     }
 }
 
-#filterTextBox {
-    border-color: #ffe880;
+#site-search {
+    border-color: #3a1e3e;
+    border-top-right-radius: .25rem;
+    border-bottom-right-radius: .25rem;
 }
 
 .page-link {
@@ -232,3 +235,9 @@ a {
         box-shadow:0 0 0 .25rem #3a1e3e;
     }
 }
+
+.pagination-controls, .search-box {
+    display: inline-flex;
+    flex-wrap: nowrap;
+    align-items: center;
+  }
