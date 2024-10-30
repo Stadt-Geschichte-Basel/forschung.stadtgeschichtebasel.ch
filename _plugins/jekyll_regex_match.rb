@@ -25,7 +25,7 @@ module Jekyll
           raise ArgumentError, 'Regex pattern too complex' if regex_pattern.length > 50
           return [] unless items.is_a?(Array) && !year.nil?
           begin
-            
+
           # Clear cache if it grows too large
           if defined?(@cache_size) && @cache_size > 1000
             items.each { |item| item.delete('cached_dates') }
@@ -44,6 +44,7 @@ module Jekyll
             dates.include?(year)  
           end
           rescue RegexpError => e
+            Jekyll.logger.error "RegexMatch:", "Invalid regex pattern: #{e.message}"
             # Handle invalid regex pattern
             []
           end
