@@ -7,30 +7,30 @@ custom-foot: js/browse-js.html
 
 <div class="container-fluid">
   <div class="row mb-2 align-items-center">
-    <div class="col-auto">
+    <div class="col-12 col-md-auto text-center text-md-start mb-2 mb-md-0">
       <div
-        class="btn-group btn-group-lg btn-group-toggle d-flex align-items-center"
+        class="btn-group btn-group-toggle d-flex flex-wrap justify-content-center align-items-center"
         data-toggle="buttons"
         role="group"
         aria-label="Anzeigeoptionen"
       >
         <a
           href="{{ '/timeline.html' | relative_url }}"
-          class="btn btn-outline-primary"
+          class="btn btn-outline-primary btn-lg btn-sm-md"
           aria-label="Zeige die Sammlung auf einer Zeitachse"
         >
           {{ site.data.translations._layouts['browse.html'].timeline[site.lang] | default: 'Timeline' }}
         </a>
         <a
           href="{{ '/subjects.html' | relative_url }}"
-          class="btn btn-outline-primary"
+          class="btn btn-outline-primary btn-lg btn-sm-md"
           aria-label="Zeige eine Liste von Schlagwörtern"
         >
           {{ site.data.translations._layouts['browse.html'].subjects[site.lang] | default: 'Subjects' }}
         </a>
         <a
           href="{{ '/eras.html' | relative_url }}"
-          class="btn btn-outline-primary"
+          class="btn btn-outline-primary btn-lg btn-sm-md"
           aria-label="Zeige eine Liste von Epochen"
         >
           {{ site.data.translations._layouts['browse.html'].eras[site.lang] | default: 'Eras' }}
@@ -39,7 +39,7 @@ custom-foot: js/browse-js.html
     </div>
 
     <div class="col align-self-end">
-      <form class="d-flex" role="search" id="lunrSearch" onsubmit="submitFilter(); return false;">
+      <form class="d-flex" role="search" id="lunrSearch" onsubmit="event.preventDefault(); submitFilter();">
         <div class="input-group input-group-lg">
           <input
             type="text"
@@ -58,6 +58,7 @@ custom-foot: js/browse-js.html
           </button>
           <button
             class="btn btn-outline-secondary text-dark filter"
+            type="reset"
             onclick="resetFilter(); return false;"
             data-filter=""
           >

@@ -6,34 +6,36 @@ layout: page
 ---
 {{ content }}
 
-<div class="d-flex justify-content-between align-items-center mb-2">
-  <div
-    class="btn-group btn-group-toggle d-flex align-items-center"
-    data-toggle="buttons"
-    role="group"
-    aria-label="Anzeigeoptionen"
-  >
-    <a
-      href="{{ '/browse.html' | relative_url }}"
-      class="btn btn-outline-primary"
-      aria-label="Zeige die Sammlungsübersicht"
+<div class="d-flex flex-column flex-md-row justify-content-between align-items-center mb-2">
+  <div class="col-12 col-md-auto mb-2 mb-md-0 text-center text-md-start">
+    <div
+      class="btn-group btn-group-toggle d-flex justify-content-center justify-content-md-start align-items-center"
+      data-toggle="buttons"
+      role="group"
+      aria-label="Anzeigeoptionen"
     >
-      {{ site.data.translations._layouts['browse.html'].browse[site.lang] | default: 'Browse' }}
-    </a>
-    <a
-      href="{{ '/timeline.html' | relative_url }}"
-      class="btn btn-outline-primary"
-      aria-label="Zeige die Sammlung auf einer Zeitachse"
-    >
-      {{ site.data.translations._layouts['browse.html'].timeline[site.lang] | default: 'Timeline' }}
-    </a>
-    <a
-      href="{{ '/subjects.html' | relative_url }}"
-      class="btn btn-outline-primary"
-      aria-label="Zeige eine Liste von Schlagwörtern"
-    >
-      {{ site.data.translations._layouts['browse.html'].subjects[site.lang] | default: 'Subjects' }}
-    </a>
+      <a
+        href="{{ '/browse.html' | relative_url }}"
+        class="btn btn-outline-primary"
+        aria-label="Zeige die Sammlungsübersicht"
+      >
+        {{ site.data.translations._layouts['browse.html'].browse[site.lang] | default: 'Browse' }}
+      </a>
+      <a
+        href="{{ '/timeline.html' | relative_url }}"
+        class="btn btn-outline-primary"
+        aria-label="Zeige die Sammlung auf einer Zeitachse"
+      >
+        {{ site.data.translations._layouts['browse.html'].timeline[site.lang] | default: 'Timeline' }}
+      </a>
+      <a
+        href="{{ '/subjects.html' | relative_url }}"
+        class="btn btn-outline-primary"
+        aria-label="Zeige eine Liste von Schlagwörtern"
+      >
+        {{ site.data.translations._layouts['browse.html'].subjects[site.lang] | default: 'Subjects' }}
+      </a>
+    </div>
   </div>
 </div>
 
