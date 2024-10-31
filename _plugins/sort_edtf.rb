@@ -1,7 +1,7 @@
 module Jekyll
   module SortEDTF
     def clean_date_string(str)
-      str.gsub(/[Xx]/, '0')
+      str.gsub(/[Xu]/, '0')
     end
 
     def compute_numeric_value(cleaned_str)
