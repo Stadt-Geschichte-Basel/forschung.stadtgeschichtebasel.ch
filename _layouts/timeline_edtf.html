@@ -50,27 +50,29 @@ custom-foot: js/timeline-js.html
 {%- endif -%}
 
 {{ content }}
-{% comment %}uncomment on the next lines to display a heading indicating the period of the data in text form{% endcomment %}
-{% comment %} <h2> 
-  {% assign first_year = sorted_years | first | split: ':' %}
-  {% assign last_year = sorted_years | last | split: ':' %}
-  {% if sorted_years.size > 0 %}
-    {% if first_year.size == 3
-      and last_year.size == 3
-      and first_year[0] != ''
-      and first_year[1] != ''
-      and last_year[0] != ''
-      and last_year[1] != ''
-    %}
-      <a href="#y{{ first_year[1] }}">{{ first_year[0] }}</a> &#8211;
-      <a href="#y{{ last_year[1]}}">{{ last_year[0] }}</a>
+{% comment %}uncomment the next lines to display a heading indicating the period of the data in text form{% endcomment %}
+{% comment %}
+  <h2>
+    {% assign first_year = sorted_years | first | split: ':' %}
+    {% assign last_year = sorted_years | last | split: ':' %}
+    {% if sorted_years.size > 0 %}
+      {% if first_year.size == 3
+        and last_year.size == 3
+        and first_year[0] != ''
+        and first_year[1] != ''
+        and last_year[0] != ''
+        and last_year[1] != ''
+      %}
+        <a href="#y{{ first_year[1] }}">{{ first_year[0] }}</a> &#8211;
+        <a href="#y{{ last_year[1]}}">{{ last_year[0] }}</a>
+      {% else %}
+        <span class="text-muted">Invalid date range</span>
+      {% endif %}
     {% else %}
-      <span class="text-muted">Invalid date range</span>
+      <span class="text-muted">No items found</span>
     {% endif %}
-  {% else %}
-    <span class="text-muted">No items found</span>
-  {% endif %}
-</h2> {% endcomment %}
+  </h2>
+{% endcomment %}
 
 <table id="timeline" class="table table-striped">
   <tbody>
