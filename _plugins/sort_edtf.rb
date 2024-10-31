@@ -20,7 +20,7 @@ module Jekyll
 
     def create_display_format(str)
       if str.start_with?('-')
-        "#{str[1..-1].sub(/^0+/, '')} v. Chr."
+        "#{str[1..-1].sub(/^0+/, '')} v. u. Z."
       else
         str.sub(/^0+(?=\d)/, '')
       end
@@ -30,14 +30,14 @@ module Jekyll
       valid_dates = array_of_strings.reject { |str| str.strip.empty? }
 
       parsed_dates = valid_dates.map do |str|
-        cleaned_str = clean_date_string(str)
-        numeric_value = compute_numeric_value(cleaned_str)
-        display_format = create_display_format(str)
+      cleaned_str = clean_date_string(str)
+      numeric_value = compute_numeric_value(cleaned_str)
+      display_format = create_display_format(str)
 
-        { numeric: numeric_value, original: str, display_format: display_format }
+      { numeric: numeric_value, original: str, display_format: display_format }
       end
 
-      sorted_dates = parsed_dates.sort_by { |date| date[:numeric] }
+      sorted_dates = parsed_dates.sort_by { |date| -date[:numeric] }
       sorted_dates.map { |date| "#{date[:display_format]}:#{date[:original]}" }
     end
   end
