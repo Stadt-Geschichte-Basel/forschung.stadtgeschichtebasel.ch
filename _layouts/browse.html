@@ -5,32 +5,40 @@ custom-foot: js/browse-js.html
 ---
 {{ content }}
 
-<div class="container-fluid">
-  <div class="row mb-2 align-items-center">
-    <div class="col-12 col-md-auto text-center text-md-start mb-2 mb-md-0">
+<div class="container-fluid px-0">
+  <div class="row align-items-center">
+    <div class="col-12 col-md-auto text-center text-md-center mb-2 mb-lg-0">
       <div
-        class="btn-group btn-group-toggle d-flex flex-wrap justify-content-center align-items-center"
+        class="btn-group btn-group-toggle d-flex justify-content-center"
         data-toggle="buttons"
         role="group"
         aria-label="Anzeigeoptionen"
       >
         <a
+          href="{{ '/browse.html' | relative_url }}"
+          class="btn btn-primary btn-lg active"
+          aria-pressed="true"
+          aria-label="Zeige die Sammlungsübersicht"
+        >
+          {{ site.data.translations._layouts['browse.html'].objects[site.lang] | default: 'Objects' }}
+        </a>
+        <a
           href="{{ '/timeline.html' | relative_url }}"
-          class="btn btn-outline-primary btn-lg btn-sm-md"
+          class="btn btn-outline-primary btn-lg"
           aria-label="Zeige die Sammlung auf einer Zeitachse"
         >
           {{ site.data.translations._layouts['browse.html'].timeline[site.lang] | default: 'Timeline' }}
         </a>
         <a
           href="{{ '/subjects.html' | relative_url }}"
-          class="btn btn-outline-primary btn-lg btn-sm-md"
+          class="btn btn-outline-primary btn-lg"
           aria-label="Zeige eine Liste von Schlagwörtern"
         >
           {{ site.data.translations._layouts['browse.html'].subjects[site.lang] | default: 'Subjects' }}
         </a>
         <a
           href="{{ '/eras.html' | relative_url }}"
-          class="btn btn-outline-primary btn-lg btn-sm-md"
+          class="btn btn-outline-primary btn-lg"
           aria-label="Zeige eine Liste von Epochen"
         >
           {{ site.data.translations._layouts['browse.html'].eras[site.lang] | default: 'Eras' }}
@@ -40,10 +48,10 @@ custom-foot: js/browse-js.html
 
     <div class="col align-self-end">
       <form class="d-flex" role="search" id="lunrSearch" onsubmit="event.preventDefault(); submitFilter();">
-        <div class="input-group input-group-lg">
+        <div class="input-group input-group-lg flex-nowrap">
           <input
             type="text"
-            class="form-control"
+            class="form-control flex-nowrap"
             id="filterTextBox"
             placeholder="{{ site.data.translations['_layouts']['browse.html']['filter'][site.lang] | default: 'Filter' }} ..."
             aria-label="{{ site.data.translations['_layouts']['browse.html']['search'][site.lang] | default: 'Search' }}"
@@ -68,16 +76,16 @@ custom-foot: js/browse-js.html
       </form>
     </div>
   </div>
-</div>
 
-<div class="h2 mt-2 text-center" id="numberOf"></div>
+  <div class="h2 mt-2 text-center" id="numberOf"></div>
 
-<div id="loadingIcon" class="text-center">
-  <div class="spinner-border text-dark" role="status">
-    <span class="visually-hidden">
-      {{- site.data.translations._layouts['browse.html'].loading[site.lang] | default: 'Loading' }}...</span
-    >
+  <div id="loadingIcon" class="text-center">
+    <div class="spinner-border text-dark" role="status">
+      <span class="visually-hidden">
+        {{- site.data.translations._layouts['browse.html'].loading[site.lang] | default: 'Loading' }}...</span
+      >
+    </div>
   </div>
-</div>
 
-<div class="row" id="browseItems"></div>
+  <div class="row" id="browseItems"></div>
+</div>
