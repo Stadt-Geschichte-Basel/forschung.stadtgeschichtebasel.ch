@@ -528,7 +528,7 @@ _includes:
       de: "Suche"
     submit:
       en: "Submit search"
-      es: "Enviar busqueda"
+      es: "Enviar búsqueda"
       de: "Suche ausführen"
   nav-search-lunr.html:
     search:
