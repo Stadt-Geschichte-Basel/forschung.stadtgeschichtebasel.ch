@@ -598,9 +598,9 @@ _layouts:
       en: "Loading"
       es: "Cargando"
       de: "Laden"
-    browse:
-      en: "Overview"
-      de: "Übersicht"
+    objects:
+      en: "Objects"
+      de: "Objekte"
     timeline:
       en: "Timeline"
       es: "Línea de tiempo"
