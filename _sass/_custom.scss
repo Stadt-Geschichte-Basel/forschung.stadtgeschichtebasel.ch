@@ -152,6 +152,15 @@ a {
     border-bottom-right-radius: 0;
 }
 
+.btn-group .btn:active {
+    box-shadow: none;
+}
+
+.btn-primary.active {
+    color: #ffe880;
+    background-color: #3a1e3e;
+}
+
 .datatable-border {
     border-color: #ffe880 !important;
     border-width: 6.5px !important;
