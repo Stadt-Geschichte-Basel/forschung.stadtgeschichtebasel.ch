@@ -622,6 +622,22 @@ _layouts:
       en: "Eras"
       es: "Épocas"
       de: "Epochen"
+    view-objects:
+      en: "Show object view"
+      de: "Zeige Objektansicht"
+    view-timeline:
+      en: "Show objects on timeline"
+      de: "Zeige Objekte auf einer Zeitachse"
+    view-subjects:
+      en: "Show list of subjects"
+      de: "Zeige Liste mit Schlagwörtern"
+    view-eras:
+      en: "Show list of eras"
+      de: "Zeige Liste der Epochen"
+    switch-view:
+      en: "Switch view"
+      es: "Cambiar Vista"
+      de: "Ansicht wechseln"
   cloud.html:
   data.html:
     link:
