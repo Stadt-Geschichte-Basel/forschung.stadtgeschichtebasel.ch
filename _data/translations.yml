@@ -521,7 +521,7 @@ _includes:
       en: "Last Updated"
       es: "Última Actualización"
       de: "Zuletzt aktualisiert"
-  nav-search.html:
+  nav-search-browse.html:
     search:
       en: "Search"
       es: "Buscar"
