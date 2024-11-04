@@ -10,81 +10,119 @@ custom-foot: js/timeline-js.html
 {% else %}
   {%- assign items = site.data[site.metadata] | where_exp: 'item', 'item.objectid and item.parentid == nil' -%}
 {% endif %}
+{% assign regex = '[-]?[\dXu]{4,}' %}
 {%- assign items = items | where_exp: 'item', 'item[field]' -%}
 {%- assign raw-dates = items | map: field | compact | uniq -%}
-{% assign regex = '[\dX]{4}' %}
 {%- capture clean-years -%}{% for date in raw-dates %}{{date | regex_match: regex | join: ';' }}{% unless forloop.last %};{% endunless %}{%- endfor -%}{%- endcapture -%}
 {%- assign uniqueYears = clean-years | remove: ' ' | replace: ';;', ';' | split: ';' | uniq | sort -%}
+{% assign sorted_years = uniqueYears | sort_edtf %}
 {%- if site.data.theme['year-navigation'] -%}
   {%- assign navYears = site.data.theme['year-navigation'] | split: ';' -%}
 {%- elsif site.data.theme['year-nav-increment'] -%}
   {%- capture navYears -%}
-{%- for i in uniqueYears -%}{%- assign t = i | modulo: site.data.theme.year-nav-increment -%}
+{%- for i in sorted_years -%}{%- assign t = i | modulo: site.data.theme.year-nav-increment -%}
 {%- if t == 0 -%}{{ i }}{% unless forloop.last %};{% endunless %}{% endif %}{% endfor %}{%- endcapture -%}
   {%- assign navYears = navYears | split: ';' -%}
+{%- endif -%}
+{%- if navYears -%}
+  <div class="dropdown float-end" id="year-nav">
+    <button
+      class="btn btn-outline-primary dropdown-toggle"
+      type="button"
+      id="yearButton"
+      data-bs-toggle="dropdown"
+      aria-haspopup="true"
+      aria-expanded="false"
+    >
+      {{ years }}
+    </button>
+    <div class="dropdown-menu" aria-labelledby="yearButton">
+      {% for y in navYears %}
+        {% assign year_parts = y | split: ':' %}
+        {% if year_parts.size >= 2 %}
+          <a class="dropdown-item" href="#y{{ year_parts[1] }}">{{ year_parts[0] }}</a>
+        {% else %}
+          <a class="dropdown-item" href="#" onclick="scrollToYear(event, {{ y }})">{{ y }}</a>
+        {% endif %}
+      {% endfor %}
+    </div>
+  </div>
 {%- endif -%}
 
 {{ content }}
 
-<div class="d-flex flex-column flex-md-row justify-content-between align-items-center mb-2">
-  <div class="col-12 col-md-auto mb-2 mb-md-0 text-center text-md-start">
-    <div
-      class="btn-group btn-group-toggle d-flex justify-content-center"
-      data-toggle="buttons"
-      role="group"
-      aria-label="Anzeigeoptionen"
-    >
-      <a
-        href="{{ '/browse.html' | relative_url }}"
-        class="btn btn-outline-primary btn-lg"
-        aria-label="Zeige die Sammlungsübersicht"
-      >
-        {{ site.data.translations._layouts['browse.html'].objects[site.lang] | default: 'Objects' }}
-      </a>
-      <a
-        href="{{ '/timeline.html' | relative_url }}"
-        class="btn btn-primary active btn-lg"
-        aria-pressed="true"
-        aria-label="Zeige die Sammlung auf einer Zeitachse"
-      >
-        {{ site.data.translations._layouts['browse.html'].timeline[site.lang] | default: 'Timeline' }}
-      </a>
-      <a
-        href="{{ '/subjects.html' | relative_url }}"
-        class="btn btn-outline-primary btn-lg"
-        aria-label="Zeige eine Liste von Schlagwörtern"
-      >
-        {{ site.data.translations._layouts['browse.html'].subjects[site.lang] | default: 'Subjects' }}
-      </a>
-      <a
-        href="{{ '/eras.html' | relative_url }}"
-        class="btn btn-outline-primary btn-lg"
-        aria-label="Zeige eine Liste von Epochen"
-      >
-        {{ site.data.translations._layouts['browse.html'].eras[site.lang] | default: 'Eras' }}
-      </a>
-    </div>
-  </div>
+<script>
+  function scrollToYear(event, year) {
+    // Prevent the default link behavior
+    event.preventDefault();
 
-  <div class="col-12 col-md-auto text-center text-md-end">
-    <h2 class="mb-0">
-      <a href="#y{{ uniqueYears | first }}">{{ uniqueYears | first }}</a>&#8211;<a href="#y{{ uniqueYears | last }}">
-        {{- uniqueYears | last -}}
-      </a>
-    </h2>
-  </div>
-</div>
+    // Try to find the exact element with data-numericyear equal to the target year
+    let element = document.querySelector(`[data-numericyear="${year}"]`);
+
+    // If no exact match, find the nearest year
+    if (!element) {
+      const yearElements = Array.from(document.querySelectorAll('[data-numericyear]'));
+
+      // Find the element with the closest data-numericyear value
+      let closestElement = null;
+      let closestDifference = Infinity;
+
+      yearElements.forEach((el) => {
+        const elementYear = parseInt(el.getAttribute('data-numericyear'), 10);
+        const difference = Math.abs(elementYear - year);
+
+        if (difference < closestDifference) {
+          closestDifference = difference;
+          closestElement = el;
+        }
+      });
+
+      // Set the closest element as the target to scroll
+      element = closestElement;
+    }
+
+    // Scroll to the found element if it exists
+    if (element) {
+      element.scrollIntoView({ behavior: 'smooth' });
+    }
+  }
+</script>
+
+{% comment %}uncomment the next lines to display a heading indicating the period of the data in text form{% endcomment %}
+{% comment %}
+  <h2>
+    {% assign first_year = sorted_years | first | split: ':' %}
+    {% assign last_year = sorted_years | last | split: ':' %}
+    {% if sorted_years.size > 0 %}
+      {% if first_year.size == 3
+        and last_year.size == 3
+        and first_year[0] != ''
+        and first_year[1] != ''
+        and last_year[0] != ''
+        and last_year[1] != ''
+      %}
+        <a href="#y{{ first_year[1] }}">{{ first_year[0] }}</a> &#8211;
+        <a href="#y{{ last_year[1]}}">{{ last_year[0] }}</a>
+      {% else %}
+        <span class="text-muted">Invalid date range</span>
+      {% endif %}
+    {% else %}
+      <span class="text-muted">No items found</span>
+    {% endif %}
+  </h2>
+{% endcomment %}
 
 <table id="timeline" class="table table-striped">
   <tbody>
-    {% for year in uniqueYears %}
-      <tr id="y{{ year }}">
+    {% for date in sorted_years %}
+      {% assign year = date | split: ':' %}
+      <tr id="y{{ year[1] }}" data-numericyear="{{ year[2] }}">
         <th>
-          <h3>{{ year }}</h3>
+          <h3>{{ year[0] }}</h3>
         </th>
         <td>
           <div class="row">
-            {%- assign inYear = items | where_exp: 'item', 'item[field] contains year' -%}
+            {%- assign inYear = items | filter_items_by_year: year[1], '[-]?[\dXu]{4,}' -%}
             {% for item in inYear %}
               <div class="col-lg-4 col-md-6">
                 <figure class="figure">
