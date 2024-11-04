@@ -16,5 +16,3 @@ language,Sprache,true,,DCTERMS.language,inLanguage
 rights,Rechte,,,DCTERMS.rights,usageInfo
 license,Lizenz,,true,DCTERMS.license,license
 relation,Verwandte Ressourcen,,true,DCTERMS.relation,relation
-
-
