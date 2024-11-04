@@ -250,3 +250,55 @@ a {
     flex-wrap: nowrap;
     align-items: center;
   }
+
+/* Toggle Collection View for Small Screens */
+
+@media screen and (min-width: 577px) {
+
+    #switch-view .btn:last-child {
+        display: none;
+    }
+    
+    #switch-view .btn:nth-last-child(2) {
+        border-top-right-radius: .25rem;
+        border-bottom-right-radius: .25rem;
+    }
+}
+
+@media screen and (max-width: 576px) {
+    #switch-view .btn {
+        display: none;
+    }
+
+    #switch-view .btn.active,
+    #switch-view .btn:last-child {
+        display: block;
+        width: 100%;
+        align-content: center;
+
+        &:active {
+            color: #ffe880;
+        }
+    }
+
+    #switch-view .btn:nth-last-child(2) {
+        border-bottom-left-radius: .25rem;
+        border-bottom-right-radius: .25rem;
+    }
+
+    #switch-view .btn.active:not(.btn-group-vertical .btn) {
+        border-top-left-radius: .25rem;
+        border-top-right-radius: 0;
+        border-bottom-left-radius: .25rem;
+        border-bottom-right-radius: 0;
+    }
+
+    .btn-group-vertical .btn.active {
+        color: #ffe880;
+    }
+
+    #filterButton {
+        border-top-right-radius: .25rem;
+        border-bottom-right-radius: .25rem;
+    }
+}

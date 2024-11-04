@@ -1,0 +1,26 @@
+<script>
+  function toggleButtonView() {
+    const switchView = document.getElementById('switch-view');
+
+    switchView.classList.add('btn-group-vertical');
+    switchView.classList.remove('btn-group');
+
+    // Show all buttons except the last one (toggle)
+    Array.from(switchView.children).forEach((button, index) => {
+      button.style.display = 'block';
+
+      if (index === switchView.children.length - 1) {
+        button.style.display = 'none';
+      }
+    });
+  }
+
+  window.addEventListener('resize', () => {
+    if (window.innerWidth > 576) {
+      const switchView = document.getElementById('switch-view');
+
+      switchView.classList.add('btn-group', 'btn-group-toggle', 'd-flex');
+      switchView.classList.remove('btn-group-vertical');
+    }
+  });
+</script>
