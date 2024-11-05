@@ -426,6 +426,22 @@ _includes:
         de: "Element anzeigen"
     modal-hash-js.html:
     table-js.html:
+      download:
+        en: "Download"
+        es: "Descargar"
+        de: "Herunterladen"
+      filtered_metadata_excel:
+        en: "Filtered Metadata (Excel)"
+        es: "Metadatos Filtrados (Excel)"
+        de: "Gefilterte Metadaten (Excel)"
+      filtered_metadata_csv:
+        en: "Filtered Metadata (CSV)"
+        es: "Metadatos Filtrados (CSV)"
+        de: "Gefilterte Metadaten (CSV)"
+      more_exports:
+        en: "More Exports"
+        es: "Más Exportaciones"
+        de: "Weitere Exporte"
     timeline-js.html:
   collection-banner.html:
     featured-items:

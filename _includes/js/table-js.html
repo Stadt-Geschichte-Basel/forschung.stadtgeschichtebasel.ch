@@ -1,5 +1,9 @@
 {% assign fcount = site.data['config-table'] | size %}
 {% assign lang = site.lang %}
+{% assign download_dropdown = site.data.translations._includes.js['table-js.html'].download[site.lang] | default: 'Download' %}
+{% assign excel_export = site.data.translations._includes.js['table-js.html'].filtered_metadata_excel[site.lang] | default: 'Filtered Metadata (Excel)' %}
+{% assign csv_export = site.data.translations._includes.js['table-js.html'].filtered_metadata_csv[site.lang] | default: 'Filtered Metadata (CSV)' %}
+{% assign more_exports = site.data.translations._includes.js['table-js.html'].more_exports[site.lang] | default: 'More Exports'] %}
 {% include data-download-modal.html show_button=false %}
 <!-- load DataTables with jquery bundled -->
 <script
@@ -27,23 +31,23 @@
           buttons: [
               {
                   extend: 'collection',
-                  text: 'Herunterladen',
+                  text: '{{ download_dropdown }}',
                   className: 'btn btn-outline-primary',
                   buttons: [
                       {
-                          text: 'Gefilterte Metadaten (Excel)',
+                          text: '{{ excel_export }}',
                           extend: 'excelHtml5',
                           className: 'btn btn-outline-primary'
                       },
                       {
-                          text: 'Gefilterte Metadaten (CSV)',
+                          text: '{{ csv_export }}',
                           extend: 'csvHtml5',
                           className: 'btn btn-outline-primary'
                       }
                   ]
               },
               {
-                  text: 'Weitere Exporte',
+                  text: '{{ more_exports }}',
                   action: function ( e, dt, node, config ) {
                           $('#dataModal').modal('show');
                       },
