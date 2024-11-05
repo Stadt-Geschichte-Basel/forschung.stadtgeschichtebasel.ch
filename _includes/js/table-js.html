@@ -1,8 +1,14 @@
 {% assign fcount = site.data['config-table'] | size %}
 {% assign lang = site.lang %}
-{% assign download_dropdown = site.data.translations._includes.js['table-js.html'].download[site.lang] | default: 'Download' %}
-{% assign excel_export = site.data.translations._includes.js['table-js.html'].filtered_metadata_excel[site.lang] | default: 'Filtered Metadata (Excel)' %}
-{% assign csv_export = site.data.translations._includes.js['table-js.html'].filtered_metadata_csv[site.lang] | default: 'Filtered Metadata (CSV)' %}
+{% assign download_dropdown = site.data.translations._includes.js['table-js.html'].download[site.lang]
+  | default: 'Download'
+%}
+{% assign excel_export = site.data.translations._includes.js['table-js.html'].filtered_metadata_excel[site.lang]
+  | default: 'Filtered Metadata (Excel)'
+%}
+{% assign csv_export = site.data.translations._includes.js['table-js.html'].filtered_metadata_csv[site.lang]
+  | default: 'Filtered Metadata (CSV)'
+%}
 {% assign more_exports = site.data.translations._includes.js['table-js.html'].more_exports[site.lang] | default: 'More Exports'] %}
 {% include data-download-modal.html show_button=false %}
 <!-- load DataTables with jquery bundled -->
