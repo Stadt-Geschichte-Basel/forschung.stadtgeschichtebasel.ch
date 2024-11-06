@@ -9,7 +9,9 @@
 {% assign csv_export = site.data.translations._includes.js['table-js.html'].filtered_metadata_csv[site.lang]
   | default: 'Filtered Metadata (CSV)'
 %}
-{% assign more_exports = site.data.translations._includes.js['table-js.html'].more_exports[site.lang] | default: 'More Exports'] %}
+{% assign more_exports = site.data.translations._includes.js['table-js.html'].more_exports[site.lang]
+  | default: 'More Exports'
+%}
 {% include data-download-modal.html show_button=false %}
 <!-- load DataTables with jquery bundled -->
 <script
