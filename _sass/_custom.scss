@@ -142,6 +142,15 @@ a {
     color: #fff;
 }
 
+.sgb-logo {
+     /* white #fff */
+    filter: invert(82%) sepia(100%) saturate(2%) hue-rotate(53deg) brightness(108%) contrast(101%);
+    &:hover {
+         /* yellow #ffe880 */
+        filter: invert(79%) sepia(69%) saturate(302%) hue-rotate(349deg) brightness(105%) contrast(103%);
+    }
+}
+
 .nav-link {
     color: #ffffff !important;
     &:hover {
