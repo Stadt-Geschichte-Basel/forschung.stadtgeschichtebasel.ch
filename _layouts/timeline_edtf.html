@@ -25,8 +25,6 @@ custom-foot: js/timeline-js.html
   {%- assign navYears = navYears | split: ';' -%}
 {%- endif -%}
 
-{% include js/switch-view-js.html %}
-
 {{ content }}
 
 <div class="container-fluid px-0">
@@ -76,6 +74,8 @@ custom-foot: js/timeline-js.html
         </button>
       </div>
     </div>
+
+    {% include js/switch-view-js.html %}
 
     {%- if navYears -%}
       <div class="col-12 col-md-auto text-center mb-2 mb-lg-0 ms-md-auto">

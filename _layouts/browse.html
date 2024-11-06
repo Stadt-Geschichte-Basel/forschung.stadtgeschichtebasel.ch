@@ -3,8 +3,6 @@
 layout: page
 custom-foot: js/browse-js.html
 ---
-{% include js/switch-view-js.html %}
-
 {{ content }}
 
 <div class="container-fluid px-0">
@@ -85,6 +83,8 @@ custom-foot: js/browse-js.html
       </form>
     </div>
   </div>
+
+  {% include js/switch-view-js.html %}
 
   <div class="h2 mt-2 text-center" id="numberOf"></div>
 
