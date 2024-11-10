@@ -66,6 +66,7 @@ jobs:
         uses: actions/download-artifact@v4
         with:
           name: sgb-metadata-json
+          path: _data
       - name: Download objects folder
         uses: actions/download-artifact@v4
         with:
