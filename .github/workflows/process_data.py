@@ -11,6 +11,12 @@ OMEKA_API_URL = os.getenv("OMEKA_API_URL")
 KEY_IDENTITY = os.getenv("KEY_IDENTITY")
 KEY_CREDENTIAL = os.getenv("KEY_CREDENTIAL")
 ITEM_SET_ID = os.getenv("ITEM_SET_ID")
+if not ITEM_SET_ID:
+    raise ValueError("ITEM_SET_ID environment variable must be set")
+try:
+    ITEM_SET_ID = int(ITEM_SET_ID)
+except ValueError:
+    raise ValueError("ITEM_SET_ID must be a valid integer")
 CSV_PATH = os.getenv("CSV_PATH", "_data/sgb-metadata-csv.csv")
 JSON_PATH = os.getenv("JSON_PATH", "_data/sgb-metadata-json.json")
 
@@ -41,6 +47,7 @@ def download_file(url, dest_path):
                     f.write(chunk)
     except requests.exceptions.RequestException as err:
         logging.error(f"File download error: {err}")
+        raise
 
 
 def get_paginated_items(url, params):
@@ -223,8 +230,6 @@ def main():
         item_record = extract_item_data(item)
         item_records.append(item_record)
         media_data = get_media(item.get("o:id", ""))
-        # Process media data for each item
-        media_data = get_media(item["o:id"])
         if media_data:
             for media in media_data:
                 media_records.append(extract_media_data(media, item_record["objectid"]))
