@@ -84,55 +84,36 @@ function makeCard(obj) {
 }
 
 /* filter items function */
-function filterItems(arr,q) {
-    // show loading icon
+function filterItems(arr, q) {
+    // Show loading icon
     loadingIcon.classList.remove("d-none");
-    // dont filter if no q 
-    if (q=="") { 
-        var filteredItems = arr; 
-    } else {
-        q = q.trim().toUpperCase(); 
-        // js indexOf filter
-        var filteredItems = [];
-        for (var i = 0, len = arr.length; i < len; i++) {
-            var val = "";
-        for (var k in arr[i]) { val += arr[i][k] + " "; }
-            if(val.toUpperCase().indexOf(q) != -1){
-                filteredItems.push(arr[i]);
-            }
-        }
-    }
-    // add number 
-    document.querySelector("#numberOf").innerHTML = filteredItems.length + " / {{ items | size }}";
-    
-    // add stuff, make cards first in giant var, then add all at once to speed things up
-    var cards = "";
-    for (var i = 0, len = filteredItems.length; i < len; i++) {
-        cards += makeCard(filteredItems[i]);
-    }
+
+    // Trim and convert query to uppercase
+    const query = q.trim().toUpperCase();
+
+    // Filter items based on query
+    const filteredItems = query === "" ? arr : arr.filter(item => {
+        const itemValues = Object.values(item).join(" ").toUpperCase();
+        return itemValues.includes(query);
+    });
+
+    // Update number of filtered items
+    document.querySelector("#numberOf").innerHTML = `${filteredItems.length} / {{ items | size }}`;
+
+    // Generate and display cards for filtered items
+    const cards = filteredItems.map(makeCard).join("");
     browseItemsDiv.innerHTML = cards;
 
-    // finish
+    // Finish
     filterTextBox.focus();
     loadingIcon.classList.add("d-none");
 };
 
-/* Fisher-Yates shuffle https://bost.ocks.org/mike/shuffle/ */
-function shuffle(array) {
-    var m = array.length, t, i;
-    while (m) {
-        i = Math.floor(Math.random() * m--);
-        t = array[m];
-        array[m] = array[i];
-        array[i] = t;
-    }
-    return array;
-}
 
 /* init browse page */
 
 /* randomize items once at page load */
-shuffle(items);
+items = items.sort(() => Math.random() - 0.5);
 
 /* set some elements */ 
 var loadingIcon = document.querySelector("#loadingIcon");
