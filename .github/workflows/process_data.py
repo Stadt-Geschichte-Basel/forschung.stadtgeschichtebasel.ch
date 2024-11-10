@@ -6,16 +6,28 @@ from urllib.parse import urljoin, urlparse
 import pandas as pd
 import requests
 
+# TODO https://chatgpt.com/share/671621c7-3c20-8011-8956-9bd9248a1fa2
+# TODO https://omeka.unibe.ch/omeka-new/admin/item?item_set_id=6508
+
 # Configuration
 OMEKA_API_URL = os.getenv("OMEKA_API_URL")
 KEY_IDENTITY = os.getenv("KEY_IDENTITY")
 KEY_CREDENTIAL = os.getenv("KEY_CREDENTIAL")
 ITEM_SET_ID = os.getenv("ITEM_SET_ID")
+CSV_PATH = os.getenv("CSV_PATH", "_data/sgb-metadata-csv.csv")
+JSON_PATH = os.getenv("JSON_PATH", "_data/sgb-metadata-json.json")
+
+OMEKA_API_URL = "https://omeka.unibe.ch/api/"
+# OMEKA_API_URL = "https://omeka.unibe.ch/omeka-new/api/"
+KEY_IDENTITY = "sEJ4wdtCBpSkCzSPBpluzoqBzmkRCvw7"
+KEY_CREDENTIAL = "0v8AZu265B8EKkCCYOEkKQeOGBieejmy"
+ITEM_SET_ID = 10780
 
 # Set up logging
 logging.basicConfig(
     level=logging.INFO, format="%(asctime)s - %(levelname)s - %(message)s"
 )
+
 
 # --- Helper Functions for Data Extraction ---
 def is_valid_url(url):
