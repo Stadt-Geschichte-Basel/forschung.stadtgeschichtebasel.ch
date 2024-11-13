@@ -143,7 +143,10 @@ def infer_display_template(format_value):
 
 def extract_item_data(item):
     """Extracts relevant data from an item and downloads its thumbnail if available."""
-    local_image_path = download_thumbnail(item.get("thumbnail_display_urls", {}).get("large", "")) or "assets/img/no-image.png"
+    local_image_path = (
+        download_thumbnail(item.get("thumbnail_display_urls", {}).get("large", ""))
+        or "assets/img/no-image.png"
+    )
 
     return {
         "objectid": extract_property(item.get("dcterms:identifier", []), 10),
@@ -178,7 +181,9 @@ def extract_media_data(media, item_dc_identifier):
     display_template = infer_display_template(format_value)
 
     # Download the thumbnail image if available and valid
-    local_image_path = download_thumbnail(media.get("thumbnail_display_urls", {}).get("large", "")) or "assets/img/no-image.png"
+    local_image_path = download_thumbnail(
+        media.get("thumbnail_display_urls", {}).get("large", "")
+    )
 
     # Extract media data
     object_location = (
