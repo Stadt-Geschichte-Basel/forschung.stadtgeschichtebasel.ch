@@ -188,7 +188,7 @@ def extract_media_data(media, item_dc_identifier):
     image_available = True
     if "platzhalter" in media.get("o:source", ""):
         image_available = False
-        local_image_path = "assets/img/placeholders.svg"
+        local_image_path = "assets/img/placeholder.svg"
 
     # Extract media data
     object_location = (
