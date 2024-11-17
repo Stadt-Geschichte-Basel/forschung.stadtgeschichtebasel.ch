@@ -75,7 +75,7 @@
                         {% assign prev_index = prev_index | times: 1 %}
                         {% capture next_item_id %}{{ children[next_index].objectid }}{% endcapture %}
                         {% capture prev_item_id %}{{ children[prev_index].objectid }}{% endcapture %}
-                        <div class="col-1 col-md-2">
+                        <div class="col-2 col-md-3 text-start">
                           <button
                             data-bs-target="#{{ prev_item_id }}"
                             data-bs-toggle="modal"
@@ -97,7 +97,7 @@
                             </span>
                           </button>
                         </div>
-                        <div class="col-8 col-md-7 text-center">
+                        <div class="col-8 col-md-6 text-center">
                           <h3 class="h5">
                             {{ page.title }}
                             <span class="d-none d-md-inline">–</span><span class="d-md-none"><br></span>
@@ -109,7 +109,7 @@
                             data-bs-target="#{{ next_item_id }}"
                             data-bs-toggle="modal"
                             onclick="stopMedia();window.location.hash='{{ next_item_id }}'"
-                            class="ms-md-5 btn btn-outline-dark btn-sm next-child-button"
+                            class="btn btn-outline-dark btn-sm next-child-button"
                           >
                             <span class="d-none d-md-inline">
                               {{-
