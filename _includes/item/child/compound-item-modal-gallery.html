@@ -60,7 +60,7 @@
                   <div class="modal-header ">
                     <div class="modal-title w-100" id="{{ child.objectid }}ModalLabel">
                       <div class="row">
-                        <div class="col-12 text-end">
+                        <div class="col-12 text-end mb-2">
                           <button
                             type="button"
                             class="btn-close"
@@ -97,14 +97,14 @@
                             </span>
                           </button>
                         </div>
-                        <div class="col-9 col-md-8 text-center">
+                        <div class="col-8 col-md-7 text-center">
                           <h3 class="h5">
                             {{ page.title }}
                             <span class="d-none d-md-inline">–</span><span class="d-md-none"><br></span>
                             {{ forloop.index }} / {{ children | size }}
                           </h3>
                         </div>
-                        <div class="col-1 col-md-2 text-end">
+                        <div class="col-2 col-md-3 text-end">
                           <button
                             data-bs-target="#{{ next_item_id }}"
                             data-bs-toggle="modal"

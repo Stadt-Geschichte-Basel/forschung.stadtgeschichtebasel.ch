@@ -96,6 +96,10 @@ a {
     }
 }
 
+.btn-close:focus {
+    box-shadow:0 0 0 .15rem #3a1e3e;
+}
+
 .form-control {   
     border-color: #ffe880; 
     &:focus {
