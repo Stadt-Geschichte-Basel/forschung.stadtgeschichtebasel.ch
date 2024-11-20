@@ -168,7 +168,6 @@ def extract_item_data(item):
         "rights": extract_property(item.get("dcterms:rights", []), 15),
         "license": extract_property(item.get("dcterms:license", []), 49),
         "display_template": "compound_object",
-        "image_available": False,
         "object_location": "",
         "image_small": local_image_path,
         "image_thumb": local_image_path,
@@ -182,13 +181,12 @@ def extract_media_data(media, item_dc_identifier):
     display_template = infer_display_template(format_value)
 
     # Download the thumbnail image if available and valid
-    local_image_path = download_thumbnail(
-        media.get("thumbnail_display_urls", {}).get("large", "")
-    )
-    image_available = True
     if "platzhalter" in media.get("o:source", ""):
-        image_available = False
         local_image_path = "assets/img/placeholder.svg"
+    else:
+        local_image_path = download_thumbnail(
+            media.get("thumbnail_display_urls", {}).get("large", "")
+        )
 
     # Extract media data
     object_location = (
@@ -218,7 +216,6 @@ def extract_media_data(media, item_dc_identifier):
         "rights": extract_property(media.get("dcterms:rights", []), 15),
         "license": extract_property(media.get("dcterms:license", []), 49),
         "display_template": display_template,
-        "image_available": image_available,
         "object_location": object_location,
         "image_small": local_image_path,
         "image_thumb": local_image_path,
