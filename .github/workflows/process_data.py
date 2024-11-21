@@ -143,9 +143,10 @@ def infer_display_template(format_value):
 
 def extract_item_data(item):
     """Extracts relevant data from an item and downloads its thumbnail if available."""
-    local_image_path = (
-        download_thumbnail(item.get("thumbnail_display_urls", {}).get("large", ""))
-        or "assets/img/no-image.svg"
+    local_image_path = download_thumbnail(
+        item.get("thumbnail_display_urls", {}).get("large", "")
+        if item.get("o:is_public", False)
+        else "assets/img/placeholder.svg"
     )
 
     return {
@@ -180,12 +181,13 @@ def extract_media_data(media, item_dc_identifier):
     format_value = extract_property(media.get("dcterms:format", []), 9)
     display_template = infer_display_template(format_value)
 
-    # Download the thumbnail image if available and valid
+    # Download the thumbnail image if available and valid    # Download the thumbnail image if available and valid
     if "platzhalter" in media.get("o:source", ""):
         local_image_path = "assets/img/placeholder.svg"
     else:
-        local_image_path = download_thumbnail(
-            media.get("thumbnail_display_urls", {}).get("large", "")
+        local_image_path = (
+            download_thumbnail(media.get("thumbnail_display_urls", {}).get("large", ""))
+            or "assets/img/no-image.svg"
         )
 
     # Extract media data
