@@ -1,6 +1,7 @@
 import json
 import logging
 import os
+import unicodedata
 from urllib.parse import urljoin, urlparse
 
 import pandas as pd
@@ -225,23 +226,36 @@ def extract_media_data(media, item_dc_identifier):
     }
 
 
+def normalize_record(record):
+    """Normalizes all string fields in a record to Unicode NFC form."""
+    return {
+        key: unicodedata.normalize("NFC", value) if isinstance(value, str) else value
+        for key, value in record.items()
+    }
+
+
 # --- Main Processing Function ---
 def main():
     # Fetch item data
     items_data = get_items_from_collection(ITEM_SET_ID)
 
     # Process each item and associated media
-    item_records, media_records = [], []
+    items_processed = []
     for item in items_data:
         item_record = extract_item_data(item)
-        item_records.append(item_record)
+        items_processed.append(item_record)
         media_data = get_media(item.get("o:id", ""))
         if media_data:
             for media in media_data:
-                media_records.append(extract_media_data(media, item_record["objectid"]))
+                items_processed.append(
+                    extract_media_data(media, item_record["objectid"])
+                )
+
+    # Normalize all string fields in the records to avoid decomposed Unicode form Umlaute ¨ + o -> ö
+    items_normalized = [normalize_record(record) for record in items_processed]
 
     # Save data to CSV and JSON formats
-    save_to_files(item_records + media_records, CSV_PATH, JSON_PATH)
+    save_to_files(items_normalized, CSV_PATH, JSON_PATH)
 
 
 def save_to_files(records, csv_path, json_path):
