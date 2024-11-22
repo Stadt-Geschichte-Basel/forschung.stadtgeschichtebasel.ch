@@ -144,8 +144,8 @@ def infer_display_template(format_value):
 
 def extract_item_data(item):
     """Extracts relevant data from an item and downloads its thumbnail if available."""
-    local_image_path = download_thumbnail(
-        item.get("thumbnail_display_urls", {}).get("large", "")
+    local_image_path = (
+        download_thumbnail(item.get("thumbnail_display_urls", {}).get("large", ""))
         if item.get("o:is_public", False)
         else "assets/img/placeholder.svg"
     )
