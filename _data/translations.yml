@@ -83,6 +83,15 @@ _includes:
         en: "View Item"
         es: "Ver Elemento"
         de: "Element anzeigen"
+    random-objects.html:
+      view-full-record:
+        en: "View Full Record"
+        es: "Ver Registro Completo"
+        de: "Vollständigen Datensatz anzeigen"
+      placeholder:
+        en: "Placeholder"
+        es: "Marcador de posición"
+        de: "Platzhalter"
     data-download.html:
       title:
         en: "Collection as Data <small>(click to download)</small>"

@@ -14,7 +14,9 @@ Unser breites Verständnis von Forschungsdaten umfasst nicht nur klassische Date
 
 Da sich die Plattform noch im Testbetrieb befindet, werden laufend weitere Daten ergänzt, bis das Projekt Ende 2025 abgeschlossen ist. Wir laden Sie ein, die Plattform regelmässig zu besuchen, um Updates zu entdecken, und bitten Sie, etwaige Fehler oder Unstimmigkeiten zu melden. Die Daten werden auf der Grundlage des [Handbuchs zur Erstellung diskriminierungsfreier Metadaten für historische Quellen und Forschungsdaten](https://maehr.github.io/diskriminierungsfreie-metadaten/){:target="\_blank"} aufbereitet.
 
-{% include index/carousel.html title="Daten aus der Sammlung" %}
+## Ausgewählte Daten aus der Sammlung
+
+{% include index/random-objects.html title="Daten aus der Sammlung" %}
 
     {% if site.data.theme.trigger-warning %}
 
