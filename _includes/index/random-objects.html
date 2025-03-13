@@ -26,9 +26,15 @@
     }
 
     function displayRandomCards() {
-        let selectedItems = getRandomItems(collectionItems, 3);
         let container = document.getElementById("random-cards-container");
         container.innerHTML = "";
+
+        if (collectionItems.length === 0) {
+            container.innerHTML = `<div class="col-12 text-danger fw-bold">{{ site.data.translations['_includes']['index']['random-objects.html']['no-items-found'][site.lang] | default: 'No items found.' }}</div>`;
+            return;
+        }
+
+        let selectedItems = getRandomItems(collectionItems, 3);
 
         selectedItems.forEach(item => {
             let itemLink = item.parentid 
@@ -63,4 +69,5 @@
     document.addEventListener("DOMContentLoaded", displayRandomCards);
 </script>
 
+<h2 class="text-start">{{ site.data.translations['_includes']['index']['random-objects.html']['collection-insights'][site.lang] | default: 'A first glimpse of the collection' }}</h2>
 <div class="row" id="random-cards-container"></div>
