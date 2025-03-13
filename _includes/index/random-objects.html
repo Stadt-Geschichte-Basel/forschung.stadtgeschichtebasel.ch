@@ -69,5 +69,10 @@
     document.addEventListener("DOMContentLoaded", displayRandomCards);
 </script>
 
-<h2 class="text-start">{{ site.data.translations['_includes']['index']['random-objects.html']['collection-insights'][site.lang] | default: 'A first glimpse of the collection' }}</h2>
+<h2 class="text-start">
+  {{
+    site.data.translations._includes.index['random-objects.html']['collection-insights'][site.lang]
+    | default: 'A first glimpse of the collection'
+  }}
+</h2>
 <div class="row" id="random-cards-container"></div>
