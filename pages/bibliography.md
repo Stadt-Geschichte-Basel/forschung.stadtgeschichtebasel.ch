@@ -16,7 +16,7 @@ Die Stadt.Geschichte.Basel ist als Buchreihe im Christoph Merian Verlag erschien
 
 ## Open Access Ausgabe
 
-Für Forschende und Studierende hat Stadt.Geschichte.Basel in Zusammenarbeit mit der Universitätsbibliothek Basel eine Open Access Ausgabe auf der Emono Plattform der Universitätsbibliothek Basel erstellt. Diese Ausgabe ist unter einer [CC BY-NC-SA 4.0 Lizenz](https://creativecommons.org/licenses/by-nc-sa/4.0/deed.de) lizenziert und kann kostenlos heruntergeladen werden.
+Für Forschende und Studierende hat Stadt.Geschichte.Basel in Zusammenarbeit mit der Universitätsbibliothek Basel eine Open Access Ausgabe auf der Emono Plattform der Universitätsbibliothek Basel erstellt. Diese Ausgabe ist unter der Creative Commons-Lizenz [CC BY-NC 4.0](https://creativecommons.org/licenses/by-nc/4.0/deed.de) veröffentlicht, was eine Nutzung zu nicht-kommerziellen Zwecken erlaubt.
 
 [![Open Access Ausgabe auf der Emono Plattform der Universitätsbibliothek Base.](assets/img/emono.png){:style="max-width: 50%; display: block; margin: auto;"}](https://emono.unibas.ch/stadtgeschichtebasel/)
 
