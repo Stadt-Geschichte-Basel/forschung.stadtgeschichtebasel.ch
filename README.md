@@ -98,6 +98,24 @@ Ensure you have [Ruby](https://rubyonrails.org/) and [Bundle](https://bundler.io
 bundle install
 ```
 
+Create a `.env` file in the root directory of the project and add the following line:
+
+```bash
+OMEKA_S_URL=https://omeka.unibe.ch/s/stadtgeschichtebasel
+KEY_IDENTITY=YOUR_KEY_IDENTITY
+KEY_CREDENTIAL=YOUR_KEY_CREDENTIAL
+ITEM_SET_ID=10780
+```
+
+> [!NOTE]
+> Replace `YOUR_KEY_IDENTITY` and `YOUR_KEY_CREDENTIAL` with your actual credentials for the Omeka S API. You can find these in the Omeka S instance under "Settings" > "API Keys". The `ITEM_SET_ID` is the ID of the collection you want to process, which can be found in the URL of the collection page.
+
+Ensure you have [uv](https://docs.astral.sh/uv/) installed to process the data from Omeka S:
+
+```bash
+uv run .github/workflows/process_data.py
+```
+
 ### 🛠 Development
 
 Run local development server:
