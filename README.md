@@ -21,7 +21,7 @@ The collection data is maintained on the [University of Bern’s Omeka S instanc
 - **Static Site Generator**: Fast, scalable, minimal-maintenance architecture using Jekyll.
 - **Interactive Metadata Exploration**: Timelines, filters, annotations, and visualizations.
 - **Inclusive Metadata Practices**: Based on our [Manual for Creating Non-Discriminatory Metadata](https://maehr.github.io/diskriminierungsfreie-metadaten/).
-- **Accessibility-First Design**: Compliant with [WCAG](https://www.w3.org/WAI/standards-guidelines/wcag/) and [Neurodiversity Design System](https://neurodiversity.design/).
+- **Accessibility-First Design**: Compliant with [WCAG](https://www.w3.org/WAI/standards-guidelines/wcag/), designed with [Neurodiversity Design System](https://neurodiversity.design/) guidelines in mind.
 - **Open Standards**: Schema.org, Open Graph, EDTF support, and reusable modular components.
 
 ### 🔧 Project-Specific Extensions to CollectionBuilder
