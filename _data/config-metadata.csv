@@ -3,7 +3,6 @@ objectid,Identifikator,,,DCTERMS.identifier,identifier
 title,Titel,,,DCTERMS.title,headline
 description,Beschreibung,,,DCTERMS.description,description
 relation,Verwandte Ressourcen,,true,DCTERMS.relation,relation
-subject,Thema,true,,DCTERMS.subject,keywords
 coverage,Epoche,true,,DCTERMS.coverage,
 isPartOf,Gehört zu,,true,DCTERMS.isPartOf,isPartOf
 creator,Ersteller*in,,true,DCTERMS.creator,creator
