@@ -1,6 +1,7 @@
 import json
 import logging
 import os
+import sys
 import unicodedata
 from urllib.parse import urljoin, urlparse
 
@@ -41,7 +42,8 @@ def download_file(url, dest_path):
     """Downloads a file from a given URL to the specified destination path."""
     os.makedirs(os.path.dirname(dest_path), exist_ok=True)
     try:
-        with requests.get(url, stream=True) as r:
+        # Add timeout for file downloads as well
+        with requests.get(url, stream=True, timeout=30) as r:
             r.raise_for_status()
             with open(dest_path, "wb") as f:
                 for chunk in r.iter_content(chunk_size=8192):
@@ -56,11 +58,13 @@ def get_paginated_items(url, params):
     items = []
     while url:
         try:
-            response = requests.get(url, params=params)
+            # Add timeout to prevent hanging on slow/unresponsive servers
+            response = requests.get(url, params=params, timeout=30)
             response.raise_for_status()
         except requests.exceptions.RequestException as err:
-            logging.error(f"Error fetching items: {err}")
-            break
+            logging.error(f"Error fetching items from {url}: {err}")
+            # Exit with error code to fail the workflow
+            sys.exit(1)
         items.extend(response.json())
         url = response.links.get("next", {}).get("url")
         params = None
@@ -241,7 +245,16 @@ def normalize_record(record):
 # --- Main Processing Function ---
 def main():
     # Fetch item data
+    logging.info(f"Fetching items from collection {ITEM_SET_ID} at {OMEKA_API_URL}")
     items_data = get_items_from_collection(ITEM_SET_ID)
+    
+    # Validate that we received some data
+    if not items_data:
+        logging.error("No items received from Omeka API. This could indicate a timeout or API unavailability.")
+        logging.error("Canceling deployment to prevent deploying empty site.")
+        sys.exit(1)
+    
+    logging.info(f"Successfully retrieved {len(items_data)} items from collection")
 
     # Process each item and associated media
     items_processed = []
@@ -257,6 +270,11 @@ def main():
 
     # Normalize all string fields in the records to avoid decomposed Unicode form Umlaute ¨ + o -> ö
     items_normalized = [normalize_record(record) for record in items_processed]
+    
+    # Final validation - ensure we have processed records
+    if not items_normalized:
+        logging.error("No records were processed successfully. Canceling deployment.")
+        sys.exit(1)
 
     # Save data to CSV and JSON formats
     save_to_files(items_normalized, CSV_PATH, JSON_PATH)
