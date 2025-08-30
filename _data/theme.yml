@@ -90,6 +90,20 @@ search-child-objects: true # true / false - if true, child objects will appear o
 # ADVANCED OPTIONS
 #
 
+# CONTENT SECURITY POLICY [optional!]
+# CSP helps protect against XSS attacks and other code injection attacks
+# Set to true to enable CSP with default secure settings
+csp-enabled: true
+# Override default CSP directives (advanced users only)
+# csp-directives:
+#   default-src: "'self'"
+#   script-src: "'self' 'unsafe-inline' https://plausible.io https://cdn.jsdelivr.net https://ajax.googleapis.com https://cdn.knightlab.com https://www.googletagmanager.com"
+#   style-src: "'self' 'unsafe-inline' https://cdn.jsdelivr.net https://cdn.knightlab.com"
+#   img-src: "'self' data: https: http:"
+#   font-src: "'self' data:"
+#   connect-src: "'self' https://plausible.io"
+#   frame-src: "'self' https://player.vimeo.com https://www.youtube-nocookie.com"
+
 # NAVBAR COLORS [optional!]
 # navbar text color
 # Choose from "navbar-light" for use with light background colors, or "navbar-dark" for dark background colors

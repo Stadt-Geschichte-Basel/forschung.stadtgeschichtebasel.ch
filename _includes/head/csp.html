@@ -1,0 +1,36 @@
+{% comment %}
+  Content Security Policy (CSP) meta tag
+  Enhances security by restricting resource loading to trusted sources
+  Configure via _data/theme.yml csp-enabled and csp-directives options
+{% endcomment %}
+{% if site.data.theme.csp-enabled %}
+  {% if site.data.theme.csp-directives %}
+    {% assign csp_directives = "" %}
+    {% for directive in site.data.theme.csp-directives %}
+      {% assign csp_directives = csp_directives | append: directive[0] | append: " " | append: directive[1] | append: "; " %}
+    {% endfor %}
+    <meta http-equiv="Content-Security-Policy" content="{{ csp_directives | strip }}">
+  {% else %}
+    {% comment %}
+      Default CSP policy for CollectionBuilder with common external resources
+      - Bootstrap CSS from CDN
+      - External scripts for analytics, viewers, and maps
+      - Embedded videos from YouTube and Vimeo
+      - Self-hosted fonts and assets
+    {% endcomment %}
+    {% assign csp_policy = "default-src 'self'; " %}
+    {% assign csp_policy = csp_policy | append: "script-src 'self' 'unsafe-inline' https://plausible.io https://cdn.jsdelivr.net https://ajax.googleapis.com https://cdn.knightlab.com" %}
+    {% if site.google-analytics-id %}
+      {% assign csp_policy = csp_policy | append: " https://www.googletagmanager.com" %}
+    {% endif %}
+    {% assign csp_policy = csp_policy | append: "; " %}
+    {% assign csp_policy = csp_policy | append: "style-src 'self' 'unsafe-inline' https://cdn.jsdelivr.net https://cdn.knightlab.com; " %}
+    {% assign csp_policy = csp_policy | append: "img-src 'self' data: https: http:; " %}
+    {% assign csp_policy = csp_policy | append: "font-src 'self' data:; " %}
+    {% assign csp_policy = csp_policy | append: "connect-src 'self' https://plausible.io; " %}
+    {% assign csp_policy = csp_policy | append: "frame-src 'self' https://player.vimeo.com https://www.youtube-nocookie.com; " %}
+    {% assign csp_policy = csp_policy | append: "object-src 'none'; " %}
+    {% assign csp_policy = csp_policy | append: "base-uri 'self'" %}
+    <meta http-equiv="Content-Security-Policy" content="{{ csp_policy }}">
+  {% endif %}
+{% endif %}
