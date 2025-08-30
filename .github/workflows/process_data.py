@@ -1,7 +1,6 @@
 import json
 import logging
 import os
-import sys
 import unicodedata
 from urllib.parse import urljoin, urlparse
 
@@ -63,8 +62,7 @@ def get_paginated_items(url, params):
             response.raise_for_status()
         except requests.exceptions.RequestException as err:
             logging.error(f"Error fetching items from {url}: {err}")
-            # Exit with error code to fail the workflow
-            sys.exit(1)
+            raise
         items.extend(response.json())
         url = response.links.get("next", {}).get("url")
         params = None
@@ -252,7 +250,7 @@ def main():
     if not items_data:
         logging.error("No items received from Omeka API. This could indicate a timeout or API unavailability.")
         logging.error("Canceling deployment to prevent deploying empty site.")
-        sys.exit(1)
+        raise ValueError("No items received from Omeka API")
     
     logging.info(f"Successfully retrieved {len(items_data)} items from collection")
 
@@ -274,7 +272,7 @@ def main():
     # Final validation - ensure we have processed records
     if not items_normalized:
         logging.error("No records were processed successfully. Canceling deployment.")
-        sys.exit(1)
+        raise ValueError("No records were processed successfully")
 
     # Save data to CSV and JSON formats
     save_to_files(items_normalized, CSV_PATH, JSON_PATH)
