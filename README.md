@@ -92,10 +92,22 @@ classDiagram
 
 ### 🔧 Installation
 
-Ensure you have [Ruby](https://rubyonrails.org/) and [Bundle](https://bundler.io/) installed.
+Use [Bundle](https://bundler.io/) to install all dependencies.
 
 ```bash
 bundle install
+```
+
+Install `uv` for data processing.
+
+```bash
+pip install uv
+```
+
+Install Node.js dependencies.
+
+```bash
+npm install
 ```
 
 Create a `.env` file in the root directory of the project and add the following line:
@@ -110,23 +122,23 @@ ITEM_SET_ID=10780
 > [!NOTE]
 > Replace `YOUR_KEY_IDENTITY` and `YOUR_KEY_CREDENTIAL` with your actual credentials for the Omeka S API. You can find these in the Omeka S instance under "Settings" > "API Keys". The `ITEM_SET_ID` is the ID of the collection you want to process, which can be found in the URL of the collection page.
 
-Ensure you have [uv](https://docs.astral.sh/uv/) installed to process the data from Omeka S:
+## Usage
+
+Populate data.
 
 ```bash
-uv run .github/workflows/process_data.py
+npm run populate
 ```
 
 ### 🛠 Development
 
-Run local development server:
+Run the development server.
 
 ```bash
 bundle exec jekyll serve
 ```
 
-### 📦 Production Build
-
-Deploy the site using:
+Build for production.
 
 ```bash
 rake deploy
