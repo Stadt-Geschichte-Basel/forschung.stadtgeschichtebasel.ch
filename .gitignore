@@ -19,4 +19,7 @@ Gemfile.lock
 # objects/
 
 # Ignore node_modules directory to avoid committing binary files
-node_modules/
+node_modules/_site/
+vendor/
+.bundle/
+*.tmp
