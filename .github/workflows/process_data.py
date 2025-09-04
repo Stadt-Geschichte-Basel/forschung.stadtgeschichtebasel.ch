@@ -60,10 +60,10 @@ def get_paginated_items(url, params):
             # Add timeout to prevent hanging on slow/unresponsive servers
             response = requests.get(url, params=params, timeout=30)
             response.raise_for_status()
-        except requests.exceptions.RequestException as err:
-            logging.error(f"Error fetching items from {url}: {err}")
+            items.extend(response.json())
+        except (requests.exceptions.RequestException, json.JSONDecodeError) as err:
+            logging.exception(f"Error fetching items from {url}: {err}")
             raise
-        items.extend(response.json())
         url = response.links.get("next", {}).get("url")
         params = None
 
