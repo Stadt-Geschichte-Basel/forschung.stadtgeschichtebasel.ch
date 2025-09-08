@@ -132,7 +132,7 @@ npm run install:python
 Create a `.env` file in the root directory to configure API access:
 
 ```bash
-OMEKA_API_URL=https://omeka.unibe.ch/s/stadtgeschichtebasel
+OMEKA_API_URL=https://omeka.unibe.ch/api
 KEY_IDENTITY=YOUR_KEY_IDENTITY
 KEY_CREDENTIAL=YOUR_KEY_CREDENTIAL
 ITEM_SET_ID=10780
