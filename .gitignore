@@ -21,7 +21,8 @@ Gemfile.lock
 # Ignore node_modules directory to avoid committing binary files
 node_modules/
 
-# Ignore Python cache files
+# Python cache files
 __pycache__/
 *.pyc
 *.pyo
+
