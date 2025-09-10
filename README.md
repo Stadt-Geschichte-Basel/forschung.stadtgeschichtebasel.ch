@@ -79,7 +79,7 @@ The following chart illustrates the data model with metadata fields for a sample
             extent
             [source] &lpar;source and catalogue link&rpar;
             language &lpar;ISO 639-2 code&rpar;
-            [relation] &lpar;internal linnks, link to GitHub&rpar;
+            [relation] &lpar;internal links, link to GitHub&rpar;
             rights
             license
         }
