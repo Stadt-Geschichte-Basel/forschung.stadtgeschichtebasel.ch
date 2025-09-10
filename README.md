@@ -54,34 +54,38 @@ Metadata for items featured on the research data platform is provided according 
 The following chart illustrates the data model with metadata fields for a sample metadata object `sgb01313` that has one child media object `m01313`. If a metadata object has more than one child media object, the children `id`s are numbered consecutively: `m01313_1`, `m01313_2` etc.
 
 ```mermaid
-classDiagram
-    class metadata {
-        id (sgb01313)
-        title
-        [subject;subject]
-        description
-        temporal
-        [isPartOf;isPartOf] (Data DOIs)
-    }
-    class media {
-        id (m01313)
-        title
-        [subject;subject] (keywords from GenderOpen Index)
-        description
-        [creator] (incl. link to Wikidata)
-        [publisher] (incl. link to Wikidata)
-        date
-        temporal
-        type
-        format
-        extent
-        [source] (Source and catalogue link)
-        language (ISO 639-2 code)
-        [relation] (internal links to other items, link to GitHub, further information)
-        rights
-        license
-    }
+    classDiagram
+    direction LR
+        class metadata {
+            id &lpar;abb01313&rpar;
+            title
+            [subject;subject]
+            description
+            temporal
+            [isPartOf;isPartOf] &lpar;Data DOIs&rpar;
+        }
+        class media {
+            id &lpar;m01313&rpar;
+            title
+            [subject;subject]
+            description
+            [abstract] &lpar;alt-Attribut für Alternativtext&rpar;
+            [creator] &lpar;inkl. Link zur Institution&rpar;
+            [publisher] &lpar;inkl. Link zur Institution&rpar;
+            date
+            temporal
+            type
+            format
+            extent
+            [source] &lpar;Quelle und und Link zum Katalog&rpar;
+            language &lpar;ISO 639-2-Code&rpar;
+            [relation] &lpar;interne Links, GitHub-Link&rpar;
+            rights
+            license
+        }
     metadata "n" --> "m" media
+    style metadata stroke:#3a1e3e,fill:#fff,color:#3a1e3e
+    style media stroke:#3a1e3e,fill:#fff,color:#3a1e3e
 ```
 
 > [!WARNING]
