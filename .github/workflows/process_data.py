@@ -111,6 +111,26 @@ def extract_property_by_term(props, term, as_uri=False):
     return ""
 
 
+def clean_url(url):
+    """Cleans a URL by removing trailing punctuation marks that are not part of the URL.
+    
+    Preserves trailing slashes which are valid in URLs, but removes punctuation
+    like semicolons, periods, commas, etc. that may have been added as text separators.
+    """
+    if not url:
+        return url
+    
+    # Strip the URL
+    url = url.strip()
+    
+    # Remove trailing punctuation that is typically not part of a URL
+    # but preserve trailing slashes which are valid
+    while url and url[-1] in '.,;:!?\'"':
+        url = url[:-1]
+    
+    return url
+
+
 def extract_combined_values(props):
     """Combines text values and URIs from properties into a single list."""
     values = [
@@ -119,7 +139,7 @@ def extract_combined_values(props):
         if "@value" in prop
     ]
     uris = [
-        f"[{prop.get('o:label', '').replace(';', '&#59')}]({prop.get('@id', '').replace(';', '&#59')})"
+        f"[{prop.get('o:label', '').replace(';', '&#59')}]({clean_url(prop.get('@id', '')).replace(';', '&#59')})"
         for prop in props
         if "@id" in prop
     ]
