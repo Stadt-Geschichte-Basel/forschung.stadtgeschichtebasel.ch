@@ -95,7 +95,7 @@ def extract_property(props, prop_id, as_uri=False):
     for prop in props:
         if prop.get("property_id") == prop_id:
             if as_uri:
-                return f"[{prop.get('o:label', '')}]({prop.get('@id', '')})"
+                return f"[{prop.get('o:label', '')}]({clean_url(prop.get('@id', ''))})"
             return prop.get("@value", "")
     return ""
 
@@ -106,7 +106,7 @@ def extract_property_by_term(props, term, as_uri=False):
     # we just need to extract the first available value
     for prop in props:
         if as_uri:
-            return f"[{prop.get('o:label', '')}]({prop.get('@id', '')})"
+            return f"[{prop.get('o:label', '')}]({clean_url(prop.get('@id', ''))})"
         return prop.get("@value", "")
     return ""
 
