@@ -10,5 +10,6 @@ gem 'csv'
 gem 'jekyll'
 gem 'mini_magick'
 gem 'rake'
+gem 'sass-embedded', '~> 1.80.7'
 
 gem 'webrick', '~> 1.7'
