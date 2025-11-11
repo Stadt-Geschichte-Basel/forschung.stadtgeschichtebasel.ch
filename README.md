@@ -198,6 +198,225 @@ npm run build
 | `npm run format`           | Format code with Prettier                 |
 | `npm run check`            | Check code formatting                     |
 
+## 💡 Usage Examples
+
+### Common Workflows
+
+#### 1. First-Time Setup
+
+```bash
+# Clone the repository
+git clone https://github.com/Stadt-Geschichte-Basel/forschung.stadtgeschichtebasel.ch.git
+cd forschung.stadtgeschichtebasel.ch
+
+# Install all dependencies
+npm run setup
+
+# Start development server
+npm run dev
+```
+
+#### 2. Daily Development
+
+```bash
+# Start the development server (with auto-reload)
+npm run dev
+
+# Make changes to files in:
+# - _layouts/     (page templates)
+# - _includes/    (reusable components)
+# - pages/        (site pages)
+# - assets/       (CSS, JavaScript, images)
+
+# Jekyll automatically rebuilds when files change
+# Refresh your browser to see updates
+```
+
+#### 3. Working with Data
+
+```bash
+# Fetch latest data from Omeka S
+npm run populate
+
+# Clean old data before fetching new
+npm run clean && npm run populate
+
+# View generated metadata
+cat _data/sgb-metadata-csv.csv
+```
+
+#### 4. Code Formatting
+
+```bash
+# Check code formatting (useful before committing)
+npm run check
+
+# Auto-format all code
+npm run format
+
+# Format and commit
+npm run format && git add . && git commit -m "Format code"
+```
+
+#### 5. Building for Production
+
+```bash
+# Build with production optimizations
+npm run build:production
+
+# Or use standard build
+npm run build
+
+# Output is in _site/ directory
+ls -la _site/
+```
+
+### Advanced Workflows
+
+#### Working on a Specific Feature
+
+```bash
+# Create a feature branch
+git checkout -b feature/my-new-feature
+
+# Make changes and test locally
+npm run dev
+
+# Format code
+npm run format
+
+# Commit changes
+git add .
+git commit -m "Add: description of changes"
+
+# Push to GitHub
+git push origin feature/my-new-feature
+```
+
+#### Testing Different Ruby Versions
+
+```bash
+# Switch Ruby version with rbenv
+rbenv install 3.1.0
+rbenv local 3.1.0
+
+# Reinstall dependencies
+bundle install
+
+# Test the site
+npm run dev
+```
+
+#### Debugging Build Issues
+
+```bash
+# Run Jekyll with verbose output
+bundle exec jekyll build --verbose --trace
+
+# Check Jekyll doctor
+bundle exec jekyll doctor
+
+# Clean and rebuild
+rm -rf _site .jekyll-cache
+bundle exec jekyll build
+```
+
+#### Working Without Omeka API Access
+
+If you don't have Omeka API credentials:
+
+```bash
+# Use existing sample data (if available)
+# The repository may include sample metadata files
+
+# Or work on frontend/template changes only
+npm run dev
+
+# Your changes to layouts and styling will still work
+```
+
+### Configuration Changes
+
+#### Changing Site Title
+
+Edit `_config.yml`:
+
+```yaml
+title: Your Custom Title
+tagline: Your custom tagline
+description: Your custom description
+```
+
+Restart the dev server after config changes:
+
+```bash
+# Stop with Ctrl+C, then restart
+npm run dev
+```
+
+#### Adding a New Page
+
+```bash
+# Create a new page in pages/
+cat > pages/my-new-page.md << 'EOF'
+---
+title: My New Page
+layout: page
+permalink: /my-new-page/
+---
+
+# My New Page Content
+
+Your content here...
+EOF
+
+# The page is now available at /my-new-page/
+```
+
+#### Customizing Theme Colors
+
+Edit `_data/theme.yml`:
+
+```yaml
+# Primary colors
+primary-color: "#3a1e3e"
+secondary-color: "#e8b4b8"
+link-color: "#3a1e3e"
+# Or edit CSS directly in assets/css/
+```
+
+## 📖 Documentation
+
+This project has comprehensive documentation to help you get started and contribute:
+
+### For Users
+
+- **[README.md](README.md)** (this file) - Project overview and quick start
+- **[Website](https://forschung.stadtgeschichtebasel.ch)** - Live platform
+
+### For Contributors
+
+- **[SETUP.md](SETUP.md)** - Detailed setup guide for new contributors
+- **[CONTRIBUTING.md](CONTRIBUTING.md)** - How to contribute to the project
+- **[TROUBLESHOOTING.md](TROUBLESHOOTING.md)** - Common issues and solutions
+- **[API.md](API.md)** - API documentation and data integration guide
+
+### Technical Documentation
+
+- **[docs/](docs/)** - Technical documentation directory
+  - [docs/index.md](docs/index.md) - Documentation index and navigation
+  - [docs/metadata.md](docs/metadata.md) - Metadata structure and fields
+  - [docs/plugins.md](docs/plugins.md) - Jekyll plugins documentation
+  - [docs/maps.md](docs/maps.md) - Geographic visualization
+  - [docs/localization.md](docs/localization.md) - Multi-language support
+  - And [many more technical guides](docs/index.md)
+
+### External Resources
+
+- **[CollectionBuilder Documentation](https://collectionbuilder.github.io/cb-docs/)** - Framework documentation
+- **[Jekyll Documentation](https://jekyllrb.com/docs/)** - Static site generator
+- **[Bootstrap Documentation](https://getbootstrap.com/docs/)** - Frontend framework
+
 ## 🐕‍🦺 Support
 
 This project is maintained by [@Stadt-Geschichte-Basel](https://github.com/Stadt-Geschichte-Basel). Please understand that we won't be able to provide individual support via email. We believe that help is much more valuable if it's shared publicly, so that more people can benefit from it.
@@ -208,6 +427,7 @@ This project is maintained by [@Stadt-Geschichte-Basel](https://github.com/Stadt
 | 🎁 **Feature Requests**                | [GitHub Issue Tracker](https://github.com/Stadt-Geschichte-Basel/forschung.stadtgeschichtebasel.ch/issues)    |
 | 🛡 **Report a security vulnerability** | [GitHub Issue Tracker](https://github.com/Stadt-Geschichte-Basel/forschung.stadtgeschichtebasel.ch/issues)    |
 | 💬 **General Questions**               | [GitHub Discussions](https://github.com/Stadt-Geschichte-Basel/forschung.stadtgeschichtebasel.ch/discussions) |
+| 📚 **Documentation Issues**            | [GitHub Issue Tracker](https://github.com/Stadt-Geschichte-Basel/forschung.stadtgeschichtebasel.ch/issues)    |
 
 ## 🤝 Contributing
 
