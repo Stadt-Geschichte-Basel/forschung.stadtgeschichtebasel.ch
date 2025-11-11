@@ -164,14 +164,14 @@ npm run
 For full functionality (especially data processing), create a `.env` file in the project root:
 
 ```bash
-# Copy the example file (if provided)
+# Copy the example file
 cp .env.example .env
 
-# Or create it manually
-touch .env
+# Then edit with your credentials
+nano .env  # or use your preferred editor
 ```
 
-Add the following variables to your `.env` file:
+The `.env` file should contain:
 
 ```env
 # Omeka S API Configuration
