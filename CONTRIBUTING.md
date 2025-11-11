@@ -92,6 +92,32 @@ We welcome [Pull Requests](https://help.github.com/en/articles/about-pull-reques
 
 ## Development Workflow
 
+```mermaid
+flowchart TD
+    A[Fork Repository] --> B[Clone Locally]
+    B --> C[Create Feature Branch]
+    C --> D[Install Dependencies]
+    D --> E[Make Changes]
+    E --> F[Test Locally]
+    F --> G[Format Code]
+    G --> H[Commit Changes]
+    H --> I[Push to GitHub]
+    I --> J[Create Pull Request]
+    J --> K{CI Checks Pass?}
+    K -->|Yes| L[Request Review]
+    K -->|No| E
+    L --> M{Changes Requested?}
+    M -->|Yes| E
+    M -->|No| N[Merge]
+
+    style A fill:#e8b4b8,stroke:#3a1e3e
+    style N fill:#d4edda,stroke:#3a1e3e
+    style K fill:#fff3cd,stroke:#3a1e3e
+    style M fill:#fff3cd,stroke:#3a1e3e
+```
+
+**Command Reference**:
+
 ```bash
 # 1. Fork and clone the repository
 git clone https://github.com/YOUR-USERNAME/forschung.stadtgeschichtebasel.ch.git

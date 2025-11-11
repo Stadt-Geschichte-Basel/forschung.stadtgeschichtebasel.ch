@@ -16,6 +16,23 @@ This document describes the APIs and data interfaces used in the forschung.stadt
 
 The Stadt.Geschichte.Basel research data platform integrates several APIs and data sources:
 
+```mermaid
+graph TB
+    A[Omeka S API] -->|Fetch Metadata| B[Data Processing Pipeline]
+    B -->|Generate| C[Jekyll Data Files]
+    C -->|CSV/JSON| D[Static Site Generator]
+    D -->|Build| E[Web Platform]
+    E -->|Client-side| F[JavaScript APIs]
+    F -->|Search| G[Lunr.js]
+    E -->|Harvesting| H[OAI-PMH Endpoint]
+
+    style A fill:#e8b4b8,stroke:#3a1e3e
+    style E fill:#e8b4b8,stroke:#3a1e3e
+    style H fill:#e8b4b8,stroke:#3a1e3e
+```
+
+**Key Components**:
+
 - **Omeka S API**: Primary source for collection metadata
 - **Jekyll Data Files**: Static JSON/CSV files generated from Omeka
 - **JavaScript APIs**: Client-side data access through Lunr.js and custom scripts
@@ -38,6 +55,22 @@ ITEM_SET_ID=10780
 ```
 
 ### Getting API Keys
+
+```mermaid
+flowchart TD
+    A[Log in to Omeka S] --> B[Navigate to User Profile]
+    B --> C[Go to API Keys Section]
+    C --> D[Generate New Key Pair]
+    D --> E[Copy Key Identity]
+    D --> F[Copy Key Credential]
+    E --> G[Add to .env File]
+    F --> G
+
+    style A fill:#e8b4b8,stroke:#3a1e3e
+    style G fill:#d4edda,stroke:#3a1e3e
+```
+
+**Steps**:
 
 1. Log in to [Omeka S](https://omeka.unibe.ch)
 2. Navigate to your user profile
@@ -138,6 +171,28 @@ uv run .github/workflows/process_data.py
 ```
 
 ### Processing Steps
+
+The data processing pipeline transforms Omeka S data into Jekyll-compatible formats through these steps:
+
+```mermaid
+flowchart LR
+    A[Omeka S API] -->|1. Fetch Data| B[Retrieve Items]
+    B -->|2. Transform| C[Convert Metadata]
+    C -->|3. Download| D[Save Media Files]
+    D -->|4. Generate| E[CSV File]
+    D -->|5. Generate| F[JSON File]
+
+    E --> G[_data/sgb-metadata-csv.csv]
+    F --> H[_data/sgb-metadata-json.json]
+    D --> I[objects/]
+
+    style A fill:#e8b4b8,stroke:#3a1e3e
+    style G fill:#d4edda,stroke:#3a1e3e
+    style H fill:#d4edda,stroke:#3a1e3e
+    style I fill:#d4edda,stroke:#3a1e3e
+```
+
+**Steps**:
 
 1. **Fetch Data**: Retrieve items from Omeka S API
 2. **Transform Metadata**: Convert Omeka fields to CollectionBuilder schema

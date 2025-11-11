@@ -81,6 +81,19 @@ Alternatively, use the Windows installers for each tool and run commands in Powe
 
 The fastest way to get started:
 
+```mermaid
+flowchart LR
+    A[Clone Repository] --> B[Run npm run setup]
+    B --> C[Start Dev Server]
+    C --> D[Open Browser]
+    D --> E[Site Running! 🎉]
+
+    style A fill:#e8b4b8,stroke:#3a1e3e
+    style E fill:#d4edda,stroke:#3a1e3e
+```
+
+**Commands**:
+
 ```bash
 # 1. Clone the repository
 git clone https://github.com/Stadt-Geschichte-Basel/forschung.stadtgeschichtebasel.ch.git
