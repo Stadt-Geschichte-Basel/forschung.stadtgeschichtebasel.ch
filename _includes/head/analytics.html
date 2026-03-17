@@ -3,8 +3,13 @@
   To avoid collecting stats from your development server, this code will be added to the head of every page ONLY during production build!
 {% endcomment %}
 <!-- Analytics -->
-<script
-  defer
-  data-domain="forschung.stadtgeschichtebasel.ch"
-  src="https://plausible.io/js/script.outbound-links.js"
-></script>
+{% if site.umami_website_id %}
+  <script
+    defer
+    src="{{ site.umami_script_url }}"
+    data-website-id="{{ site.umami_website_id }}"
+    {% if site.umami_domains %}
+      data-domains="{{ site.umami_domains }}"
+    {% endif %}
+  ></script>
+{% endif %}

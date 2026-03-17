@@ -73,6 +73,11 @@ organization-logo-nav: assets/img/logo.svg
 # JEKYLL_ENV=production jekyll build
 # (this is done automatically by gh-pages build)
 #
+# Umami analytics settings
+umami_script_url: https://cloud.umami.is/script.js
+umami_website_id:
+umami_domains: forschung.stadtgeschichtebasel.ch
+#
 # ignore stuff
 exclude: [docs/, Rakefile, README.md, LICENSE, CITATION.cff, CODE_OF_CONDUCT.md, CONTRIBUTING.md, SECURITY.md]
 # compress CSS output

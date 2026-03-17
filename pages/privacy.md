@@ -43,7 +43,7 @@ Aus Sicherheitsgründen, um z. B. Missbrauchsfälle aufklären zu können und un
 
 ## Verwendet die Website Web-Analyse-Tools?
 
-Auf den Webseiten [https://stadtgeschichtebasel.ch](https://stadtgeschichtebasel.ch/), [https://forschung.stadtgeschichtebasel.ch](https://forschung.stadtgeschichtebasel.ch/) und [https://dokumentation.stadtgeschichtebasel.ch](https://dokumentation.stadtgeschichtebasel.ch/) ist die DSGVO-konforme und Cookie-freie Web-Analyse-Komponente Plausible.io integriert. Details entnehmen Sie den Datenschutzbestimmungen von Plausible.io wie sie unter [https://plausible.io/privacy](https://plausible.io/privacy) einsehbar sind.
+Auf den Webseiten [https://stadtgeschichtebasel.ch](https://stadtgeschichtebasel.ch/), [https://forschung.stadtgeschichtebasel.ch](https://forschung.stadtgeschichtebasel.ch/) und [https://dokumentation.stadtgeschichtebasel.ch](https://dokumentation.stadtgeschichtebasel.ch/) ist die DSGVO-konforme und Cookie-freie Web-Analyse-Komponente Umami integriert. Details entnehmen Sie den Datenschutzbestimmungen von Umami wie sie unter [https://umami.is/privacy](https://umami.is/privacy) einsehbar sind.
 
 ## Welche Dienste von Dritten verwendet die Website?
 
@@ -73,11 +73,11 @@ Wir binden Dienste von Dritten ein, achten dabei auf die Grundsätze des Datensc
 - URL: [https://github.com](https://github.com/)
 - Datenschutzerklärung: [https://docs.github.com/en/github/site-policy/github-privacy-statement](https://docs.github.com/en/github/site-policy/github-privacy-statement)
 
-### Plausible.io
+### Umami
 
 - Zweck: Web-Analyse
-- URL: [https://plausible.io/](https://plausible.io/)
-- Datenschutzerklärung: [https://plausible.io/privacy](https://plausible.io/privacy)
+- URL: [https://umami.is/](https://umami.is/)
+- Datenschutzerklärung: [https://umami.is/privacy](https://umami.is/privacy)
 
 ### SwissTopo
 
