@@ -74,9 +74,15 @@ organization-logo-nav: assets/img/logo.svg
 # (this is done automatically by gh-pages build)
 #
 # Umami analytics settings
+# Set umami_website_id to the UUID provided by your Umami instance to enable tracking in production.
+# Replace the placeholder below with your real website UUID before deployment.
+# The analytics include only renders for UUID-shaped values and ignores the placeholder string.
 umami_script_url: https://cloud.umami.is/script.js
-umami_website_id:
-umami_domains: forschung.stadtgeschichtebasel.ch
+umami_website_id: your-website-id-here
+# Optional: limit tracking to the production hostname(s) served by this site as a comma-separated string.
+# Example: forschung.stadtgeschichtebasel.ch,dokumentation.stadtgeschichtebasel.ch
+# Leave empty to allow the configured Umami site to track all hostnames it accepts.
+umami_domains:
 #
 # ignore stuff
 exclude: [docs/, Rakefile, README.md, LICENSE, CITATION.cff, CODE_OF_CONDUCT.md, CONTRIBUTING.md, SECURITY.md]
