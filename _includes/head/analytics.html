@@ -3,24 +3,8 @@
   To avoid collecting stats from your development server, this code will be added to the head of every page ONLY during production build!
 {% endcomment %}
 <!-- Analytics -->
-{% assign umami_website_id = site.umami_website_id | default: '' %}
-{% assign umami_website_id_parts = umami_website_id | split: '-' %}
-{% comment %} Standard UUID format uses 8-4-4-4-12 character segments. {% endcomment %}
-{% comment %} This is a UUID-shape check for Jekyll/Liquid config values, not strict hex validation. {% endcomment %}
-{% if umami_website_id != 'your-website-id-here'
-  and umami_website_id_parts.size == 5
-  and umami_website_id_parts[0].size == 8
-  and umami_website_id_parts[1].size == 4
-  and umami_website_id_parts[2].size == 4
-  and umami_website_id_parts[3].size == 4
-  and umami_website_id_parts[4].size == 12
-%}
-  <script
-    defer
-    src="{{ site.umami_script_url | default: 'https://cloud.umami.is/script.js' }}"
-    data-website-id="{{ umami_website_id }}"
-    {% unless site.umami_domains == blank %}
-      data-domains="{{ site.umami_domains }}"
-    {% endunless %}
-  ></script>
-{% endif %}
+<script
+  defer
+  src="https://cloud.umami.is/script.js"
+  data-website-id="c8547c7f-8d9e-43d6-b7f3-07da9f3d9acc"
+></script>
