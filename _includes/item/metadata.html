@@ -28,12 +28,12 @@
                     <use xlink:href="/assets/lib/cb-icons.svg#icon-external-link"/>
                   </svg>
                 </a>
-               {% else %}
-                 {% assign text = item %}
-                 {{ text | format_external_metadata_links }}
-               {% endif %}
-               <br>
-             {% endfor %}
+              {% else %}
+                {% assign text = item %}
+                {{ text | format_external_metadata_links }}
+              {% endif %}
+              <br>
+            {% endfor %}
           {% else %}
             {% assign text = page[f.field] %}
             {{ text }}
