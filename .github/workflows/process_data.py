@@ -24,6 +24,7 @@ PLACEHOLDER_IMAGE_PATHS = {
     "assets/img/no-image.svg",
     "assets/img/placeholder.svg",
 }
+PLACEHOLDER_SOURCE_MARKER = "platzhalter"
 
 # Set up logging
 logging.basicConfig(
@@ -199,7 +200,7 @@ def apply_media_preview(item_record, media_records):
     ):
         return item_record
 
-    def select_preview_record(records):
+    def find_first_valid_preview_record(records):
         for media_record in records:
             media_preview = media_record.get("image_thumb") or media_record.get(
                 "image_small"
@@ -208,16 +209,16 @@ def apply_media_preview(item_record, media_records):
                 return media_record
         return None
 
-    prioritized_media = [
+    image_media_records = [
         media_record
         for media_record in media_records
         if media_record.get("display_template") == "image"
         or media_record.get("format", "").lower().startswith("image/")
     ]
 
-    preview_record = select_preview_record(prioritized_media) or select_preview_record(
-        media_records
-    )
+    preview_record = find_first_valid_preview_record(
+        image_media_records
+    ) or find_first_valid_preview_record(media_records)
     if preview_record:
         item_record["image_thumb"] = preview_record.get("image_thumb") or preview_record.get(
             "image_small"
@@ -300,7 +301,7 @@ def extract_media_data(media, item_dc_identifier):
         if not local_image_path:
             local_image_path = (
                 "assets/img/placeholder.svg"
-                if "platzhalter" in media.get("o:source", "").lower()
+                if PLACEHOLDER_SOURCE_MARKER in media.get("o:source", "").lower()
                 else "assets/img/no-image.svg"
             )
 
