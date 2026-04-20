@@ -80,8 +80,8 @@ Redaktion: Moritz Mähr, Noëlle Schnegg und Cristina Münch
 
 ## Datenschutz
 
-Zur [Datenschutzerklärung](https://stadtgeschichtebasel.ch//datenschutzerklaerung){:target="\_blank"}.
+Zur [Datenschutzerklärung]({{ "/datenschutzerklaerung.html" | relative_url }}).
 
 ## Barrierefreiheit
 
-Zur [Barrierefreiheitserklärung](https://stadtgeschichtebasel.ch//barrierefreiheitserklaerung){:target="\_blank"}.
+Zur [Barrierefreiheitserklärung]({{ "/barrierefreiheitserklaerung.html" | relative_url }}).
