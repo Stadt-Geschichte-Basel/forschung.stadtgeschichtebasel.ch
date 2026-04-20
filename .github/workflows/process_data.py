@@ -20,6 +20,11 @@ except ValueError:
     raise ValueError("ITEM_SET_ID must be a valid integer")
 CSV_PATH = os.getenv("CSV_PATH", "_data/sgb-metadata-csv.csv")
 JSON_PATH = os.getenv("JSON_PATH", "_data/sgb-metadata-json.json")
+PLACEHOLDER_IMAGE_PATHS = {
+    "assets/img/no-image.svg",
+    "assets/img/placeholder.svg",
+}
+PLACEHOLDER_SOURCE_MARKER = "platzhalter"
 
 # Set up logging
 logging.basicConfig(
@@ -156,6 +161,78 @@ def download_thumbnail(image_url):
     return ""
 
 
+def has_meaningful_preview(image_path):
+    """Checks whether an image path points to a non-placeholder preview."""
+    return bool(image_path) and image_path not in PLACEHOLDER_IMAGE_PATHS
+
+
+def normalize_objectid(objectid, prefix, source_id):
+    """Returns a stable object identifier with a fallback for missing values."""
+    objectid = (objectid or "").strip()
+    return objectid or f"{prefix}{source_id}"
+
+
+def ensure_unique_objectid(objectid, used_objectids, suffix):
+    """Ensures that each exported record has a unique object identifier."""
+    if objectid not in used_objectids:
+        used_objectids.add(objectid)
+        return objectid
+
+    candidate = f"{objectid}_{suffix}"
+    counter = 2
+    while candidate in used_objectids:
+        candidate = f"{objectid}_{suffix}_{counter}"
+        counter += 1
+
+    logging.warning(
+        "Duplicate objectid '%s' detected. Exporting record as '%s'.",
+        objectid,
+        candidate,
+    )
+    used_objectids.add(candidate)
+    return candidate
+
+
+def apply_media_preview(item_record, media_records):
+    """Uses the first meaningful child preview for a parent item when needed."""
+    if has_meaningful_preview(item_record.get("image_thumb")) or has_meaningful_preview(
+        item_record.get("image_small")
+    ):
+        return item_record
+
+    def find_first_valid_preview_record(records):
+        for media_record in records:
+            media_preview = media_record.get("image_thumb") or media_record.get(
+                "image_small"
+            )
+            if has_meaningful_preview(media_preview):
+                return media_record
+        return None
+
+    image_media_records = [
+        media_record
+        for media_record in media_records
+        if media_record.get("display_template") == "image"
+        or media_record.get("format", "").lower().startswith("image/")
+    ]
+
+    preview_record = find_first_valid_preview_record(
+        image_media_records
+    ) or find_first_valid_preview_record(media_records)
+    if preview_record:
+        item_record["image_thumb"] = preview_record.get("image_thumb") or preview_record.get(
+            "image_small"
+        )
+        item_record["image_small"] = preview_record.get("image_small") or preview_record.get(
+            "image_thumb"
+        )
+        if preview_record.get("image_alt_text"):
+            item_record["image_alt_text"] = preview_record["image_alt_text"]
+        return item_record
+
+    return item_record
+
+
 def infer_display_template(format_value):
     """Infers the display template type based on the format value."""
     if "image" in format_value.lower():
@@ -209,17 +286,24 @@ def extract_media_data(media, item_dc_identifier):
     display_template = infer_display_template(format_value)
 
     # Download the thumbnail image if available and valid
-    if "platzhalter" in media.get("o:source", ""):
-        local_image_path = "assets/img/placeholder.svg"
-    elif "application/geo+json" in format_value:
+    if "application/geo+json" in format_value:
         local_image_path = "assets/lib/icons/sgb-globe.svg"
     elif "text/csv" in format_value:
         local_image_path = "assets/lib/icons/table.svg"
     else:
-        local_image_path = (
-            download_thumbnail(media.get("thumbnail_display_urls", {}).get("large", ""))
-            or "assets/img/no-image.svg"
+        local_image_path = download_thumbnail(
+            media.get("thumbnail_display_urls", {}).get("large", "")
         )
+        if not local_image_path and media.get("o:is_public", False):
+            original_url = media.get("o:original_url", "")
+            if format_value.lower().startswith("image/") and is_valid_url(original_url):
+                local_image_path = original_url
+        if not local_image_path:
+            local_image_path = (
+                "assets/img/placeholder.svg"
+                if PLACEHOLDER_SOURCE_MARKER in media.get("o:source", "").lower()
+                else "assets/img/no-image.svg"
+            )
 
     # Extract media data
     object_location = (
@@ -280,15 +364,42 @@ def main():
 
     # Process each item and associated media
     items_processed = []
+    seen_parent_objectids = set()
+    used_objectids = set()
     for item in items_data:
         item_record = extract_item_data(item)
-        items_processed.append(item_record)
+        item_record["objectid"] = normalize_objectid(
+            item_record.get("objectid"), "item-", item.get("o:id", "unknown")
+        )
+        if item_record["objectid"] in seen_parent_objectids:
+            logging.warning(
+                "Skipping duplicate parent objectid '%s' from Omeka item %s.",
+                item_record["objectid"],
+                item.get("o:id", "unknown"),
+            )
+            continue
+
+        seen_parent_objectids.add(item_record["objectid"])
+        used_objectids.add(item_record["objectid"])
         media_data = get_media(item.get("o:id", ""))
+        media_records = []
         if media_data:
             for media in media_data:
-                items_processed.append(
-                    extract_media_data(media, item_record["objectid"])
+                media_record = extract_media_data(media, item_record["objectid"])
+                media_record["objectid"] = ensure_unique_objectid(
+                    normalize_objectid(
+                        media_record.get("objectid"),
+                        "media-",
+                        media.get("o:id", "unknown"),
+                    ),
+                    used_objectids,
+                    media.get("o:id", "unknown"),
                 )
+                media_records.append(media_record)
+
+        item_record = apply_media_preview(item_record, media_records)
+        items_processed.append(item_record)
+        items_processed.extend(media_records)
 
     # Normalize all string fields in the records to avoid decomposed Unicode form Umlaute ¨ + o -> ö
     items_normalized = [normalize_record(record) for record in items_processed]
