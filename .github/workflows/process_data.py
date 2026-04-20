@@ -199,16 +199,26 @@ def apply_media_preview(item_record, media_records):
     ):
         return item_record
 
-    for media_record in media_records:
-        media_preview = media_record.get("image_thumb") or media_record.get("image_small")
-        if not has_meaningful_preview(media_preview):
-            continue
+    prioritized_media = [
+        media_record
+        for media_record in media_records
+        if media_record.get("display_template") == "image"
+        or media_record.get("format", "").lower().startswith("image/")
+    ]
 
-        item_record["image_thumb"] = media_record.get("image_thumb") or media_preview
-        item_record["image_small"] = media_record.get("image_small") or media_preview
-        if media_record.get("image_alt_text"):
-            item_record["image_alt_text"] = media_record["image_alt_text"]
-        return item_record
+    for media_candidates in (prioritized_media, media_records):
+        for media_record in media_candidates:
+            media_preview = media_record.get("image_thumb") or media_record.get(
+                "image_small"
+            )
+            if not has_meaningful_preview(media_preview):
+                continue
+
+            item_record["image_thumb"] = media_record.get("image_thumb") or media_preview
+            item_record["image_small"] = media_record.get("image_small") or media_preview
+            if media_record.get("image_alt_text"):
+                item_record["image_alt_text"] = media_record["image_alt_text"]
+            return item_record
 
     return item_record
 
