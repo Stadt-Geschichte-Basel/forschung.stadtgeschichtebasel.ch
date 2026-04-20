@@ -26,3 +26,11 @@ __pycache__/
 *.pyc
 *.pyo
 
+# Environment variables (contains API credentials)
+.env
+.env.local
+
+# Python virtual environment
+.venv/
+venv/
+
