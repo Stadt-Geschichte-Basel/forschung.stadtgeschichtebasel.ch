@@ -28,25 +28,12 @@
                     <use xlink:href="/assets/lib/cb-icons.svg#icon-external-link"/>
                   </svg>
                 </a>
-              {% else %}
-                {% assign text = item %}
-                {% assign urls = text | regex_match: '(https?:\/\/[^\s,]+)' %}
-                {% for url in urls %}
-                  {% assign link = "<a href='"
-                    | append: url
-                    | append: "' target='_blank' rel='noopener'>"
-                    | append: url
-                    | append: " <svg class='bi icon-sprite' role='img' aria-label='Externer Link'>
-                      <use xlink:href='/assets/lib/cb-icons.svg#icon-external-link'/>
-                        </svg>
-                        </a>"
-                  %}
-                  {% assign text = text | replace: url, link %}
-                {% endfor %}
-                {{ text }}
-              {% endif %}
-              <br>
-            {% endfor %}
+               {% else %}
+                 {% assign text = item %}
+                 {{ text | format_external_metadata_links }}
+               {% endif %}
+               <br>
+             {% endfor %}
           {% else %}
             {% assign text = page[f.field] %}
             {{ text }}
