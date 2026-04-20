@@ -1,9 +1,10 @@
 require "cgi"
+require "uri"
 
 module Jekyll
   module ExternalMetadataLinks
     URL_PATTERN = %r{(?:(?:https?://)|(?:www\.))[^\s<>]+}.freeze
-    ESCAPED_SEMICOLON = "&#59".freeze
+    ESCAPED_SEMICOLONS = ["&#59", "&#59;"].freeze
     EXTERNAL_LINK_ICON = " <svg class=\"bi icon-sprite\" role=\"img\" aria-label=\"Externer Link\">" \
                          "<use xlink:href=\"/assets/lib/cb-icons.svg#icon-external-link\"/>" \
                          "</svg>"
@@ -19,8 +20,12 @@ module Jekyll
         url, trailing = split_trailing_punctuation(raw_url)
 
         output << text[last_index...match.begin(0)]
-        output << build_external_link(url)
-        output << trailing
+        if linkable_url?(url)
+          output << build_external_link(url)
+          output << trailing
+        else
+          output << raw_url
+        end
         last_index = match.end(0)
       end
 
@@ -35,10 +40,11 @@ module Jekyll
       cleaned_url = url.dup
 
       loop do
-        if cleaned_url.end_with?(ESCAPED_SEMICOLON)
-          trailing.prepend(ESCAPED_SEMICOLON)
-          cleaned_url = cleaned_url[0...-ESCAPED_SEMICOLON.length]
-        elsif cleaned_url.end_with?(")") && cleaned_url.count(")") > cleaned_url.count("(")
+        escaped_semicolon = ESCAPED_SEMICOLONS.find { |entity| cleaned_url.end_with?(entity) }
+        if escaped_semicolon
+          trailing.prepend(escaped_semicolon)
+          cleaned_url = cleaned_url[0...-escaped_semicolon.length]
+        elsif unmatched_closing_parenthesis?(cleaned_url)
           trailing.prepend(")")
           cleaned_url = cleaned_url[0...-1]
         elsif cleaned_url.match?(/[.,;:!?]\z/)
@@ -50,6 +56,18 @@ module Jekyll
       end
 
       [cleaned_url, trailing]
+    end
+
+    def unmatched_closing_parenthesis?(text)
+      text.end_with?(")") && text.count(")") > text.count("(")
+    end
+
+    def linkable_url?(url)
+      href = url.start_with?("www.") ? "https://#{url}" : url
+      uri = URI.parse(href)
+      uri.is_a?(URI::HTTP) && !uri.host.to_s.empty?
+    rescue URI::InvalidURIError
+      false
     end
 
     def build_external_link(url)
