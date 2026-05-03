@@ -14,7 +14,7 @@
 {%- comment -%} capture terms from all cloud fields {%- endcomment -%}
 {%- assign terms = '' -%}
 {%- for c in cloud-fields -%}
-  {% assign new = items | map: c | join: ';' %}
+  {% assign new = items | map: c | compact | join: ';' %}
   {% assign terms = terms | append: ';' | append: new %}
 {%- endfor -%}
 {%- comment -%} find unique terms and counts {%- endcomment -%}
