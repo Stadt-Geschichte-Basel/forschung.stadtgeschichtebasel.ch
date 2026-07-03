@@ -9,7 +9,7 @@ creator,Ersteller*in,,true,DCTERMS.creator,creator
 date,Datum <a href='/data.html#edtf'>ℹ️<a>,,,DCTERMS.date,dateCreated
 source,Quelle,,true,DCTERMS.source,
 publisher,Verantwortliche Gedächtnisinstitution,,true,DCTERMS.publisher,publisher
-type,Typ,,true,DCTERMS.type,
+type,Typ,,,DCTERMS.type,
 format,Format,,,DCTERMS.format,encodingFormat
 extent,Auflösung,,,DCTERMS.extent,
 language,Sprache,,,DCTERMS.language,inLanguage

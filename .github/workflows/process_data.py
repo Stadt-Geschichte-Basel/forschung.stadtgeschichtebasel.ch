@@ -90,12 +90,12 @@ def get_media(item_id):
 
 
 # --- Data Extraction and Transformation Functions ---
-def extract_property(props, prop_id, as_uri=False):
-    """Extracts a property value or URI from properties based on property ID."""
+def extract_property(props, prop_id, as_label=False):
+    """Extracts a property value or label from properties based on property ID."""
     for prop in props:
         if prop.get("property_id") == prop_id:
-            if as_uri:
-                return f"[{prop.get('o:label', '')}]({prop.get('@id', '')})"
+            if as_label:
+                return prop.get("o:label", "")
             return prop.get("@value", "")
     return ""
 
@@ -188,7 +188,7 @@ def extract_item_data(item):
         "publisher": extract_combined_values(item.get("dcterms:publisher", [])),
         "source": extract_combined_values(item.get("dcterms:source", [])),
         "date": extract_property(item.get("dcterms:date", []), 7),
-        "type": extract_property(item.get("dcterms:type", []), 8, as_uri=True),
+        "type": extract_property(item.get("dcterms:type", []), 8, as_label=True),
         "format": extract_property(item.get("dcterms:format", []), 9),
         "extent": extract_property(item.get("dcterms:extent", []), 25),
         "language": extract_property(item.get("dcterms:language", []), 12),
@@ -241,7 +241,7 @@ def extract_media_data(media, item_dc_identifier):
         "publisher": extract_combined_values(media.get("dcterms:publisher", [])),
         "source": extract_combined_values(media.get("dcterms:source", [])),
         "date": extract_property(media.get("dcterms:date", []), 7),
-        "type": extract_property(media.get("dcterms:type", []), 8, as_uri=True),
+        "type": extract_property(media.get("dcterms:type", []), 8, as_label=True),
         "format": format_value,
         "extent": extract_property(media.get("dcterms:extent", []), 25),
         "language": extract_property(media.get("dcterms:language", []), 12),
