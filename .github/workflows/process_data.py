@@ -1,10 +1,10 @@
+import csv
 import json
 import logging
 import os
 import unicodedata
 from urllib.parse import urljoin, urlparse
 
-import pandas as pd
 import requests
 
 # Configuration
@@ -100,17 +100,6 @@ def extract_property(props, prop_id, as_label=False):
     return ""
 
 
-def extract_property_by_term(props, term, as_uri=False):
-    """Extracts a property value or URI from properties list."""
-    # Since props is already a list of values for dcterms:abstract,
-    # we just need to extract the first available value
-    for prop in props:
-        if as_uri:
-            return f"[{prop.get('o:label', '')}]({prop.get('@id', '')})"
-        return prop.get("@value", "")
-    return ""
-
-
 def extract_combined_values(props):
     """Combines text values and URIs from properties into a single list."""
     values = [
@@ -131,18 +120,12 @@ def extract_alt_text(item_or_media):
     # First try to get dcterms:abstract (the new alt attribute field)
     abstract_props = item_or_media.get("dcterms:abstract", [])
     if abstract_props:
-        alt_text = extract_property_by_term(abstract_props, "abstract")
+        alt_text = abstract_props[0].get("@value", "")
         if alt_text:
             return alt_text
     
     # Fallback to the old o:alt_text field for backward compatibility
     return item_or_media.get("o:alt_text", "")
-
-
-def extract_combined_values_csv(props):
-    """Combines text values and URIs into a semicolon-separated string."""
-    combined = extract_combined_values(props)
-    return ";".join(combined)
 
 
 def download_thumbnail(image_url):
@@ -308,7 +291,6 @@ def save_to_files(records, csv_path, json_path):
         json.dump(records, f, ensure_ascii=False)
     logging.info(f"JSON file has been saved to {json_path}")
 
-    # Convert list of records to a DataFrame and save as CSV
     records = [
         {
             key: ";".join(value) if isinstance(value, list) else value
@@ -316,8 +298,10 @@ def save_to_files(records, csv_path, json_path):
         }
         for record in records
     ]
-    df = pd.DataFrame(records)
-    df.to_csv(csv_path, index=False)
+    with open(csv_path, "w", encoding="utf-8", newline="") as f:
+        writer = csv.DictWriter(f, fieldnames=records[0].keys(), lineterminator="\n")
+        writer.writeheader()
+        writer.writerows(records)
     logging.info(f"CSV file has been saved to {csv_path}")
 
 

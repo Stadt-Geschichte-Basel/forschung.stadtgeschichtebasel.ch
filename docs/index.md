@@ -15,7 +15,6 @@ Welcome to the technical documentation for forschung.stadtgeschichtebasel.ch. Th
 
 - [metadata.md](metadata.md) - Understanding and working with metadata
 - [metadata-template.csv](metadata-template.csv) - Template for metadata structure
-- [rake_tasks.md](rake_tasks.md) - Available Rake tasks for builds and deployment
 
 ### Migration and Upgrades
 
@@ -72,7 +71,6 @@ Welcome to the technical documentation for forschung.stadtgeschichtebasel.ch. Th
 ### Integrations and APIs
 
 - [oai-pmh.md](oai-pmh.md) - OAI-PMH metadata harvesting endpoint
-- [youtube.md](youtube.md) - YouTube integration recipes
 - [noindex.md](noindex.md) - Search engine indexing control
 
 ## 🔗 External Resources

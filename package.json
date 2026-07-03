@@ -10,7 +10,7 @@
     "dev": "bundle exec jekyll serve",
     "serve": "bundle exec jekyll serve",
     "build": "bundle exec jekyll build",
-    "build:production": "rake deploy",
+    "build:production": "JEKYLL_ENV=production bundle exec jekyll build",
     "setup": "npm install && npm run install:all"
   },
   "dependencies": {

@@ -144,18 +144,6 @@
                               {% include item/child/image-gallery.html %}
                             {% elsif child.display_template == 'geodata' %}
                               {% include item/child/geodata_child.html %}
-                            {% elsif child.display_template == 'video' %}
-                              {% if child.object_location contains 'vimeo' or child.object_location contains 'youtu' %}
-                                {% include item/child/video-embed.html %}
-                              {% else %}
-                                {% include item/child/video-player.html %}
-                              {% endif %}
-                            {% elsif child.display_template == 'audio' %}
-                              <div class="my-auto">
-                                {% include item/child/audio-player.html %}
-                              </div>
-                            {% elsif child.display_template == 'panorama' %}
-                              {% include item/child/panorama.html %}
                             {% elsif child.display_template == 'record' AND child.format == 'text/csv' %}
                               {% include item/child/table.html %}
                             {% else %}

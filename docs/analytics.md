@@ -13,7 +13,3 @@ By default, Jekyll is in the development environment, and analytics will not be 
 To add analytics during build, use this command into Git Bash or Terminal:
 
 `JEKYLL_ENV=production bundle exec jekyll build`
-
-Or use our short cut Rake task:
-
-`rake deploy`

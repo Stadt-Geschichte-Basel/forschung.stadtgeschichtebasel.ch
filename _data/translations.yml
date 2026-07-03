@@ -199,15 +199,6 @@ _includes:
         de: "Zeitachse anzeigen"
   item:
     child:
-      audio-player.html:
-        error:
-          en: "Your browser does not support the audio player."
-          es: "Su navegador no admite el reproductor de audio."
-          de: "Ihr Browser unterstützt den Audioplayer nicht."
-        download:
-          en: "Download Audio File"
-          es: "Descargar Archivo de Audio"
-          de: "Audiodatei herunterladen"
       citation-box.html:
         title:
           en: "Source"
@@ -279,7 +270,6 @@ _includes:
           de: "Klicken Sie, um den Vollbildmodus anzuzeigen"
       item-thumb.html:
       metadata.html:
-      panorama.html:
       rights-box.html:
         rights:
           en: "Rights"
@@ -294,16 +284,6 @@ _includes:
           en: "Quick Search"
           es: "Búsqueda Rápida"
           de: "Schnellsuche"
-      video-embed.html:
-      video-player.html:
-        error:
-          en: "Your browser does not support the video tag."
-          es: "Su navegador no admite la etiqueta de video."
-          de: "Ihr Browser unterstützt das Video-Tag nicht."
-        download:
-          en: "Download the video file"
-          es: "Descargar el archivo de video"
-          de: "Video-Datei herunterladen"
     3d-model-viewer.html:
       load-model:
         en: "Load 3D Model"
@@ -403,7 +383,6 @@ _includes:
     item-thumb.html:
     metadata.html:
     mini-map.html:
-    panorama.html:
     pdf-embed.html:
       error:
         en: "The PDF is not rendering in your browser, please use the button below to download the PDF."
@@ -418,16 +397,6 @@ _includes:
         en: "Standardized Rights"
         es: "Derechos Estandarizados"
         de: "Standardisierte Rechte"
-    video-embed.html:
-    video-player.html:
-      error:
-        en: "Your browser does not support the video tag."
-        es: "Su navegador no admite la etiqueta de video."
-        de: "Ihr Browser unterstützt das Video-Tag nicht."
-      download:
-        en: "Download the video file"
-        es: "Descargar el archivo de video"
-        de: "Video-Datei herunterladen"
   js:
     browse-js.html:
       view-full-record:
@@ -619,7 +588,6 @@ _layouts:
         de: "Springe zu den Elementinformationen"
     item.html:
     multiple.html:
-    panorama.html:
     pdf.html:
     record.html:
     video.html:

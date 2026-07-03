@@ -171,7 +171,7 @@ Build the site for production:
 
 ```bash
 npm run build:production
-# or manually: rake deploy
+# or manually: JEKYLL_ENV=production bundle exec jekyll build
 ```
 
 For a standard Jekyll build without production optimizations:

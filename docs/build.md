@@ -27,19 +27,13 @@ This is set by adding the env variable, `JEKYLL_ENV=production`, in front of the
 
 `JEKYLL_ENV=production bundle exec jekyll build`
 
-To simplify, this command is added in a [Rake](https://github.com/ruby/rake) task in this repository.
-Typing the command `rake deploy` will set the correct environment and build.
 You will get an error if you have not previously done `bundle install` for the project.
-(_note:_ setting ENV cannot be done on windows CMD, use the rake task or Git Bash terminal)
+(_note:_ setting ENV cannot be done on windows CMD, use `npm run build:production` or a Git Bash terminal)
 
 Jekyll will output the site files to the "\_site" directory.
 Everything in "\_site" should be copied over to your web server into the correct file location depending on what you set in "\_config.yml" as the `baseurl`.
 
 _Note:_ Since the extra elements are included during "production", the build time will be _significantly_ higher than when using the development server.
 During production build, Jekyll will generate `relative_url` and `absolute_url` using the `url` and `baseurl` values set in \_config.yml.
-Keep in mind that because CollectionBuilder makes use of `absolute_url` for many assets and links, the site built using `rake deploy` will only work correctly if it is copied to the correct location on your web server.
+Keep in mind that because CollectionBuilder makes use of `absolute_url` for many assets and links, the production-built site will only work correctly if it is copied to the correct location on your web server.
 It will not work in the "\_site" folder, since the links point to locations on your server.
-
-## Benchmarking Build Time
-
-To benchmark the build time, you can use the `rake benchmark_build` command. This is useful for comparing the build time of the site in different environments, or after making changes to the site that may affect build time.
