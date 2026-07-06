@@ -196,7 +196,7 @@ npm run build
 | `npm run populate`         | Process data from Omeka S API             |
 | `npm run clean`            | Remove generated data and objects         |
 | `npm run format`           | Format code with Prettier                 |
-| `npm run check`            | Check code formatting                     |
+| `npm run check`            | Check formatting, Python linting, types   |
 
 ## 💡 Usage Examples
 
@@ -421,13 +421,13 @@ This project has comprehensive documentation to help you get started and contrib
 
 This project is maintained by [@Stadt-Geschichte-Basel](https://github.com/Stadt-Geschichte-Basel). Please understand that we won't be able to provide individual support via email. We believe that help is much more valuable if it's shared publicly, so that more people can benefit from it.
 
-| Type                                   | Platforms                                                                                                     |
-| -------------------------------------- | ------------------------------------------------------------------------------------------------------------- |
-| 🚨 **Bug Reports**                     | [GitHub Issue Tracker](https://github.com/Stadt-Geschichte-Basel/forschung.stadtgeschichtebasel.ch/issues)    |
-| 🎁 **Feature Requests**                | [GitHub Issue Tracker](https://github.com/Stadt-Geschichte-Basel/forschung.stadtgeschichtebasel.ch/issues)    |
+| Type                                  | Platforms                                                                                                     |
+| ------------------------------------- | ------------------------------------------------------------------------------------------------------------- |
+| 🚨 **Bug Reports**                    | [GitHub Issue Tracker](https://github.com/Stadt-Geschichte-Basel/forschung.stadtgeschichtebasel.ch/issues)    |
+| 🎁 **Feature Requests**               | [GitHub Issue Tracker](https://github.com/Stadt-Geschichte-Basel/forschung.stadtgeschichtebasel.ch/issues)    |
 | 🛡 **Report a security vulnerability** | [GitHub Issue Tracker](https://github.com/Stadt-Geschichte-Basel/forschung.stadtgeschichtebasel.ch/issues)    |
-| 💬 **General Questions**               | [GitHub Discussions](https://github.com/Stadt-Geschichte-Basel/forschung.stadtgeschichtebasel.ch/discussions) |
-| 📚 **Documentation Issues**            | [GitHub Issue Tracker](https://github.com/Stadt-Geschichte-Basel/forschung.stadtgeschichtebasel.ch/issues)    |
+| 💬 **General Questions**              | [GitHub Discussions](https://github.com/Stadt-Geschichte-Basel/forschung.stadtgeschichtebasel.ch/discussions) |
+| 📚 **Documentation Issues**           | [GitHub Issue Tracker](https://github.com/Stadt-Geschichte-Basel/forschung.stadtgeschichtebasel.ch/issues)    |
 
 ## 🤝 Contributing
 

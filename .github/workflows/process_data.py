@@ -2,22 +2,33 @@ import json
 import logging
 import os
 import unicodedata
+from typing import Any, TypeAlias, cast
 from urllib.parse import urljoin, urlparse
 
 import pandas as pd
 import requests
 
+JsonObject: TypeAlias = dict[str, Any]
+Record: TypeAlias = dict[str, Any]
+
+
+def require_env(name: str) -> str:
+    """Return a required environment variable or fail before processing starts."""
+    value = os.getenv(name)
+    if not value:
+        raise ValueError(f"{name} environment variable must be set")
+    return value
+
+
 # Configuration
-OMEKA_API_URL = os.getenv("OMEKA_API_URL")
-KEY_IDENTITY = os.getenv("KEY_IDENTITY")
-KEY_CREDENTIAL = os.getenv("KEY_CREDENTIAL")
-ITEM_SET_ID = os.getenv("ITEM_SET_ID")
-if not ITEM_SET_ID:
-    raise ValueError("ITEM_SET_ID environment variable must be set")
+OMEKA_API_URL = require_env("OMEKA_API_URL")
+KEY_IDENTITY = require_env("KEY_IDENTITY")
+KEY_CREDENTIAL = require_env("KEY_CREDENTIAL")
+ITEM_SET_ID_RAW = require_env("ITEM_SET_ID")
 try:
-    ITEM_SET_ID = int(ITEM_SET_ID)
+    ITEM_SET_ID = int(ITEM_SET_ID_RAW)
 except ValueError:
-    raise ValueError("ITEM_SET_ID must be a valid integer")
+    raise ValueError("ITEM_SET_ID must be a valid integer") from None
 CSV_PATH = os.getenv("CSV_PATH", "_data/sgb-metadata-csv.csv")
 JSON_PATH = os.getenv("JSON_PATH", "_data/sgb-metadata-json.json")
 
@@ -28,7 +39,7 @@ logging.basicConfig(
 
 
 # --- Helper Functions for Data Extraction ---
-def is_valid_url(url):
+def is_valid_url(url: str) -> bool:
     """Checks if a URL is valid."""
     try:
         result = urlparse(url)
@@ -37,7 +48,7 @@ def is_valid_url(url):
         return False
 
 
-def download_file(url, dest_path):
+def download_file(url: str, dest_path: str) -> None:
     """Downloads a file from a given URL to the specified destination path."""
     os.makedirs(os.path.dirname(dest_path), exist_ok=True)
     try:
@@ -52,7 +63,7 @@ def download_file(url, dest_path):
         raise
 
 
-def get_paginated_items(url, params):
+def get_paginated_items(url: str, params: dict[str, object] | None) -> list[JsonObject]:
     """Fetches all items from a paginated API endpoint."""
     items = []
     while url:
@@ -60,7 +71,7 @@ def get_paginated_items(url, params):
             # Add timeout to prevent hanging on slow/unresponsive servers
             response = requests.get(url, params=params, timeout=30)
             response.raise_for_status()
-            items.extend(response.json())
+            items.extend(cast(list[JsonObject], response.json()))
         except (requests.exceptions.RequestException, json.JSONDecodeError) as err:
             logging.exception(f"Error fetching items from {url}: {err}")
             raise
@@ -70,7 +81,7 @@ def get_paginated_items(url, params):
     return items
 
 
-def get_items_from_collection(collection_id):
+def get_items_from_collection(collection_id: int) -> list[JsonObject]:
     """Fetches all items from a specified collection."""
     params = {
         "item_set_id": collection_id,
@@ -81,7 +92,7 @@ def get_items_from_collection(collection_id):
     return get_paginated_items(urljoin(OMEKA_API_URL, "items"), params)
 
 
-def get_media(item_id):
+def get_media(item_id: int | str) -> list[JsonObject]:
     """Fetches media associated with a specific item ID."""
     params = {"key_identity": KEY_IDENTITY, "key_credential": KEY_CREDENTIAL}
     return get_paginated_items(
@@ -90,7 +101,9 @@ def get_media(item_id):
 
 
 # --- Data Extraction and Transformation Functions ---
-def extract_property(props, prop_id, as_label=False):
+def extract_property(
+    props: list[JsonObject], prop_id: int, as_label: bool = False
+) -> str:
     """Extracts a property value or label from properties based on property ID."""
     for prop in props:
         if prop.get("property_id") == prop_id:
@@ -100,7 +113,9 @@ def extract_property(props, prop_id, as_label=False):
     return ""
 
 
-def extract_property_by_term(props, term, as_uri=False):
+def extract_property_by_term(
+    props: list[JsonObject], term: str, as_uri: bool = False
+) -> str:
     """Extracts a property value or URI from properties list."""
     # Since props is already a list of values for dcterms:abstract,
     # we just need to extract the first available value
@@ -111,7 +126,7 @@ def extract_property_by_term(props, term, as_uri=False):
     return ""
 
 
-def extract_combined_values(props):
+def extract_combined_values(props: list[JsonObject]) -> list[str]:
     """Combines text values and URIs from properties into a single list."""
     values = [
         prop.get("@value", "").replace(";", "&#59")
@@ -126,7 +141,7 @@ def extract_combined_values(props):
     return values + uris
 
 
-def extract_alt_text(item_or_media):
+def extract_alt_text(item_or_media: JsonObject) -> str:
     """Extracts alt text from dcterms:abstract field, with fallback to o:alt_text."""
     # First try to get dcterms:abstract (the new alt attribute field)
     abstract_props = item_or_media.get("dcterms:abstract", [])
@@ -134,18 +149,18 @@ def extract_alt_text(item_or_media):
         alt_text = extract_property_by_term(abstract_props, "abstract")
         if alt_text:
             return alt_text
-    
+
     # Fallback to the old o:alt_text field for backward compatibility
     return item_or_media.get("o:alt_text", "")
 
 
-def extract_combined_values_csv(props):
+def extract_combined_values_csv(props: list[JsonObject]) -> str:
     """Combines text values and URIs into a semicolon-separated string."""
     combined = extract_combined_values(props)
     return ";".join(combined)
 
 
-def download_thumbnail(image_url):
+def download_thumbnail(image_url: str) -> str:
     """Downloads the thumbnail image if the URL is valid."""
     if image_url and is_valid_url(image_url):
         filename = os.path.basename(image_url)
@@ -156,7 +171,7 @@ def download_thumbnail(image_url):
     return ""
 
 
-def infer_display_template(format_value):
+def infer_display_template(format_value: str) -> str:
     """Infers the display template type based on the format value."""
     if "image" in format_value.lower():
         return "image"
@@ -168,7 +183,7 @@ def infer_display_template(format_value):
         return "record"
 
 
-def extract_item_data(item):
+def extract_item_data(item: JsonObject) -> Record:
     """Extracts relevant data from an item and downloads its thumbnail if available."""
     local_image_path = (
         download_thumbnail(item.get("thumbnail_display_urls", {}).get("large", ""))
@@ -203,7 +218,7 @@ def extract_item_data(item):
     }
 
 
-def extract_media_data(media, item_dc_identifier):
+def extract_media_data(media: JsonObject, item_dc_identifier: str) -> Record:
     """Extracts relevant data from a media item associated with a specific item."""
     format_value = extract_property(media.get("dcterms:format", []), 9)
     display_template = infer_display_template(format_value)
@@ -256,7 +271,7 @@ def extract_media_data(media, item_dc_identifier):
     }
 
 
-def normalize_record(record):
+def normalize_record(record: Record) -> Record:
     """Normalizes all string fields in a record to Unicode NFC form."""
     return {
         key: unicodedata.normalize("NFC", value) if isinstance(value, str) else value
@@ -265,17 +280,19 @@ def normalize_record(record):
 
 
 # --- Main Processing Function ---
-def main():
+def main() -> None:
     # Fetch item data
     logging.info(f"Fetching items from collection {ITEM_SET_ID} at {OMEKA_API_URL}")
     items_data = get_items_from_collection(ITEM_SET_ID)
-    
+
     # Validate that we received some data
     if not items_data:
-        logging.error("No items received from Omeka API. This could indicate a timeout or API unavailability.")
+        logging.error(
+            "No items received from Omeka API. This could indicate a timeout or API unavailability."
+        )
         logging.error("Canceling deployment to prevent deploying empty site.")
         raise ValueError("No items received from Omeka API")
-    
+
     logging.info(f"Successfully retrieved {len(items_data)} items from collection")
 
     # Process each item and associated media
@@ -292,7 +309,7 @@ def main():
 
     # Normalize all string fields in the records to avoid decomposed Unicode form Umlaute ¨ + o -> ö
     items_normalized = [normalize_record(record) for record in items_processed]
-    
+
     # Final validation - ensure we have processed records
     if not items_normalized:
         logging.error("No records were processed successfully. Canceling deployment.")
@@ -302,7 +319,7 @@ def main():
     save_to_files(items_normalized, CSV_PATH, JSON_PATH)
 
 
-def save_to_files(records, csv_path, json_path):
+def save_to_files(records: list[Record], csv_path: str, json_path: str) -> None:
     """Saves data to both CSV and JSON files."""
     with open(json_path, "w", encoding="utf-8") as f:
         json.dump(records, f, ensure_ascii=False)

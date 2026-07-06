@@ -78,7 +78,7 @@ We welcome [Pull Requests](https://help.github.com/en/articles/about-pull-reques
 1. **Follow coding conventions** (see below)
 2. **Write clear commit messages** describing what and why
 3. **Test your changes** locally before submitting
-4. **Run formatters**: `npm run format` (Prettier)
+4. **Run checks**: `npm run check` (Prettier, Ruff, ty)
 5. **Update documentation** if you change functionality
 6. **Keep changes focused**: one feature/fix per PR
 
