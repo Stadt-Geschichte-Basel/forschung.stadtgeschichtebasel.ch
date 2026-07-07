@@ -244,10 +244,10 @@ You should see the Stadt.Geschichte.Basel research data platform homepage.
 3. The site should automatically rebuild
 4. Refresh your browser to see the changes
 
-### 4. Check Code Formatting
+### 4. Check Formatting And Python Quality
 
 ```bash
-# Check if code is properly formatted
+# Check formatting, Python linting, and Python types
 npm run check
 
 # Auto-format all code
