@@ -10,6 +10,8 @@ import requests
 
 JsonObject: TypeAlias = dict[str, Any]
 Record: TypeAlias = dict[str, Any]
+RequestParamValue: TypeAlias = str | bytes | int | float | None
+RequestParams: TypeAlias = dict[str, RequestParamValue]
 
 
 def require_env(name: str) -> str:
@@ -63,7 +65,9 @@ def download_file(url: str, dest_path: str) -> None:
         raise
 
 
-def get_paginated_items(url: str, params: dict[str, object] | None) -> list[JsonObject]:
+def get_paginated_items(
+    url: str | None, params: RequestParams | None
+) -> list[JsonObject]:
     """Fetches all items from a paginated API endpoint."""
     items = []
     while url:
@@ -75,7 +79,8 @@ def get_paginated_items(url: str, params: dict[str, object] | None) -> list[Json
         except (requests.exceptions.RequestException, json.JSONDecodeError) as err:
             logging.exception(f"Error fetching items from {url}: {err}")
             raise
-        url = response.links.get("next", {}).get("url")
+        next_url = response.links.get("next", {}).get("url")
+        url = next_url if isinstance(next_url, str) else None
         params = None
 
     return items
