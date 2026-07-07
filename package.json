@@ -1,6 +1,8 @@
 {
   "scripts": {
-    "check": "prettier --check '**/*.{js,css,md,html}'",
+    "check": "npm run check:format && npm run check:python",
+    "check:format": "prettier --check '**/*.{js,css,md,html}'",
+    "check:python": "uv run ruff check .github/workflows/process_data.py && uv run ruff format --check .github/workflows/process_data.py && uv run ty check .github/workflows/process_data.py",
     "format": "prettier --write '**/*.{js,css,md,html}'",
     "clean": "rm _data/sgb-metadata-* && find objects -type f ! -name 'README.md' -delete",
     "populate": "uv run .github/workflows/process_data.py",

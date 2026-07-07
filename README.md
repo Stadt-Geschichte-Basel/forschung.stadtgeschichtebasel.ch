@@ -196,7 +196,7 @@ npm run build
 | `npm run populate`         | Process data from Omeka S API             |
 | `npm run clean`            | Remove generated data and objects         |
 | `npm run format`           | Format code with Prettier                 |
-| `npm run check`            | Check code formatting                     |
+| `npm run check`            | Check formatting, Python linting, types   |
 
 ## 💡 Usage Examples
 

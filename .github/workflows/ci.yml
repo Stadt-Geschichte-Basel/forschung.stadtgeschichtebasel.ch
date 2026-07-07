@@ -21,10 +21,30 @@ jobs:
         run: npm ci # Using npm ci for a clean install based on package-lock.json
 
       - name: Check Formatting
-        run: npx prettier --check "**/*.{js,css,md,html}"
+        run: npm run check:format
+
+  python:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v5
+
+      - name: Setup uv
+        uses: astral-sh/setup-uv@v7
+        with:
+          enable-cache: true
+
+      - name: Setup Python
+        uses: actions/setup-python@v6
+        with:
+          python-version: '3.13'
+
+      - name: Check Python
+        run: npm run check:python
 
   jekyll:
-    needs: prettier
+    needs: [prettier, python]
     runs-on: ubuntu-latest
     steps:
       - name: Checkout
