@@ -118,14 +118,10 @@ font-cdn: "<link rel='preload' href='/assets/fonts/EuclidCircularB-Regular-WebS.
 #
 icons: 
    icon-image: image
-   icon-audio: soundwave
-   icon-video: film
    icon-pdf: file-pdf
    icon-record: file-text
-   icon-panorama: image-alt
    icon-geodata: sgb-globe
    icon-compound-object: collection 
-   icon-multiple: postcard
    icon-default: file-earmark # fall back icon
    icon-back-to-top: arrow-up-square
    icon-external-link: box-arrow-up-right
