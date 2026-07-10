@@ -30,7 +30,7 @@
                 </a>
               {% else %}
                 {% assign text = item %}
-                {% assign urls = text | regex_match: '(https?:\/\/[^\s,]+)' %}
+                {% assign urls = text | regex_match: '(https?:\/\/(?:(?!&#59)[^\s,;])+[^\s,.;:!?)&])' %}
                 {% for url in urls %}
                   {% assign link = "<a href='"
                     | append: url
