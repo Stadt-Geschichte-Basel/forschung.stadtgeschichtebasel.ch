@@ -6,6 +6,7 @@
     "format": "prettier --write '**/*.{js,css,md,html}'",
     "clean": "rm _data/sgb-metadata-* && find objects -type f ! -name 'README.md' -delete",
     "populate": "uv run .github/workflows/process_data.py",
+    "test": "uv run pytest",
     "install:ruby": "bundle config set --local path 'vendor/bundle' && bundle install",
     "install:python": "uv sync",
     "install:all": "npm run install:ruby && npm run install:python",

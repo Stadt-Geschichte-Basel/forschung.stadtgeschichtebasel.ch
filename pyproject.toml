@@ -4,12 +4,15 @@ version = "0.1.0"
 readme = "README.md"
 requires-python = ">=3.13"
 dependencies = [
+    "httpx2>=2.5.0",
     "pandas>=2.2.3",
-    "requests>=2.32.3",
 ]
 
 [dependency-groups]
 dev = [
+    "commitizen>=4.0.0",
+    "pytest>=8.0.0",
+    "pytest-cov>=6.0.0",
     "ruff>=0.15.20",
     "ty==0.0.56",
 ]
@@ -17,3 +20,13 @@ dev = [
 [tool.ruff]
 target-version = "py313"
 extend-exclude = ["vendor", ".venv"]
+
+[tool.commitizen]
+name = "cz_conventional_commits"
+version = "0.1.0"
+version_provider = "pep621"
+tag_format = "v$version"
+update_changelog_on_bump = false
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]

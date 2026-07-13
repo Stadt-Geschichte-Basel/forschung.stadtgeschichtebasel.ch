@@ -3,3 +3,6 @@ _plugins/**
 _site/**
 assets/**
 objects/**
+.pytest_cache/**
+vendor/**
+node_modules/**

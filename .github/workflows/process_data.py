@@ -6,8 +6,8 @@ import unicodedata
 from typing import Any, TypeAlias, cast
 from urllib.parse import parse_qsl, urlencode, urljoin, urlparse, urlunparse
 
+import httpx2
 import pandas as pd
-import requests
 
 JsonObject: TypeAlias = dict[str, Any]
 Record: TypeAlias = dict[str, Any]
@@ -78,19 +78,26 @@ def redact_url(url: str) -> str:
     return urlunparse(parsed_url._replace(query=query))
 
 
-def download_file(url: str, dest_path: str) -> None:
-    """Downloads a file from a given URL to the specified destination path."""
+def download_file(url: str, dest_path: str, retries: int = 3) -> None:
+    """Downloads a file from a URL to dest_path, retrying transient errors."""
     os.makedirs(os.path.dirname(dest_path), exist_ok=True)
-    try:
-        # Add timeout for file downloads as well
-        with requests.get(url, stream=True, timeout=30) as r:
-            r.raise_for_status()
-            with open(dest_path, "wb") as f:
-                for chunk in r.iter_content(chunk_size=8192):
-                    f.write(chunk)
-    except requests.exceptions.RequestException as err:
-        logging.error(f"File download error: {err}")
-        raise
+    for attempt in range(1, retries + 1):
+        try:
+            with httpx2.stream("GET", url, timeout=30, follow_redirects=True) as r:
+                r.raise_for_status()
+                with open(dest_path, "wb") as f:
+                    for chunk in r.iter_bytes(8192):
+                        f.write(chunk)
+            return
+        except httpx2.HTTPError as err:
+            # ponytail: small fixed retry loop for transient errors, no backoff lib
+            logging.error(
+                "File download error (attempt %d/%d): %s", attempt, retries, err
+            )
+            if os.path.exists(dest_path):
+                os.remove(dest_path)  # drop any partial write before retry/skip
+            if attempt == retries:
+                raise
 
 
 def get_paginated_items(
@@ -101,10 +108,10 @@ def get_paginated_items(
     while url:
         try:
             # Add timeout to prevent hanging on slow/unresponsive servers
-            response = requests.get(url, params=params, timeout=30)
+            response = httpx2.get(url, params=params, timeout=30, follow_redirects=True)
             response.raise_for_status()
             items.extend(cast(list[JsonObject], response.json()))
-        except (requests.exceptions.RequestException, json.JSONDecodeError):
+        except (httpx2.HTTPError, json.JSONDecodeError):
             safe_url = redact_url(url)
             logging.exception("Error fetching items from %s", safe_url)
             raise RuntimeError(f"Error fetching items from {safe_url}") from None
@@ -255,7 +262,12 @@ def download_thumbnail(image_url: str) -> str:
         filename = os.path.basename(image_url)
         local_image_path = f"objects/{filename}"
         if not os.path.exists(local_image_path):
-            download_file(image_url, local_image_path)
+            try:
+                download_file(image_url, local_image_path)
+            except httpx2.HTTPError as err:
+                # A single unreachable file must not abort the whole export.
+                logging.warning("Skipping thumbnail %s: %s", redact_url(image_url), err)
+                return ""
         return local_image_path
     return ""
 
