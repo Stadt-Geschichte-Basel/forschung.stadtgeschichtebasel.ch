@@ -135,10 +135,15 @@ def get_items_from_collection(collection_id: int) -> list[JsonObject]:
 
 def get_media(item_id: int | str) -> list[JsonObject]:
     """Fetches media associated with a specific item ID."""
-    params = {"key_identity": KEY_IDENTITY, "key_credential": KEY_CREDENTIAL}
-    return get_paginated_items(
-        urljoin(OMEKA_API_URL, f"media?item_id={item_id}"), params
-    )
+    # item_id must go in params, not the URL query: httpx2 replaces an existing
+    # query string when params is passed (requests merged it), which would drop
+    # the filter and fetch every media object on the server.
+    params = {
+        "item_id": item_id,
+        "key_identity": KEY_IDENTITY,
+        "key_credential": KEY_CREDENTIAL,
+    }
+    return get_paginated_items(urljoin(OMEKA_API_URL, "media"), params)
 
 
 # --- Data Extraction and Transformation Functions ---
@@ -231,6 +236,10 @@ def find_literal_url_issues(resource: JsonObject, resource_type: str) -> list[st
 def report_literal_url_issues(issues: list[str]) -> None:
     """Logs literal URL validation issues and optionally writes a report file."""
     if not issues:
+        # Clear a stale report from a previous run so downstream cleanup doesn't
+        # act on outdated data.
+        if VALIDATION_REPORT_PATH and os.path.exists(VALIDATION_REPORT_PATH):
+            os.remove(VALIDATION_REPORT_PATH)
         return
 
     logging.warning(
@@ -496,7 +505,6 @@ def main() -> None:
     seen_parent_objectids: set[str] = set()
     used_objectids: set[str] = set()
     for item in items_data:
-        literal_url_issues.extend(find_literal_url_issues(item, "Item"))
         item_record = extract_item_data(item)
         item_record["objectid"] = normalize_objectid(
             item_record.get("objectid"), "item-", item.get("o:id", "unknown")
@@ -510,6 +518,7 @@ def main() -> None:
             )
             continue
 
+        literal_url_issues.extend(find_literal_url_issues(item, "Item"))
         seen_parent_objectids.add(item_objectid)
         used_objectids.add(item_objectid)
         media_data = get_media(item.get("o:id", ""))

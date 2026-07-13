@@ -59,6 +59,46 @@ def test_has_meaningful_preview():
     assert not p.has_meaningful_preview(None)
 
 
+def test_get_media_passes_item_id_as_param(monkeypatch):
+    """item_id must go in params, not the URL query (httpx2 drops query on params)."""
+    captured = {}
+
+    def fake_get_paginated_items(url, params):
+        captured["url"] = url
+        captured["params"] = params
+        return []
+
+    monkeypatch.setattr(p, "get_paginated_items", fake_get_paginated_items)
+    p.get_media(99)
+    assert captured["params"]["item_id"] == 99
+    assert "?" not in captured["url"]  # no query string for httpx2 to replace
+
+
+def test_apply_media_preview():
+    placeholder = {"image_thumb": "assets/img/no-image.svg"}
+    real_child = {
+        "image_thumb": "objects/real.jpg",
+        "image_small": "objects/real.jpg",
+        "format": "image/jpeg",
+        "image_alt_text": "a photo",
+    }
+
+    # Keeps an already-meaningful parent preview untouched.
+    parent = {"image_thumb": "objects/parent.jpg", "image_small": "objects/parent.jpg"}
+    assert p.apply_media_preview(dict(parent), [real_child])["image_thumb"] == (
+        "objects/parent.jpg"
+    )
+
+    # Picks the first meaningful image-media child over a placeholder parent.
+    result = p.apply_media_preview(dict(placeholder), [placeholder, real_child])
+    assert result["image_thumb"] == "objects/real.jpg"
+    assert result["image_alt_text"] == "a photo"
+
+    # Unchanged when no child has a valid preview.
+    result = p.apply_media_preview(dict(placeholder), [dict(placeholder)])
+    assert result["image_thumb"] == "assets/img/no-image.svg"
+
+
 def test_download_thumbnail_skips_on_error(monkeypatch):
     """A failed download must return "" instead of raising (mtwente's crash)."""
     import httpx2
