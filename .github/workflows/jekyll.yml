@@ -71,7 +71,7 @@ jobs:
           name: objects
           path: objects
       - name: Setup Ruby
-        uses: ruby/setup-ruby@v1.207.0
+        uses: ruby/setup-ruby@v1.343.0
         with:
           ruby-version: '3.3'
           bundler-cache: true
