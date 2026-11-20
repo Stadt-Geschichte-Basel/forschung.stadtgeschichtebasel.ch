@@ -375,7 +375,10 @@ def infer_display_template(format_value: str) -> str:
 
 
 def extract_item_data(item: JsonObject) -> Record:
-    """Extracts relevant data from an item and downloads its thumbnail if available."""
+    """Extracts relevant data from an item and downloads its thumbnail if available.
+
+    SGB does not assign subject terms. Omeka `dcterms:subject` values are not exported.
+    """
     local_image_path = (
         download_thumbnail(item.get("thumbnail_display_urls", {}).get("large", ""))
         if item.get("o:is_public", False)
@@ -387,7 +390,6 @@ def extract_item_data(item: JsonObject) -> Record:
         "parentid": "",
         "title": extract_property(item.get("dcterms:title", []), 1),
         "description": extract_property(item.get("dcterms:description", []), 4),
-        # "subject": extract_combined_values(item.get("dcterms:subject", [])),
         "coverage": extract_property(item.get("dcterms:temporal", []), 41),
         "isPartOf": extract_combined_values(item.get("dcterms:isPartOf", [])),
         "creator": extract_combined_values(item.get("dcterms:creator", [])),
@@ -410,7 +412,10 @@ def extract_item_data(item: JsonObject) -> Record:
 
 
 def extract_media_data(media: JsonObject, item_dc_identifier: str) -> Record:
-    """Extracts relevant data from a media item associated with a specific item."""
+    """Extracts relevant data from a media item associated with a specific item.
+
+    Omeka `dcterms:subject` values are not exported.
+    """
     format_value = extract_property(media.get("dcterms:format", []), 9)
     display_template = infer_display_template(format_value)
     media_source = str(media.get("o:source", "")).lower()
@@ -453,7 +458,6 @@ def extract_media_data(media: JsonObject, item_dc_identifier: str) -> Record:
         "parentid": item_dc_identifier,
         "title": extract_property(media.get("dcterms:title", []), 1),
         "description": extract_property(media.get("dcterms:description", []), 4),
-        # "subject": extract_combined_values(media.get("dcterms:subject", [])),
         "coverage": extract_property(media.get("dcterms:temporal", []), 41),
         "isPartOf": extract_combined_values(media.get("dcterms:isPartOf", [])),
         "creator": extract_combined_values(media.get("dcterms:creator", [])),
