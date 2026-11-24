@@ -116,7 +116,10 @@ function filterItems(arr,q) {
     }
     browseItemsDiv.innerHTML = cards;
 
-    filterTextBox.focus();
+    // move focus only for a typed or linked query, so the skip link stays first in tab order
+    if (q != "") {
+        filterTextBox.focus();
+    }
     loadingIcon.classList.add("d-none");
 };
 
@@ -145,7 +148,7 @@ var browseItemsDiv = document.querySelector("#browseItems");
 
 /* filter if hash in initial URL */
 var query = "";
-if(window.location.hash && window.location.hash !== "#maincontent") {
+if(window.location.hash) {
     query = decodeURIComponent(location.hash.substr(1));
     filterTextBox.value = query;
     filterItems(items,query);
@@ -168,14 +171,23 @@ function resetFilter() {
 
 /* filter if hash changes */ 
 window.addEventListener("hashchange", function() {
-    // ignore the skip-link hash
-    if (location.hash === "#maincontent") return;
     // read hash
     query = decodeURIComponent(location.hash.substr(1));
     filterTextBox.value = query;
     // filter
     filterItems(items,query);
 });
+
+/* skip link: the hash holds the filter query, so move focus without changing it */
+var skipLink = document.querySelector("#skip-to-content a");
+var mainContent = document.querySelector("#maincontent");
+if (skipLink && mainContent) {
+    skipLink.addEventListener("click", function(e) {
+        e.preventDefault();
+        mainContent.setAttribute("tabindex", "-1");
+        mainContent.focus();
+    });
+}
 
 /* item array sorting function */
 function sorting(json_object, key_to_sort_by) {
