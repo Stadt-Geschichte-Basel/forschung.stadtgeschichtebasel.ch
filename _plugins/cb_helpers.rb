@@ -52,9 +52,9 @@ module CollectionBuilderHelperGenerator
           else
             # use object_location for image items, image_small for others
             if featured_record[0]['format'] and featured_record[0]['format'].include? 'image'
-              featured_item_src = featured_record[0]['object_location'] || featured_record[0]['image_small']
+              featured_item_src = featured_record[0]['object_location'].to_s.empty? ? featured_record[0]['image_small'] : featured_record[0]['object_location']
             elsif featured_record[0]['display_template'] and featured_record[0]['display_template'].include? 'image'
-              featured_item_src = featured_record[0]['object_location'] || featured_record[0]['image_small']
+              featured_item_src = featured_record[0]['object_location'].to_s.empty? ? featured_record[0]['image_small'] : featured_record[0]['object_location']
             else
               featured_item_src = featured_record[0]['image_small']
             end

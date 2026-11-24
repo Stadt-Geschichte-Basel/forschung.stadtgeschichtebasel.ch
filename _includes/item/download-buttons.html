@@ -46,7 +46,7 @@
       {{- site.data.translations._includes.item['download-buttons.html'].map[site.lang] | default: 'View on Map' -}}
     </a>
   {%- endif %}
-  {% if page.object_location -%}
+  {% if page.object_location and page.object_location != '' -%}
     <a
       target="_blank"
       rel="noopener"

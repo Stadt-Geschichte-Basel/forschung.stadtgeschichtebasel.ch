@@ -1,7 +1,7 @@
 {% comment %}
   Add a thumbnail image or icon based on format for a child item, with a object_location link (if available).
 {% endcomment %}
-{% if child.object_location -%}
+{% if child.object_location and child.object_location != '' -%}
   <a href="{{ child.object_location | relative_url }}" target="_blank" rel="noopener">
 {%- endif %}
 {% if child.image_thumb or child.image_small %}
@@ -17,4 +17,4 @@
   </svg>
   <span class="visually-hidden">{{ child.title | escape }} - {{ child.format }}</span>
 {% endif %}
-{% if child.object_location %}</a>{% endif %}
+{% if child.object_location and child.object_location != '' %}</a>{% endif %}

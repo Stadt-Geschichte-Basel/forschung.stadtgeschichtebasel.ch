@@ -26,11 +26,11 @@
   {%- endif %}
 
   {% assign has_download_options = false %}
-  {% if page.object_location %}
+  {% if page.object_location and page.object_location != '' %}
     {% assign has_download_options = true %}
   {% endif %}
   {% for child in children %}
-    {% if child.object_location %}
+    {% if child.object_location and child.object_location != '' %}
       {% assign has_download_options = true %}
     {% endif %}
   {% endfor %}
@@ -51,7 +51,7 @@
       }}
     </button>
     <ul class="dropdown-menu">
-      {% if page.object_location %}
+      {% if page.object_location and page.object_location != '' %}
         <li>
           <a target="_blank" rel="noopener" href="{{ page.object_location | relative_url }}" class="dropdown-item">
             {{- page.title }} ({{ page.format | split: '/' | last | upcase }})</a
@@ -59,14 +59,14 @@
         </li>
       {% endif %}
       {% for child in children %}
-        {% unless child.object_location == null %}
+        {% if child.object_location and child.object_location != '' %}
           <li>
             <a target="_blank" rel="noopener" href="{{ child.object_location | relative_url }}" class="dropdown-item">
               {{ child.objectid }}
               {% if child.format %}({{ child.format | split: '/' | last | upcase }}){% endif %}
             </a>
           </li>
-        {% endunless %}
+        {% endif %}
       {% endfor %}
     </ul>
     <a
