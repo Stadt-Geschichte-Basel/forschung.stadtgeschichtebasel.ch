@@ -111,6 +111,20 @@ def test_legacy_subject_is_not_exported(monkeypatch):
         assert "Legacy subject" not in str(record)
 
 
+def test_private_media_has_no_file_location(monkeypatch):
+    """Private media keep a thumbnail but export no original file URL."""
+    monkeypatch.setattr(p, "download_thumbnail", lambda _url: "objects/thumb.jpg")
+    media = {
+        "o:id": 2,
+        "o:is_public": False,
+        "dcterms:format": [{"property_id": 9, "@value": "image/png", "type": "literal"}],
+        "o:original_url": "https://omeka.unibe.ch/files/original/abc.png",
+    }
+    record = p.extract_media_data(media, "abb1")
+    assert record["object_location"] == ""
+    assert record["image_thumb"] == "objects/thumb.jpg"
+
+
 def test_original_url_preview_skips_tiff(monkeypatch):
     """Omeka made no thumbnail: a TIFF file must not become the preview.
 
