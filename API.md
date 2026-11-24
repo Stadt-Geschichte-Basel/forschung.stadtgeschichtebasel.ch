@@ -212,7 +212,6 @@ Contains all item metadata in CSV format for Jekyll processing.
 
 - `objectid`: Unique identifier (e.g., `abb01313`)
 - `title`: Item title
-- `subject`: Semicolon-separated subjects
 - `description`: Item description
 - `creator`: Creator/author
 - `date`: Date of creation
@@ -236,7 +235,6 @@ Contains metadata in JSON format for JavaScript processing.
   {
     "objectid": "abb01313",
     "title": "Example Item",
-    "subject": ["Subject1", "Subject2"],
     "description": "Item description",
     "date": "1950-01-15",
     "temporal": "20. Jahrhundert",
@@ -323,24 +321,6 @@ https://forschung.stadtgeschichtebasel.ch/assets/data/metadata.json
 - External aggregators
 - Custom visualizations
 - Data analysis tools
-
-### Subjects/Keywords Feed
-
-```
-https://forschung.stadtgeschichtebasel.ch/assets/data/subjects.json
-```
-
-**Format**: Object mapping subjects to item counts
-
-**Example**:
-
-```json
-{
-  "Basel": 150,
-  "Architecture": 89,
-  "19th Century": 234
-}
-```
 
 ### Geospatial Data
 
@@ -555,24 +535,23 @@ See [README.md#data-model](README.md#data-model) for the complete data model wit
 
 ### Key Fields
 
-| Field       | Type     | Description                               | Example                |
-| ----------- | -------- | ----------------------------------------- | ---------------------- |
-| `objectid`  | String   | Unique identifier                         | `abb01313`             |
-| `title`     | String   | Item title                                | `"Spalentor, Basel"`   |
-| `subject`   | String[] | Semicolon-separated subjects              | `"Basel;Architecture"` |
-| `date`      | String   | Date in EDTF format                       | `1950-01-15`           |
-| `temporal`  | String   | Historical period (German)                | `20. Jahrhundert`      |
-| `latitude`  | Float    | Geographic latitude                       | `47.5596`              |
-| `longitude` | Float    | Geographic longitude                      | `7.5886`               |
-| `filename`  | String   | Media filename in objects/                | `abb01313.jpg`         |
-| `type`      | String   | Media type (Image, Text, Video, etc.)     | `Image`                |
-| `format`    | String   | MIME type                                 | `image/jpeg`           |
-| `rights`    | String   | Rights statement                          | `Public Domain`        |
-| `license`   | String   | License URL                               | `https://creativecom…` |
-| `creator`   | String   | Creator/author                            | `Staatsarchiv Basel`   |
-| `publisher` | String   | Publisher                                 | `Stadt.Geschichte…`    |
-| `language`  | String   | ISO 639-2 language code                   | `ger`                  |
-| `isPartOf`  | String   | Parent collection/series (DOI/identifier) | `10.5281/zenodo…`      |
+| Field       | Type   | Description                               | Example                |
+| ----------- | ------ | ----------------------------------------- | ---------------------- |
+| `objectid`  | String | Unique identifier                         | `abb01313`             |
+| `title`     | String | Item title                                | `"Spalentor, Basel"`   |
+| `date`      | String | Date in EDTF format                       | `1950-01-15`           |
+| `temporal`  | String | Historical period (German)                | `20. Jahrhundert`      |
+| `latitude`  | Float  | Geographic latitude                       | `47.5596`              |
+| `longitude` | Float  | Geographic longitude                      | `7.5886`               |
+| `filename`  | String | Media filename in objects/                | `abb01313.jpg`         |
+| `type`      | String | Media type (Image, Text, Video, etc.)     | `Image`                |
+| `format`    | String | MIME type                                 | `image/jpeg`           |
+| `rights`    | String | Rights statement                          | `Public Domain`        |
+| `license`   | String | License URL                               | `https://creativecom…` |
+| `creator`   | String | Creator/author                            | `Staatsarchiv Basel`   |
+| `publisher` | String | Publisher                                 | `Stadt.Geschichte…`    |
+| `language`  | String | ISO 639-2 language code                   | `ger`                  |
+| `isPartOf`  | String | Parent collection/series (DOI/identifier) | `10.5281/zenodo…`      |
 
 ### EDTF Date Support
 

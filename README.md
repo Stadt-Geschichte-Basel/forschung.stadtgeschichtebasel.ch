@@ -53,13 +53,14 @@ Metadata for items featured on the research data platform is provided according 
 
 The following chart illustrates the data model with metadata fields for a sample metadata object `abb01313` that has one child media object `m01313`. If a metadata object has more than one child media object, the children `id`s are numbered consecutively: `m01313_1`, `m01313_2` etc.
 
+The data model has no subject field. Stadt.Geschichte.Basel decided not to assign subject terms to its collection objects. The [decision record](https://github.com/Stadt-Geschichte-Basel/stadt-geschichte-basel.github.io/issues/104) explains this decision.
+
 ```mermaid
     classDiagram
     direction LR
         class metadata {
             id &lpar;abb01313&rpar;
             title
-            [subject;subject]
             description
             temporal
             [isPartOf;isPartOf] &lpar;Data DOIs&rpar;
@@ -67,7 +68,6 @@ The following chart illustrates the data model with metadata fields for a sample
         class media {
             id &lpar;m01313&rpar;
             title
-            [subject;subject]
             description
             [abstract] &lpar;alt-attribute for alternative text&rpar;
             [creator] &lpar;incl. link to institution&rpar;

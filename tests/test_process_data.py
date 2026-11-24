@@ -99,6 +99,18 @@ def test_apply_media_preview():
     assert result["image_thumb"] == "assets/img/no-image.svg"
 
 
+def test_legacy_subject_is_not_exported(monkeypatch):
+    """Legacy Omeka dcterms:subject values must not reach the exported records."""
+    monkeypatch.setattr(p, "download_thumbnail", lambda _url: "")
+    subject = [{"property_id": 3, "@value": "Legacy subject", "type": "literal"}]
+    item = {"o:id": 1, "o:is_public": True, "dcterms:subject": subject}
+    media = {"o:id": 2, "o:is_public": True, "dcterms:subject": subject}
+
+    for record in (p.extract_item_data(item), p.extract_media_data(media, "abb1")):
+        assert "subject" not in record
+        assert "Legacy subject" not in str(record)
+
+
 def test_download_thumbnail_skips_on_error(monkeypatch):
     """A failed download must return "" instead of raising (mtwente's crash)."""
     import httpx2
