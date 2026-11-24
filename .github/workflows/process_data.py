@@ -226,11 +226,12 @@ def find_literal_url_issues(resource: JsonObject, resource_type: str) -> list[st
     """Finds Omeka literal values that contain URLs and should be URI values."""
     issues = []
     resource_id = resource.get("o:id", "unknown")
-    for term, props in drop_private_values(resource).items():
+    for term, props in resource.items():
         if not isinstance(props, list):
             continue
         for index, prop in enumerate(props):
-            if not isinstance(prop, dict):
+            # Skip private values, but keep the source index for the report.
+            if not isinstance(prop, dict) or prop.get("is_public") is False:
                 continue
             value = prop.get("@value")
             if isinstance(value, str) and URL_IN_LITERAL_PATTERN.search(value):

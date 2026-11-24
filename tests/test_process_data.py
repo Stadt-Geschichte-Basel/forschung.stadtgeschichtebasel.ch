@@ -245,10 +245,17 @@ def test_private_values_are_not_exported(monkeypatch):
         assert "Interne Notiz" not in str(record)
         assert record["description"] == "Öffentlich"
     issues = p.find_literal_url_issues(
-        {"o:id": 1, "dcterms:rights": [{"@value": "https://x", "is_public": False}]},
+        {
+            "o:id": 1,
+            "dcterms:rights": [
+                {"@value": "https://x", "is_public": False},
+                {"@value": "https://y"},
+            ],
+        },
         "Item",
     )
-    assert issues == []
+    assert len(issues) == 1
+    assert "dcterms:rights[1]" in issues[0] and "https://x" not in issues[0]
 
 
 def test_public_item_with_private_and_public_children(monkeypatch, tmp_path):
