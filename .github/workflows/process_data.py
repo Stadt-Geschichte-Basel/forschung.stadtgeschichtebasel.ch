@@ -45,6 +45,9 @@ PLACEHOLDER_IMAGE_PATHS = {
     "assets/img/placeholder.svg",
 }
 PLACEHOLDER_SOURCE_MARKER = "platzhalter"
+# Browsers cannot render TIFF, and originals can be gigabytes. Only these
+# original files may serve as a preview when Omeka made no thumbnail.
+BROWSER_IMAGE_EXTENSIONS = {".jpg", ".jpeg", ".png", ".gif", ".webp"}
 URL_IN_LITERAL_PATTERN = re.compile(r"\b(?:https?://|www\.)\S+", re.IGNORECASE)
 
 # Set up logging
@@ -436,6 +439,8 @@ def extract_media_data(media: JsonObject, item_dc_identifier: str) -> Record:
             and isinstance(original_url, str)
             and format_value.lower().startswith("image/")
             and is_valid_url(original_url)
+            and os.path.splitext(urlparse(original_url).path)[1].lower()
+            in BROWSER_IMAGE_EXTENSIONS
         ):
             local_image_path = original_url
         if not local_image_path:

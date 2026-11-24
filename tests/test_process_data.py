@@ -111,6 +111,25 @@ def test_legacy_subject_is_not_exported(monkeypatch):
         assert "Legacy subject" not in str(record)
 
 
+def test_original_url_preview_skips_tiff(monkeypatch):
+    """Omeka made no thumbnail: a TIFF original must not become the preview."""
+    monkeypatch.setattr(p, "download_thumbnail", lambda _url: "")
+    base = {"o:id": 2, "o:is_public": True, "dcterms:format": []}
+
+    def record(filename: str) -> dict:
+        fmt = [{"property_id": 9, "@value": "image/tiff", "type": "literal"}]
+        media = {
+            **base,
+            "dcterms:format": fmt,
+            "o:original_url": f"https://omeka.unibe.ch/files/original/{filename}",
+        }
+        return p.extract_media_data(media, "abb1")
+
+    assert record("abc.tif")["image_thumb"] == "assets/img/no-image.svg"
+    assert record("abc.TIFF")["image_thumb"] == "assets/img/no-image.svg"
+    assert record("abc.jpg")["image_thumb"].endswith("/abc.jpg")
+
+
 def test_download_thumbnail_skips_on_error(monkeypatch):
     """A failed download must return "" instead of raising (mtwente's crash)."""
     import httpx2
