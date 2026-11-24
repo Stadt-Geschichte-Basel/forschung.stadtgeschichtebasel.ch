@@ -2,7 +2,7 @@
   Featured Terms button-links.
   This include creates a card with btn links to the Browse page from a set of automatically generated or manually selected terms. Either use the "field" option to auto generate *or* the "featured" option to manually create list of terms.
 
-  E.G. --> {% include index/featured-terms.html field="subject" title="Top Subjects" btn-color="outline-info" max=8 %}
+  E.G. --> {% include index/featured-terms.html field="coverage" title="Top Eras" btn-color="outline-info" max=8 %}
 
   E.G. --> {% include index/featured-terms.html featured="Example term; Another; One more" title="Topic Areas" btn-color="success" %}
 
@@ -24,7 +24,7 @@
   {% comment %}
     Use termsField and termsMax to customize feature
   {% endcomment %}
-  {% assign termsField = include.field | default: 'subject' %}
+  {% assign termsField = include.field | default: 'coverage' %}
   {% assign termsMax = include.max | default: 5 %}
   {% if site.data.theme['browse-child-objects'] == true %}
     {%- assign terms = site.data[site.metadata] | where_exp: 'item', 'item.objectid' | map: termsField | join: ';' -%}
