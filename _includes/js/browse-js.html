@@ -97,7 +97,10 @@ function filterItems(arr,q) {
         var filteredItems = [];
         for (var i = 0, len = arr.length; i < len; i++) {
             var val = "";
-        for (var k in arr[i]) { val += arr[i][k] + " "; }
+            for (var k in arr[i]) {
+                // skip the thumbnail path so it does not match search terms
+                if (k != "img") { val += arr[i][k] + " "; }
+            }
             if(val.toUpperCase().indexOf(q) != -1){
                 filteredItems.push(arr[i]);
             }
@@ -142,7 +145,7 @@ var browseItemsDiv = document.querySelector("#browseItems");
 
 /* filter if hash in initial URL */
 var query = "";
-if(window.location.hash) {
+if(window.location.hash && window.location.hash !== "#maincontent") {
     query = decodeURIComponent(location.hash.substr(1));
     filterTextBox.value = query;
     filterItems(items,query);
@@ -165,6 +168,8 @@ function resetFilter() {
 
 /* filter if hash changes */ 
 window.addEventListener("hashchange", function() {
+    // ignore the skip-link hash
+    if (location.hash === "#maincontent") return;
     // read hash
     query = decodeURIComponent(location.hash.substr(1));
     filterTextBox.value = query;
