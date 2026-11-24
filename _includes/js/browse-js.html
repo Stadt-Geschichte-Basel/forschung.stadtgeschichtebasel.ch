@@ -97,7 +97,10 @@ function filterItems(arr,q) {
         var filteredItems = [];
         for (var i = 0, len = arr.length; i < len; i++) {
             var val = "";
-        for (var k in arr[i]) { val += arr[i][k] + " "; }
+            for (var k in arr[i]) {
+                // skip the thumbnail path so it does not match search terms
+                if (k != "img") { val += arr[i][k] + " "; }
+            }
             if(val.toUpperCase().indexOf(q) != -1){
                 filteredItems.push(arr[i]);
             }
@@ -113,7 +116,10 @@ function filterItems(arr,q) {
     }
     browseItemsDiv.innerHTML = cards;
 
-    filterTextBox.focus();
+    // move focus only for a typed or linked query, so the skip link stays first in tab order
+    if (q != "") {
+        filterTextBox.focus();
+    }
     loadingIcon.classList.add("d-none");
 };
 
@@ -171,6 +177,17 @@ window.addEventListener("hashchange", function() {
     // filter
     filterItems(items,query);
 });
+
+/* skip link: the hash holds the filter query, so move focus without changing it */
+var skipLink = document.querySelector("#skip-to-content a");
+var mainContent = document.querySelector("#maincontent");
+if (skipLink && mainContent) {
+    skipLink.addEventListener("click", function(e) {
+        e.preventDefault();
+        mainContent.setAttribute("tabindex", "-1");
+        mainContent.focus();
+    });
+}
 
 /* item array sorting function */
 function sorting(json_object, key_to_sort_by) {
