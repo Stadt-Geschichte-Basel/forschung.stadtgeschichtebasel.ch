@@ -140,23 +140,30 @@
                       <div class="col-md-8">
                         <div class="card mb-4 text-center">
                           <div class="m-2">
+                            {% assign child_has_file = false %}
+                            {% if child.object_location and child.object_location != '' -%}
+                              {%- assign child_has_file = true -%}
+                            {%- endif %}
                             {% if child.display_template == 'image' %}
                               {% include item/child/image-gallery.html %}
-                            {% elsif child.display_template == 'geodata' %}
+                            {% elsif child.display_template == 'geodata' and child_has_file %}
                               {% include item/child/geodata_child.html %}
-                            {% elsif child.display_template == 'video' %}
+                            {% elsif child.display_template == 'video' and child_has_file %}
                               {% if child.object_location contains 'vimeo' or child.object_location contains 'youtu' %}
                                 {% include item/child/video-embed.html %}
                               {% else %}
                                 {% include item/child/video-player.html %}
                               {% endif %}
-                            {% elsif child.display_template == 'audio' %}
+                            {% elsif child.display_template == 'audio' and child_has_file %}
                               <div class="my-auto">
                                 {% include item/child/audio-player.html %}
                               </div>
-                            {% elsif child.display_template == 'panorama' %}
+                            {% elsif child.display_template == 'panorama' and child_has_file %}
                               {% include item/child/panorama.html %}
-                            {% elsif child.display_template == 'record' and child.format == 'text/csv' %}
+                            {% elsif child.display_template == 'record'
+                              and child.format == 'text/csv'
+                              and child_has_file
+                            %}
                               {% include item/child/table.html %}
                             {% else %}
                               {% include item/child/item-thumb.html %}

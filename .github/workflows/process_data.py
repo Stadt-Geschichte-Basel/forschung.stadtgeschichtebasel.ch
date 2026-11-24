@@ -45,6 +45,11 @@ PLACEHOLDER_IMAGE_PATHS = {
     "assets/img/placeholder.svg",
 }
 PLACEHOLDER_SOURCE_MARKER = "platzhalter"
+# The one image Omeka holds for sources that SGB may not publish. Same value as
+# PLACEHOLDER_SHA256 in omeka2dsp (src/omeka2dsp/media.py).
+PLACEHOLDER_SHA256 = frozenset(
+    {"2c07e74c08e23923b89470509d095b329e7d77d6bd2e9212b2a773c97ab4c16e"}
+)
 # Browsers cannot render TIFF, and originals can be gigabytes. Only these
 # original files may serve as a preview when Omeka made no thumbnail.
 BROWSER_IMAGE_EXTENSIONS = {".jpg", ".jpeg", ".png", ".gif", ".webp"}
@@ -221,7 +226,7 @@ def find_literal_url_issues(resource: JsonObject, resource_type: str) -> list[st
     """Finds Omeka literal values that contain URLs and should be URI values."""
     issues = []
     resource_id = resource.get("o:id", "unknown")
-    for term, props in resource.items():
+    for term, props in drop_private_values(resource).items():
         if not isinstance(props, list):
             continue
         for index, prop in enumerate(props):
@@ -282,6 +287,40 @@ def download_thumbnail(image_url: str) -> str:
                 return ""
         return local_image_path
     return ""
+
+
+def is_placeholder(media: JsonObject) -> bool:
+    """Returns whether a media holds the placeholder image instead of a source."""
+    names = f"{media.get('o:source') or ''} {media.get('o:filename') or ''}".lower()
+    return (
+        media.get("o:sha256") in PLACEHOLDER_SHA256
+        or PLACEHOLDER_SOURCE_MARKER in names
+    )
+
+
+def offers_original(media: JsonObject) -> bool:
+    """Returns whether the site may link the original file of a media.
+
+    Private media show their thumbnail only. Placeholders have no original.
+    """
+    return media.get("o:is_public", False) is True and not is_placeholder(media)
+
+
+def drop_private_values(resource: JsonObject) -> JsonObject:
+    """Removes metadata values that Omeka marks private.
+
+    The export reads Omeka with an API key, so the API also returns private values.
+    """
+    return {
+        term: [
+            value
+            for value in values
+            if not (isinstance(value, dict) and value.get("is_public") is False)
+        ]
+        if isinstance(values, list)
+        else values
+        for term, values in resource.items()
+    }
 
 
 def has_meaningful_preview(image_path: object) -> bool:
@@ -381,7 +420,9 @@ def extract_item_data(item: JsonObject) -> Record:
     """Extracts relevant data from an item and downloads its thumbnail if available.
 
     SGB does not assign subject terms. Omeka `dcterms:subject` values are not exported.
+    Private metadata values are not exported.
     """
+    item = drop_private_values(item)
     local_image_path = (
         download_thumbnail(item.get("thumbnail_display_urls", {}).get("large", ""))
         if item.get("o:is_public", False)
@@ -417,11 +458,13 @@ def extract_item_data(item: JsonObject) -> Record:
 def extract_media_data(media: JsonObject, item_dc_identifier: str) -> Record:
     """Extracts relevant data from a media item associated with a specific item.
 
-    Omeka `dcterms:subject` values are not exported.
+    Omeka `dcterms:subject` values are not exported. Private metadata values are not
+    exported. Private media and placeholders export no original file location, and
+    their original never serves as a preview.
     """
+    media = drop_private_values(media)
     format_value = extract_property(media.get("dcterms:format", []), 9)
     display_template = infer_display_template(format_value)
-    media_source = str(media.get("o:source", "")).lower()
 
     # Download the thumbnail image if available and valid
     if "application/geo+json" in format_value:
@@ -435,7 +478,7 @@ def extract_media_data(media: JsonObject, item_dc_identifier: str) -> Record:
         original_url = media.get("o:original_url", "")
         if (
             not local_image_path
-            and media.get("o:is_public", False)
+            and offers_original(media)
             and isinstance(original_url, str)
             and format_value.lower().startswith("image/")
             and is_valid_url(original_url)
@@ -446,14 +489,12 @@ def extract_media_data(media: JsonObject, item_dc_identifier: str) -> Record:
         if not local_image_path:
             local_image_path = (
                 "assets/img/placeholder.svg"
-                if PLACEHOLDER_SOURCE_MARKER in media_source
+                if is_placeholder(media)
                 else "assets/img/no-image.svg"
             )
 
     # Extract media data
-    object_location = (
-        media.get("o:original_url", "") if media.get("o:is_public", False) else ""
-    )
+    object_location = media.get("o:original_url", "") if offers_original(media) else ""
 
     logging.info(f"Media ID: {media['o:id']}")
     logging.info(f"is_public: {media.get('o:is_public')}")

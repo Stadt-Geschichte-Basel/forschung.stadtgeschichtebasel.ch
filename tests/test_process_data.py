@@ -8,6 +8,8 @@ import os
 import sys
 from pathlib import Path
 
+import pytest
+
 os.environ.setdefault("OMEKA_API_URL", "https://example.org/api")
 os.environ.setdefault("KEY_IDENTITY", "dummy")
 os.environ.setdefault("KEY_CREDENTIAL", "dummy")
@@ -117,7 +119,9 @@ def test_private_media_has_no_file_location(monkeypatch):
     media = {
         "o:id": 2,
         "o:is_public": False,
-        "dcterms:format": [{"property_id": 9, "@value": "image/png", "type": "literal"}],
+        "dcterms:format": [
+            {"property_id": 9, "@value": "image/png", "type": "literal"}
+        ],
         "o:original_url": "https://omeka.unibe.ch/files/original/abc.png",
     }
     record = p.extract_media_data(media, "abb1")
@@ -159,3 +163,125 @@ def test_download_thumbnail_skips_on_error(monkeypatch):
         p.download_thumbnail("https://dead.invalid/files/large/zzz-nonexistent.jpg")
         == ""
     )
+
+
+PLACEHOLDER_SHA = next(iter(p.PLACEHOLDER_SHA256))
+
+
+def media_record(**fields: object) -> dict:
+    media = {
+        "o:id": 2,
+        "o:is_public": True,
+        "dcterms:format": [
+            {"property_id": 9, "@value": "image/png", "type": "literal"}
+        ],
+        "o:original_url": "https://omeka.unibe.ch/files/original/abc.png",
+        "o:source": "abc.png",
+        "o:filename": "abc.png",
+        "o:sha256": "0" * 64,
+    }
+    media.update(fields)
+    return media
+
+
+@pytest.mark.parametrize(
+    "fields",
+    [
+        {"o:source": "sgb-fdp-platzhalter[1].png"},
+        {"o:filename": "sgb-fdp-Platzhalter.png"},
+        {"o:sha256": PLACEHOLDER_SHA},
+    ],
+    ids=["source", "filename", "checksum"],
+)
+def test_public_placeholder_has_no_file_location(monkeypatch, fields):
+    """A public placeholder keeps its preview but exports no file location."""
+    monkeypatch.setattr(p, "download_thumbnail", lambda _url: "objects/thumb.jpg")
+    record = p.extract_media_data(media_record(**fields), "abb1")
+    assert p.is_placeholder(media_record(**fields))
+    assert record["object_location"] == ""
+    assert record["image_thumb"] == "objects/thumb.jpg"
+
+
+def test_placeholder_without_thumbnail_uses_placeholder_icon(monkeypatch):
+    """No thumbnail: the placeholder original must not become the preview."""
+    monkeypatch.setattr(p, "download_thumbnail", lambda _url: "")
+    record = p.extract_media_data(media_record(**{"o:sha256": PLACEHOLDER_SHA}), "x")
+    assert record["image_thumb"] == "assets/img/placeholder.svg"
+    assert record["object_location"] == ""
+
+
+def test_private_media_without_thumbnail_does_not_use_original(monkeypatch):
+    """No thumbnail: the private original must not become the preview."""
+    monkeypatch.setattr(p, "download_thumbnail", lambda _url: "")
+    record = p.extract_media_data(media_record(**{"o:is_public": False}), "abb1")
+    assert record["image_thumb"] == "assets/img/no-image.svg"
+    assert "files/original" not in str(record)
+
+
+def test_public_media_with_real_file_has_file_location(monkeypatch):
+    monkeypatch.setattr(p, "download_thumbnail", lambda _url: "objects/thumb.jpg")
+    record = p.extract_media_data(media_record(), "abb1")
+    assert record["object_location"] == "https://omeka.unibe.ch/files/original/abc.png"
+
+
+def test_media_without_visibility_flag_has_no_file_location(monkeypatch):
+    """A missing o:is_public counts as private."""
+    monkeypatch.setattr(p, "download_thumbnail", lambda _url: "objects/thumb.jpg")
+    media = media_record()
+    del media["o:is_public"]
+    assert p.extract_media_data(media, "abb1")["object_location"] == ""
+
+
+def test_private_values_are_not_exported(monkeypatch):
+    """The export reads with an API key. Private values must not reach the site."""
+    monkeypatch.setattr(p, "download_thumbnail", lambda _url: "objects/thumb.jpg")
+    secret = [
+        {"property_id": 4, "@value": "Interne Notiz", "is_public": False},
+        {"property_id": 4, "@value": "Öffentlich", "is_public": True},
+    ]
+    item = {"o:id": 1, "o:is_public": True, "dcterms:description": secret}
+    media = media_record(**{"dcterms:description": secret})
+    for record in (p.extract_item_data(item), p.extract_media_data(media, "abb1")):
+        assert "Interne Notiz" not in str(record)
+        assert record["description"] == "Öffentlich"
+    issues = p.find_literal_url_issues(
+        {"o:id": 1, "dcterms:rights": [{"@value": "https://x", "is_public": False}]},
+        "Item",
+    )
+    assert issues == []
+
+
+def test_public_item_with_private_and_public_children(monkeypatch, tmp_path):
+    """A mixed compound item exports a file location only for public originals."""
+    monkeypatch.setattr(p, "download_thumbnail", lambda _url: "objects/thumb.jpg")
+    item = {"o:id": 1, "o:is_public": True}
+    children = [
+        media_record(
+            **{"o:id": 2, "o:original_url": "https://o/files/original/pub.png"}
+        ),
+        media_record(
+            **{
+                "o:id": 3,
+                "o:is_public": False,
+                "o:original_url": "https://o/files/original/priv.png",
+            }
+        ),
+        media_record(
+            **{
+                "o:id": 4,
+                "o:sha256": PLACEHOLDER_SHA,
+                "o:original_url": "https://o/files/original/ph.png",
+            }
+        ),
+    ]
+    records = [p.extract_item_data(item)]
+    records += [p.extract_media_data(m, "abb1") for m in children]
+    locations = [r["object_location"] for r in records]
+    assert locations == ["", "https://o/files/original/pub.png", "", ""]
+
+    json_path, csv_path = tmp_path / "m.json", tmp_path / "m.csv"
+    p.save_to_files(records, str(csv_path), str(json_path))
+    exported = json_path.read_text() + csv_path.read_text()
+    assert "priv.png" not in exported
+    assert "ph.png" not in exported
+    assert "pub.png" in exported
