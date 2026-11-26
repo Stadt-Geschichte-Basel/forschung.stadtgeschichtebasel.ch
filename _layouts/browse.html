@@ -64,7 +64,7 @@ custom-foot: js/browse-js.html
             aria-label="{{ site.data.translations['_layouts']['browse.html']['search'][site.lang] | default: 'Search' }}"
           >
           <button
-            class="btn btn-secondary"
+            class="btn btn-outline-primary"
             type="submit"
             title="{{ site.data.translations['_layouts']['browse.html']['filter-items'][site.lang] | default: 'Filter items' }}"
             id="filterButton"
@@ -72,7 +72,7 @@ custom-foot: js/browse-js.html
             {{ site.data.translations._layouts['browse.html'].search[site.lang] | default: 'Search' }}
           </button>
           <button
-            class="btn btn-outline-secondary text-dark filter d-none d-sm-flex"
+            class="btn btn-outline-primary filter d-none d-sm-flex"
             type="reset"
             onclick="event.preventDefault(); resetFilter();"
             data-filter=""
