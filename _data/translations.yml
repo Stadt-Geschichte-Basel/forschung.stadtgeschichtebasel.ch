@@ -636,7 +636,7 @@ _layouts:
     search:
       en: "Search"
       es: "Buscar"
-      de: "Suche"
+      de: "Suchen"
     reset:
       en: "Reset"
       es: "Restablecer"
