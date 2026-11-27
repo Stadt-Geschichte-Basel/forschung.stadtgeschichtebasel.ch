@@ -51,7 +51,13 @@ Stadt.Geschichte.Basel has extended CollectionBuilder with some features that ar
 
 Metadata for items featured on the research data platform is provided according to a data model developed by the Stadt.Geschichte.Basel Research Data Management Team to meet the requirements of the wide range of sources used in the project. The data model (and the subsequent annotation process) follow the [Manual for Creating Non-Discriminatory Metadata for Historical Sources and Research Data](https://maehr.github.io/diskriminierungsfreie-metadaten/) developed by Stadt.Geschichte.Basel.
 
-The following chart illustrates the data model with metadata fields for a sample metadata object `abb01313` that has one child media object `m01313`. If a metadata object has more than one child media object, the children `id`s are numbered consecutively: `m01313_1`, `m01313_2` etc.
+In addition to the data from the nine books, the research data platform also provides access to content from other publications produced as part of the project, including static versions of the interactive data stories along with the media objects used in them. Metadata for these objects -- which are not part of the nine volumes of Stadt.Geschichte.Basel -- was generated with the help of AI.
+
+### Identifiers
+
+All objects on the platform have a unique identifier. The annotation of research data that is part of book publications is designed such that each metadata object is assigned a five-digit number that serves as an identifier with the prefix `abb`, e.g., `abb01313`. This metadata object contains one or more subordinate media objects with their own identifiers, each with the prefix `m`. Both object types use the same five-digit number following the prefix—for example, `m01313` for `abb01313`. If a metadata object has more than one subordinate media object, the identifiers of the subordinate objects are supplemented with sequential numbering: `m01313_1`, `m01313_2`, and so on.
+
+For data sets not originating from the nine volumes, different identifiers were assigned; this primarily applies to the Data Stories and related content. The Data Stories themselves are assigned IDs according to the scheme `ds-[Title]` for the Data Story’s metadata object and `m-[Title]` for the respective subordinate media object. The media from the Data Stories are accordingly assigned identifiers following the pattern `ds-[Title]-[n]` and `m-[Title]_[n]`.
 
 The data model has no subject field. Stadt.Geschichte.Basel decided not to assign subject terms to its collection objects. The [decision record](https://github.com/Stadt-Geschichte-Basel/stadt-geschichte-basel.github.io/issues/104) explains this decision.
 
@@ -59,14 +65,14 @@ The data model has no subject field. Stadt.Geschichte.Basel decided not to assig
     classDiagram
     direction LR
         class metadata {
-            id &lpar;abb01313&rpar;
+            id
             title
             description
             temporal
             [isPartOf;isPartOf] &lpar;Data DOIs&rpar;
         }
         class media {
-            id &lpar;m01313&rpar;
+            id
             title
             description
             [abstract] &lpar;alt-attribute for alternative text&rpar;
