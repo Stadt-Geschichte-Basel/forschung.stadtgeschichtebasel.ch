@@ -48,7 +48,7 @@
       .then(response => response.json())
       .then(data => {
           geoJsonData = data;
-          const crsValue = geoJsonData.crs.properties.name;
+          const crsValue = geoJsonData.crs?.properties?.name;
 
           /*  initial start point */
           var mapCenter = [{{ map-item.latitude | default: 0 }}, {{ map-item.longitude | default: 0 }}];
@@ -159,7 +159,10 @@
                   }
               }).addTo(map);
               /* Fit map to GeoJSON layer bounds */
-              map.fitBounds(layer.getBounds());
+              const bounds = layer.getBounds();
+              if (bounds.isValid()) {
+                  map.fitBounds(bounds);
+              }
           }
 
       })
