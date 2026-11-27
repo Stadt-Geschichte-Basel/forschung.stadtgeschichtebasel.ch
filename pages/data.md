@@ -16,6 +16,8 @@ Metadaten für die auf der Forschungsdatenplattform vorgestellten Elemente werde
 
 Zusätzlich zu den Daten aus den neun Büchern sind auf der Forschungsdatenplattform auch Inhalte aus weiteren im Projekt entstandenen Veröffentlichungen verfügbar, darunter statische Versionen der interaktiven Data Stories inklusive der verwendeten Medienobjekte. Metadaten für diese Objekte, die nicht Teil der neun Bände der Stadt.Geschichte.Basel sind, wurden mit KI-Unterstützung erstellt.
 
+Das Datenmodell enthält kein `subject`-Feld. Stadt.Geschichte.Basel hat beschlossen, seinen Forschungsdaten keine thematischen Schlagwörter zuzuordnen. Diese Entscheidung ist auf [GitHub](https://github.com/Stadt-Geschichte-Basel/stadt-geschichte-basel.github.io/issues/104) dokumentiert.
+
 ### Identifikatoren
 
 Alle Objekte auf der Plattform haben einen eindeutigen Identifkator. Die Annotation der Forschungsdaten, die Teil der Buchpublikationen sind, ist so konzipiert, dass jedes Metadatenobjekt eine fünfstellige Zahl zugewiesen bekommt, die mit dem Präfix `abb` als Identifikator fungiert, z.B. `abb01313`. Dieses Metadatenobjekt enthält ein oder mehrere untergeordnete Medienobjekte mit eigenen Identifikatoren, jeweils mit dem Präfix `m`. Dabei verwenden beide Objekttypen dieselbe fünfstellige Zahl nach dem Präfix, also z.B. `m01313` für `abb01313`. Wenn ein Metadatenobjekt mehr als ein untergeordnetes Medienobjekt hat, werden die Identifkatoren der untergeordneten Objekte um eine fortlaufende Nummerierung ergänzt: `m01313_1`, `m01313_2` usw.
